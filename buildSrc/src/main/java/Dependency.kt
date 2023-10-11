@@ -36,6 +36,20 @@ object Dependency {
         const val CAMERA_LIFECYCLE = "androidx.camera:camera-lifecycle:${Versions.CAMERA}"
     }
 
+    object Compose {
+        const val ACTIVITY_COMPOSE =
+            "androidx.activity:activity-compose:${Versions.ACTIVITY_COMPOSE}"
+        const val COMPOSE = "androidx.compose.ui:ui:${Versions.COMPOSE}"
+        const val COMPOSE_PREVIEW = "androidx.compose.ui:ui-tooling-preview:${Versions.COMPOSE}"
+        const val COMPOSE_MATERIAL =
+            "androidx.compose.material:material:${Versions.COMPOSE_MATERIAL}"
+        const val COMPOSE_MATERIAL3 =
+            "androidx.compose.material3:material3:${Versions.COMPOSE_MATERIAL3}"
+        const val COMPOSE_TOOLING = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
+        const val COMPOSE_JUNIT = "androidx.compose.ui:ui-test-junit4:${Versions.COMPOSE}"
+        const val COMPOSE_MANIFEST = "androidx.compose.ui:ui-test-manifest:${Versions.COMPOSE}"
+    }
+
     object UnitTest {
         const val JUNIT = "junit:junit:${Versions.JUNIT}"
     }
@@ -67,6 +81,9 @@ object Dependency {
         const val HILT_ANDROID_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
 
         const val LIVEDATA = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.LIVEDATA}"
+    }
+    object Navigation {
+        const val NAVIGATION = "androidx.navigation:navigation-compose:${Versions.NAV}"
     }
 
 }

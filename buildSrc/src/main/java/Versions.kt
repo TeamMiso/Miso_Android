@@ -8,6 +8,12 @@ object Versions {
     const val GITHUB_API = "8.1.0"
     const val GITHUB_CORE = "8.1.0"
 
+    const val COMPOSE = "1.2.0"
+    const val APPCOMPAT = "1.6.1"
+    const val ACTIVITY_COMPOSE = "1.7.2"
+    const val COMPOSE_MATERIAL = "1.4.3"
+    const val COMPOSE_MATERIAL3 = "1.1.1"
+
     const val BUILD_GRADLE = "4.2.1"
     const val COMPILE_SDK_VERSION = 33
     const val BUILD_TOOLS_VERSION = "32.0.0"
@@ -47,7 +53,7 @@ object Versions {
     const val ANDROID_JUNIT = "1.1.2"
     const val ESPRESSO_CORE = "3.5.1"
 
-    const val NAV = "2.3.5"
+    const val NAV = "2.6.0"
 
     const val RX_BINDING = "4.0.0"
     const val RX_JAVA = "3.0.3"
