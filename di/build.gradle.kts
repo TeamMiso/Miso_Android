@@ -56,9 +56,9 @@ dependencies {
     implementation(Dependency.Libraries.OKHTTP_LOGGING_INTERCEPTOR)
 
     //unitTest
-    testImplementation(Dependency.UnitTest.JUNIT)
+    testImplementation(Dependency.Test.JUNIT)
 
     //androidTest
-    androidTestImplementation(Dependency.AndroidTest.ANDROID_JUNIT)
-    androidTestImplementation(Dependency.AndroidTest.ESPRESSO_CORE)
+    androidTestImplementation(Dependency.Test.ANDROID_JUNIT)
+    androidTestImplementation(Dependency.Test.ESPRESSO_CORE)
 }

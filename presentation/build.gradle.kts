@@ -1,8 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-//    id("com.google.dagger.hilt.android")
-//    kotlin("kapt")
+    id ("kotlin-kapt")
+    id ("dagger.hilt.android.plugin")
 }
 
 android {
@@ -32,25 +32,22 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = Versions.JAVA_VERSION
+        targetCompatibility = Versions.JAVA_VERSION
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = Versions.JAVA_VERSION.toString()
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.COMPOSE
     }
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
-    }
-    packaging {
+    packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
-    }
-    kotlin {
-        jvmToolchain(8)
     }
 }
 
@@ -58,12 +55,11 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":di"))
 
-    // hilt
-//    implementation(Dependency.Google.HILT_ANDROID)
-//    kapt(Dependency.Google.HILT_ANDROID_COMPILER)
+    //hilt
+    implementation(Dependency.Google.HILT_ANDROID)
+    kapt(Dependency.Google.HILT_ANDROID_COMPILER)
 
-    implementation(Dependency.Navigation.NAVIGATION)
-
+    // 수정 요망
     implementation(Dependency.AndroidX.CORE_KTX)
     implementation(Dependency.AndroidX.LIFECYCLE_RUNTIME)
     implementation(Dependency.Compose.ACTIVITY_COMPOSE)
@@ -72,9 +68,10 @@ dependencies {
     implementation(Dependency.Compose.COMPOSE_MATERIAL)
     implementation(Dependency.Compose.COMPOSE_MATERIAL3)
     implementation(Dependency.Compose.COMPOSE_PREVIEW)
-    implementation(Dependency.UnitTest.JUNIT)
-    implementation(Dependency.AndroidTest.ANDROID_JUNIT)
-    implementation(Dependency.AndroidTest.ESPRESSO_CORE)
-    implementation(Dependency.Compose.COMPOSE_MANIFEST)
-    implementation(Dependency.Compose.COMPOSE_JUNIT)
+    testImplementation(Dependency.Test.JUNIT)
+    androidTestImplementation(Dependency.Test.ANDROID_JUNIT)
+    androidTestImplementation(Dependency.Test.ESPRESSO_CORE)
+    androidTestImplementation(Dependency.Test.COMPOSE_JUNIT)
+    debugImplementation(Dependency.Compose.COMPOSE_TOOLING)
+    debugImplementation(Dependency.Test.COMPOSE_MANIFEST)
 }
