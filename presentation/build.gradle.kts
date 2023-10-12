@@ -1,8 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
-    kotlin("kapt")
+//    id("com.google.dagger.hilt.android")
+//    kotlin("kapt")
 }
 
 android {
@@ -59,8 +59,8 @@ dependencies {
     implementation(project(":di"))
 
     // hilt
-    implementation(Dependency.Google.HILT_ANDROID)
-    kapt(Dependency.Google.HILT_ANDROID_COMPILER)
+//    implementation(Dependency.Google.HILT_ANDROID)
+//    kapt(Dependency.Google.HILT_ANDROID_COMPILER)
 
     implementation(Dependency.Navigation.NAVIGATION)
 

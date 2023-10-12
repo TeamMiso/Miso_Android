@@ -23,7 +23,7 @@ fun SignInButton(onClick: () -> Unit) {
             ElevatedButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp)
+                    .height(52.dp)
                     .shadow(
                         elevation = 16.dp,
                         shape = RoundedCornerShape(10.dp)

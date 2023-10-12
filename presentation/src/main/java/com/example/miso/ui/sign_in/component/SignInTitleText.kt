@@ -1,13 +1,9 @@
 package com.example.miso.ui.sign_in.component
 
-import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.Image
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.miso.R
 import com.example.miso.ui.theme.MisoTheme
 
 @Composable
