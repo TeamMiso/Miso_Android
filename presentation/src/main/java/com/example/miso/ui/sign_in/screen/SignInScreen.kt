@@ -1,7 +1,6 @@
 package com.example.miso.ui.sign_in.screen
 
 import android.content.Context
-import android.view.ViewTreeObserver
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -13,32 +12,21 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.miso.ui.component.button.MisoButton
 import com.example.miso.ui.component.util.keyboardAsState
 import com.example.miso.ui.sign_in.component.SignInBackground
-import com.example.miso.ui.sign_in.component.SignInButton
 import com.example.miso.ui.sign_in.component.SignInContentText
 import com.example.miso.ui.sign_in.component.SignInErrorTextField
 import com.example.miso.ui.sign_in.component.SignInTextField
@@ -110,7 +98,7 @@ fun SignInScreen(
             else {
                 Spacer(modifier = Modifier.height(30.dp))
             }
-            SignInButton {
+            MisoButton(text = "로그인") {
             }
             Spacer(modifier = Modifier.height(40.dp))
         }

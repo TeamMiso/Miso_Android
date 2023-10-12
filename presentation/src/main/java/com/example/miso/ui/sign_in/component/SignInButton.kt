@@ -14,32 +14,13 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.miso.ui.component.button.MisoButton
 import com.example.miso.ui.theme.MisoTheme
 
 @Composable
 fun SignInButton(onClick: () -> Unit) {
-    MisoTheme { colors, typography ->
-        Row(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
-            ElevatedButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp)
-                    .shadow(
-                        elevation = 16.dp,
-                        shape = RoundedCornerShape(10.dp)
-                    ),
-                shape = RoundedCornerShape(10.dp),
-                colors = ButtonDefaults.buttonColors(colors.M1),
-                onClick = { onClick() }
-            ) {
-                Text(
-                    text = "로그인",
-                    color = colors.WHITE,
-                    style = typography.content1,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
-        }
+    MisoButton(text = "로그인") {
+        onClick()
     }
 }
 
