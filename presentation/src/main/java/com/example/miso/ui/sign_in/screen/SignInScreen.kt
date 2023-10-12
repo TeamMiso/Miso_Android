@@ -24,16 +24,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.miso.ui.component.button.MisoButton
 import com.example.miso.ui.component.util.keyboardAsState
 import com.example.miso.ui.sign_in.component.SignInBackground
+import com.example.miso.ui.sign_in.component.SignInButton
 import com.example.miso.ui.sign_in.component.SignInContentText
 import com.example.miso.ui.sign_in.component.SignInErrorTextField
 import com.example.miso.ui.sign_in.component.SignInTextField
 
 @Composable
 fun SignInScreen(
-    context: Context
+    context: Context,
+    onSignUpClick: () -> Unit,
 ) {
     var isClick by remember { mutableStateOf(false) }
     val isKeyboardOpen by keyboardAsState()
@@ -47,7 +48,7 @@ fun SignInScreen(
         }
     }
 
-    val targetOffset = if (!isClick) 0.dp else (-250).dp
+    val targetOffset = if (!isClick) 0.dp else (-280).dp
     val offset by animateDpAsState(targetValue = targetOffset, label = "")
 
     Box(
@@ -91,16 +92,16 @@ fun SignInScreen(
                 onValueChange = { }
             )
             Spacer(modifier = Modifier.height(4.dp))
-            SignInContentText(context = context)
+            SignInContentText(onSignUpClick = { onSignUpClick() })
             if (!isClick) {
                 Spacer(modifier = Modifier.weight(1f))
             }
             else {
                 Spacer(modifier = Modifier.height(30.dp))
             }
-            MisoButton(text = "로그인") {
+            SignInButton {
             }
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(60.dp))
         }
     }
 }
@@ -108,5 +109,5 @@ fun SignInScreen(
 @Composable
 @Preview(showBackground = true)
 fun SignInScreenPreView() {
-    SignInScreen(LocalContext.current)
+    SignInScreen(LocalContext.current, onSignUpClick = {})
 }
