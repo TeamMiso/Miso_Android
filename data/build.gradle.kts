@@ -37,11 +37,11 @@ android {
 dependencies {
     implementation(project(":domain"))
     //unitTest
-    testImplementation(Dependency.UnitTest.JUNIT)
+    testImplementation(Dependency.Test.JUNIT)
 
     //androidTest
-    androidTestImplementation(Dependency.AndroidTest.ANDROID_JUNIT)
-    androidTestImplementation(Dependency.AndroidTest.ESPRESSO_CORE)
+    androidTestImplementation(Dependency.Test.ANDROID_JUNIT)
+    androidTestImplementation(Dependency.Test.ESPRESSO_CORE)
 
     //hilt
     implementation(Dependency.Google.HILT_ANDROID)
