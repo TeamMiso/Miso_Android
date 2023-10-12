@@ -39,7 +39,14 @@ object MisoTypography {
     @Stable
     val content2 = TextStyle(
         fontFamily = inter,
-        fontSize = 15.sp,
+        fontSize = 12.sp,
+        lineHeight = 15.sp
+    )
+
+    @Stable
+    val content3 = TextStyle(
+        fontFamily = inter,
+        fontSize = 10.sp,
         lineHeight = 15.sp
     )
 }
