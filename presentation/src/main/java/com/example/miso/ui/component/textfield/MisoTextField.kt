@@ -41,9 +41,73 @@ fun MisoTextField(
     text = setChangeText
     MisoTheme { colors, typography ->
         var color = if (isFocused) colors.BLACK
-        else if (setChangeText.isEmpty()) colors.GRAY1
-        else if (!isError) colors.BLUE
+        else if (!isError) {
+            if (setChangeText.isEmpty()) colors.GRAY1
+            else colors.BLUE
+        }
         else colors.ERROR
+        Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
+            OutlinedTextField(
+                value = text,
+                onValueChange = {
+                    text = it
+                    onValueChange(it)
+                },
+                singleLine = singleLine,
+                placeholder = {
+                    Text(
+                        text = placeHolder,
+                        style = typography.content1,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                },
+                modifier = Modifier
+                    .focusRequester(focusRequester)
+                    .height(54.dp)
+                    .border(
+                        width = 1.dp,
+                        color = color,
+                        shape = RoundedCornerShape(10.dp)
+                    )
+                    .clip(RoundedCornerShape(10.dp))
+                    .onFocusEvent { state ->
+                        isFocused = state.isFocused
+                        onFocusChange(state.isFocused)
+                    }
+                    .fillMaxWidth(),
+                textStyle = typography.content1,
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    backgroundColor = colors.WHITE,
+                    placeholderColor = colors.GRAY1,
+                    focusedBorderColor = Color.Transparent,
+                    unfocusedBorderColor = Color.Transparent,
+                    cursorColor = colors.BLACK
+                ),
+                readOnly = readOnly,
+            )
+        }
+    }
+}
+
+@Composable
+fun MisoSimpleTextField(
+    isError: Boolean = false,
+    placeHolder: String,
+    readOnly: Boolean = false,
+    setChangeText: String,
+    singleLine: Boolean = true,
+    onFocusChange: (Boolean) -> Unit = {},
+    onValueChange: (String) -> Unit = {}
+) {
+    var text by remember { mutableStateOf("") }
+    var isFocused by remember { mutableStateOf(false) }
+    val focusRequester = remember { FocusRequester() }
+    text = setChangeText
+    MisoTheme { colors, typography ->
+        var color = if (isFocused) colors.BLACK
+        else if (isError) colors.ERROR
+        else if (setChangeText.isEmpty()) colors.GRAY1
+        else colors.GRAY1
         Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
             OutlinedTextField(
                 value = text,
@@ -154,7 +218,77 @@ fun MisoErrorTextField(
                     style = typography.content3
                 )
             }
+        }
+    }
+}
 
+@Composable
+fun MisoErrorSimpleTextField(
+    isError: Boolean = false,
+    placeHolder: String = "비밀번호를 입력해주세요",
+    readOnly: Boolean = false,
+    errorText: String = "",
+    setChangeText: String,
+    singleLine: Boolean = true,
+    onFocusChange: (Boolean) -> Unit = {},
+    onValueChange: (String) -> Unit = {}
+) {
+    var text by remember { mutableStateOf("") }
+    var isFocused by remember { mutableStateOf(false) }
+    val focusRequester = remember { FocusRequester() }
+    text = setChangeText
+
+    MisoTheme { colors, typography ->
+        var color = if (isFocused) colors.BLACK
+        else if (isError) colors.ERROR
+        else if (setChangeText.isEmpty()) colors.GRAY1
+        else colors.GRAY1
+        Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
+            OutlinedTextField(
+                value = text,
+                onValueChange = {
+                    text = it
+                    onValueChange(it)
+                },
+                singleLine = singleLine,
+                placeholder = {
+                    Text(
+                        text = placeHolder,
+                        style = typography.content1,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                },
+                modifier = Modifier
+                    .focusRequester(focusRequester)
+                    .height(54.dp)
+                    .border(
+                        width = 1.dp,
+                        color = color,
+                        shape = RoundedCornerShape(10.dp)
+                    )
+                    .clip(MaterialTheme.shapes.medium)
+                    .onFocusEvent { state ->
+                        isFocused = state.isFocused
+                        onFocusChange(state.isFocused)
+                    }
+                    .fillMaxWidth(),
+                textStyle = typography.content1,
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    backgroundColor = colors.WHITE,
+                    placeholderColor = colors.GRAY1,
+                    focusedBorderColor = Color.Transparent,
+                    unfocusedBorderColor = Color.Transparent,
+                    cursorColor = colors.BLACK
+                ),
+                readOnly = readOnly
+            )
+            if (isError) {
+                Text(
+                    text = errorText,
+                    color = colors.ERROR,
+                    style = typography.content3
+                )
+            }
         }
     }
 }

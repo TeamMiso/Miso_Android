@@ -1,6 +1,7 @@
 package com.example.miso.ui.sign_up.screen
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -28,6 +29,7 @@ import com.example.miso.ui.component.util.keyboardAsState
 import com.example.miso.ui.sign_up.component.SignUpBackground
 import com.example.miso.ui.sign_up.component.SignUpButton
 import com.example.miso.ui.sign_up.component.SignUpErrorTextField
+import com.example.miso.ui.sign_up.component.SignUpSimpleTextField
 import com.example.miso.ui.sign_up.component.SignUpTextField
 
 @Composable
@@ -77,7 +79,7 @@ fun SignUpScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.fillMaxHeight(0.55f))
-            SignUpTextField(
+            SignUpSimpleTextField(
                 isError = false,
                 placeHolder = "이메일을 입력해주세요",
                 readOnly = false,
@@ -122,7 +124,7 @@ fun SignUpScreen(
                 Spacer(modifier = Modifier.height(30.dp))
             }
             SignUpButton {
-                if (email.isEmpty() && pw.isEmpty() && repw.isEmpty()) {
+                if (email.isNotEmpty() && pw.isNotEmpty() && repw.isNotEmpty()) {
                     onEmailClick()
                 }
             }
