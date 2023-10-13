@@ -1,4 +1,4 @@
-package com.example.miso.ui.sign_in.component
+package com.example.miso.ui.sign_up.component
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.animateDpAsState
@@ -24,14 +24,14 @@ import com.example.miso.R
 import com.example.miso.ui.component.icon.MisoLogoWhiteIcon
 
 @Composable
-fun SignInBackground(
+fun SignUpBackground(
     isClick: Boolean = false
 ) {
     val targetOffset = if (!isClick) 0.dp else (-50).dp
     val offset by animateDpAsState(targetValue = targetOffset, label = "")
     Crossfade(
         targetState = isClick,
-        label = "Sign In Background",
+        label = "Sign Up Background",
         animationSpec = tween(300)
     ) {
         when (it) {
@@ -39,7 +39,7 @@ fun SignInBackground(
                 Box(modifier = Modifier.offset(y = offset)) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_miso_background_big),
-                        contentDescription = "Sign In Background Big",
+                        contentDescription = "Sign Up Background Big",
                         contentScale = ContentScale.FillBounds,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -52,7 +52,7 @@ fun SignInBackground(
                     ) {
                         Spacer(modifier = Modifier.fillMaxHeight(0.1f))
                         MisoLogoWhiteIcon(isClick = isClick)
-                        SignInTitleText(isClick = isClick)
+                        SignUpTitleText(isClick = isClick)
                     }
                 }
             }
@@ -60,7 +60,7 @@ fun SignInBackground(
             true -> {
                 Image(
                     painter = painterResource(id = R.drawable.ic_miso_background_small),
-                    contentDescription = "Sign In Background Small",
+                    contentDescription = "Sign Up Background Small",
                     contentScale = ContentScale.FillBounds,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -73,6 +73,6 @@ fun SignInBackground(
 
 @Composable
 @Preview(showBackground = true)
-fun SignInBackgroundPreView() {
-    SignInBackground()
+fun SignUpBackgroundPreView() {
+    SignUpBackground()
 }

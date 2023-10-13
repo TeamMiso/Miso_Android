@@ -1,4 +1,4 @@
-package com.example.miso.ui.sign_in.screen
+package com.example.miso.ui.sign_up.screen
 
 import android.content.Context
 import androidx.compose.animation.core.animateDpAsState
@@ -25,16 +25,14 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.miso.ui.component.util.keyboardAsState
-import com.example.miso.ui.sign_in.component.SignInBackground
-import com.example.miso.ui.sign_in.component.SignInButton
-import com.example.miso.ui.sign_in.component.SignInContentText
-import com.example.miso.ui.sign_in.component.SignInErrorTextField
-import com.example.miso.ui.sign_in.component.SignInTextField
+import com.example.miso.ui.sign_up.component.SignUpBackground
+import com.example.miso.ui.sign_up.component.SignUpButton
+import com.example.miso.ui.sign_up.component.SignUpErrorTextField
+import com.example.miso.ui.sign_up.component.SignUpTextField
 
 @Composable
-fun SignInScreen(
-    context: Context,
-    onSignUpClick: () -> Unit,
+fun SignUpScreen(
+    context: Context
 ) {
     var isClick by remember { mutableStateOf(false) }
     val isKeyboardOpen by keyboardAsState()
@@ -48,7 +46,7 @@ fun SignInScreen(
         }
     }
 
-    val targetOffset = if (!isClick) 0.dp else (-280).dp
+    val targetOffset = if (!isClick) 0.dp else (-290).dp
     val offset by animateDpAsState(targetValue = targetOffset, label = "")
 
     Box(
@@ -61,7 +59,7 @@ fun SignInScreen(
                 focusManager.clearFocus()
             }
     ) {
-        SignInBackground(isClick = isClick)
+        SignUpBackground(isClick = isClick)
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -69,8 +67,8 @@ fun SignInScreen(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.fillMaxHeight(0.6f))
-            SignInTextField(
+            Spacer(modifier = Modifier.fillMaxHeight(0.55f))
+            SignUpTextField(
                 isError = false,
                 placeHolder = "이메일을 입력해주세요",
                 readOnly = false,
@@ -81,8 +79,8 @@ fun SignInScreen(
                 onValueChange = { }
             )
             Spacer(modifier = Modifier.height(16.dp))
-            SignInErrorTextField(
-                isError = true,
+            SignUpTextField(
+                isError = false,
                 placeHolder = "비밀번호를 입력해주세요",
                 readOnly = false,
                 setChangeText = "",
@@ -91,15 +89,24 @@ fun SignInScreen(
                 },
                 onValueChange = { }
             )
-            Spacer(modifier = Modifier.height(4.dp))
-            SignInContentText(onSignUpClick = { onSignUpClick() })
+            Spacer(modifier = Modifier.height(16.dp))
+            SignUpErrorTextField(
+                isError = true,
+                placeHolder = "비밀번호를 다시 입력해 주세요.",
+                readOnly = false,
+                setChangeText = "",
+                onFocusChange = { isTextFieldFocused ->
+                    isClick = isTextFieldFocused
+                },
+                onValueChange = { }
+            )
             if (!isClick) {
                 Spacer(modifier = Modifier.weight(1f))
             }
             else {
                 Spacer(modifier = Modifier.height(30.dp))
             }
-            SignInButton {
+            SignUpButton {
             }
             Spacer(modifier = Modifier.height(60.dp))
         }
@@ -108,6 +115,6 @@ fun SignInScreen(
 
 @Composable
 @Preview(showBackground = true)
-fun SignInScreenPreView() {
-    SignInScreen(LocalContext.current, onSignUpClick = {})
+fun SignUpScreenPreView() {
+    SignUpScreen(LocalContext.current)
 }

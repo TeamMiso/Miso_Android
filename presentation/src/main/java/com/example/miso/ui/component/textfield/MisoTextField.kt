@@ -22,7 +22,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.miso.ui.theme.MisoTheme
 
@@ -41,6 +40,9 @@ fun MisoTextField(
     val focusRequester = remember { FocusRequester() }
     text = setChangeText
     MisoTheme { colors, typography ->
+        var color = if(isFocused) colors.BLACK
+        else if (!isError) colors.GRAY1
+        else colors.ERROR
         Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
             OutlinedTextField(
                 value = text,
@@ -61,14 +63,13 @@ fun MisoTextField(
                     .height(54.dp)
                     .border(
                         width = 1.dp,
-                        color = if (!isError) colors.GRAY1 else colors.ERROR,
+                        color = color,
                         shape = RoundedCornerShape(10.dp)
                     )
-                    .clip(MaterialTheme.shapes.medium)
+                    .clip(RoundedCornerShape(10.dp))
                     .onFocusEvent { state ->
                         isFocused = state.isFocused
                         onFocusChange(state.isFocused)
-
                     }
                     .fillMaxWidth(),
                 textStyle = typography.content1,
@@ -100,7 +101,11 @@ fun MisoErrorTextField(
     var isFocused by remember { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
     text = setChangeText
+
     MisoTheme { colors, typography ->
+        var color = if(isFocused) colors.BLACK
+        else if (!isError) colors.GRAY1
+        else colors.ERROR
         Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
             OutlinedTextField(
                 value = text,
@@ -121,7 +126,7 @@ fun MisoErrorTextField(
                     .height(54.dp)
                     .border(
                         width = 1.dp,
-                        color = if (!isError) colors.GRAY1 else colors.ERROR,
+                        color = color,
                         shape = RoundedCornerShape(10.dp)
                     )
                     .clip(MaterialTheme.shapes.medium)

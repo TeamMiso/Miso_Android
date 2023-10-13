@@ -1,11 +1,11 @@
-package com.example.miso.ui.sign_in.component
+package com.example.miso.ui.sign_up.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.miso.ui.component.textfield.MisoErrorTextField
 
 @Composable
-fun SignInErrorTextField(
+fun SignUpErrorTextField(
     isError: Boolean = false,
     placeHolder: String = "비밀번호를 입력해주세요",
     readOnly: Boolean = false,
@@ -29,8 +29,8 @@ fun SignInErrorTextField(
 
 @Composable
 @Preview(showBackground = true)
-fun SignInErrorTextFieldPreView() {
-    SignInErrorTextField(
+fun SignUpErrorTextFieldPreView() {
+    SignUpErrorTextField(
         isError = false,
         placeHolder = "비밀번호를 입력해주세요",
         readOnly = false,
