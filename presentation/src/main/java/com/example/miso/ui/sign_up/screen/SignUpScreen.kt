@@ -32,10 +32,12 @@ import com.example.miso.ui.sign_up.component.SignUpTextField
 
 @Composable
 fun SignUpScreen(
-    context: Context
+    context: Context,
+    onEmailClick: () -> Unit,
 ) {
     var isClick by remember { mutableStateOf(false) }
     val isKeyboardOpen by keyboardAsState()
+    var isError by remember { mutableStateOf(false) }
 
     val focusManager = LocalFocusManager.current
 
@@ -48,6 +50,13 @@ fun SignUpScreen(
 
     val targetOffset = if (!isClick) 0.dp else (-290).dp
     val offset by animateDpAsState(targetValue = targetOffset, label = "")
+
+    var email by remember { mutableStateOf("") }
+    var pw by remember { mutableStateOf("") }
+    var repw by remember { mutableStateOf("") }
+
+    if (pw == repw) isError = false
+    else isError = true
 
     Box(
         modifier = Modifier
@@ -72,41 +81,50 @@ fun SignUpScreen(
                 isError = false,
                 placeHolder = "이메일을 입력해주세요",
                 readOnly = false,
-                setChangeText = "",
+                setChangeText = email,
                 onFocusChange = { isTextFieldFocused ->
                     isClick = isTextFieldFocused
                 },
-                onValueChange = { }
+                onValueChange = { text ->
+                    email = text
+                }
             )
             Spacer(modifier = Modifier.height(16.dp))
             SignUpTextField(
-                isError = false,
+                isError = isError,
                 placeHolder = "비밀번호를 입력해주세요",
                 readOnly = false,
-                setChangeText = "",
+                setChangeText = pw,
                 onFocusChange = { isTextFieldFocused ->
                     isClick = isTextFieldFocused
                 },
-                onValueChange = { }
+                onValueChange = { text ->
+                    pw = text
+                }
             )
             Spacer(modifier = Modifier.height(16.dp))
             SignUpErrorTextField(
-                isError = true,
+                isError = isError,
                 placeHolder = "비밀번호를 다시 입력해 주세요.",
                 readOnly = false,
-                setChangeText = "",
+                errorText = if (!isError) "비밀번호가 일치합니다." else "비밀번호가 일치하지 않습니다.",
+                setChangeText = repw,
                 onFocusChange = { isTextFieldFocused ->
                     isClick = isTextFieldFocused
                 },
-                onValueChange = { }
+                onValueChange = { text ->
+                    repw = text
+                }
             )
             if (!isClick) {
                 Spacer(modifier = Modifier.weight(1f))
-            }
-            else {
+            } else {
                 Spacer(modifier = Modifier.height(30.dp))
             }
             SignUpButton {
+                if (email.isEmpty() && pw.isEmpty() && repw.isEmpty()) {
+                    onEmailClick()
+                }
             }
             Spacer(modifier = Modifier.height(60.dp))
         }
@@ -116,5 +134,5 @@ fun SignUpScreen(
 @Composable
 @Preview(showBackground = true)
 fun SignUpScreenPreView() {
-    SignUpScreen(LocalContext.current)
+    SignUpScreen(LocalContext.current, onEmailClick = {})
 }

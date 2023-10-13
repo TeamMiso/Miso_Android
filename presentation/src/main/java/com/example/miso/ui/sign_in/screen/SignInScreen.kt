@@ -38,6 +38,7 @@ fun SignInScreen(
 ) {
     var isClick by remember { mutableStateOf(false) }
     val isKeyboardOpen by keyboardAsState()
+    var isError by remember { mutableStateOf(false) }
 
     val focusManager = LocalFocusManager.current
 
@@ -50,6 +51,9 @@ fun SignInScreen(
 
     val targetOffset = if (!isClick) 0.dp else (-280).dp
     val offset by animateDpAsState(targetValue = targetOffset, label = "")
+
+    var email by remember { mutableStateOf("") }
+    var pw by remember { mutableStateOf("") }
 
     Box(
         modifier = Modifier
@@ -71,7 +75,7 @@ fun SignInScreen(
         ) {
             Spacer(modifier = Modifier.fillMaxHeight(0.6f))
             SignInTextField(
-                isError = false,
+                isError = isError,
                 placeHolder = "이메일을 입력해주세요",
                 readOnly = false,
                 setChangeText = "",
@@ -82,9 +86,10 @@ fun SignInScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
             SignInErrorTextField(
-                isError = true,
+                isError = isError,
                 placeHolder = "비밀번호를 입력해주세요",
                 readOnly = false,
+                errorText = "이메일 또는 비밀번호가 일치하지 않습니다.",
                 setChangeText = "",
                 onFocusChange = { isTextFieldFocused ->
                     isClick = isTextFieldFocused
@@ -100,6 +105,9 @@ fun SignInScreen(
                 Spacer(modifier = Modifier.height(30.dp))
             }
             SignInButton {
+                if (email.isNotEmpty() && pw.isNotEmpty()) {
+                    isError = true
+                }
             }
             Spacer(modifier = Modifier.height(60.dp))
         }

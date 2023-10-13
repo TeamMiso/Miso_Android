@@ -40,8 +40,9 @@ fun MisoTextField(
     val focusRequester = remember { FocusRequester() }
     text = setChangeText
     MisoTheme { colors, typography ->
-        var color = if(isFocused) colors.BLACK
-        else if (!isError) colors.GRAY1
+        var color = if (isFocused) colors.BLACK
+        else if (setChangeText.isEmpty()) colors.GRAY1
+        else if (!isError) colors.BLUE
         else colors.ERROR
         Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
             OutlinedTextField(
@@ -91,7 +92,7 @@ fun MisoErrorTextField(
     isError: Boolean = false,
     placeHolder: String = "비밀번호를 입력해주세요",
     readOnly: Boolean = false,
-    errorText: String = "이메일 또는 비밀번호가 일치하지 않습니다.",
+    errorText: String = "",
     setChangeText: String,
     singleLine: Boolean = true,
     onFocusChange: (Boolean) -> Unit = {},
@@ -103,8 +104,9 @@ fun MisoErrorTextField(
     text = setChangeText
 
     MisoTheme { colors, typography ->
-        var color = if(isFocused) colors.BLACK
-        else if (!isError) colors.GRAY1
+        var color = if (isFocused) colors.BLACK
+        else if (setChangeText.isEmpty()) colors.GRAY1
+        else if (!isError) colors.BLUE
         else colors.ERROR
         Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
             OutlinedTextField(
@@ -145,9 +147,14 @@ fun MisoErrorTextField(
                 ),
                 readOnly = readOnly
             )
-            if (isError) {
-                Text(text = errorText, color = colors.ERROR, style = typography.content3)
+            if (setChangeText.isNotEmpty()) {
+                Text(
+                    text = errorText,
+                    color = if (isError) colors.ERROR else colors.BLUE,
+                    style = typography.content3
+                )
             }
+
         }
     }
 }
