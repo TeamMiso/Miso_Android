@@ -1,7 +1,9 @@
 package com.example.miso.ui.sign_up
 
+import android.content.Intent
 import androidx.activity.compose.setContent
 import com.example.miso.ui.base.BaseActivity
+import com.example.miso.ui.email.EmailActivity
 import com.example.miso.ui.sign_up.screen.SignUpScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -9,7 +11,21 @@ import dagger.hilt.android.AndroidEntryPoint
 class SignUpActivity : BaseActivity() {
     override fun init() {
         setContent {
-            SignUpScreen(context = this)
+            SignUpScreen(
+                context = this,
+                onEmailClick = {
+                    pageEmail()
+                }
+            )
         }
+    }
+
+    private fun pageEmail() {
+        startActivity(
+            Intent(
+                this,
+                EmailActivity::class.java
+            )
+        )
     }
 }

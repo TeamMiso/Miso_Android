@@ -28,8 +28,8 @@ import com.example.miso.ui.component.util.keyboardAsState
 import com.example.miso.ui.sign_in.component.SignInBackground
 import com.example.miso.ui.sign_in.component.SignInButton
 import com.example.miso.ui.sign_in.component.SignInContentText
-import com.example.miso.ui.sign_in.component.SignInErrorTextField
-import com.example.miso.ui.sign_in.component.SignInTextField
+import com.example.miso.ui.sign_in.component.SignInErrorSimpleTextField
+import com.example.miso.ui.sign_in.component.SignInSimpleTextField
 
 @Composable
 fun SignInScreen(
@@ -38,6 +38,7 @@ fun SignInScreen(
 ) {
     var isClick by remember { mutableStateOf(false) }
     val isKeyboardOpen by keyboardAsState()
+    var isError by remember { mutableStateOf(false) }
 
     val focusManager = LocalFocusManager.current
 
@@ -50,6 +51,9 @@ fun SignInScreen(
 
     val targetOffset = if (!isClick) 0.dp else (-280).dp
     val offset by animateDpAsState(targetValue = targetOffset, label = "")
+
+    var email by remember { mutableStateOf("") }
+    var pw by remember { mutableStateOf("") }
 
     Box(
         modifier = Modifier
@@ -70,26 +74,31 @@ fun SignInScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.fillMaxHeight(0.6f))
-            SignInTextField(
-                isError = false,
+            SignInSimpleTextField(
+                isError = isError,
                 placeHolder = "이메일을 입력해주세요",
                 readOnly = false,
-                setChangeText = "",
+                setChangeText = email,
                 onFocusChange = { isTextFieldFocused ->
                     isClick = isTextFieldFocused
                 },
-                onValueChange = { }
+                onValueChange = { text ->
+                    email = text
+                }
             )
             Spacer(modifier = Modifier.height(16.dp))
-            SignInErrorTextField(
-                isError = true,
+            SignInErrorSimpleTextField(
+                isError = isError,
                 placeHolder = "비밀번호를 입력해주세요",
                 readOnly = false,
-                setChangeText = "",
+                errorText = "이메일 또는 비밀번호가 일치하지 않습니다.",
+                setChangeText = pw,
                 onFocusChange = { isTextFieldFocused ->
                     isClick = isTextFieldFocused
                 },
-                onValueChange = { }
+                onValueChange = {text ->
+                    pw = text
+                }
             )
             Spacer(modifier = Modifier.height(4.dp))
             SignInContentText(onSignUpClick = { onSignUpClick() })
@@ -100,6 +109,12 @@ fun SignInScreen(
                 Spacer(modifier = Modifier.height(30.dp))
             }
             SignInButton {
+                if (email.isNotEmpty() && pw.isNotEmpty()) {
+                    isError = false
+                }
+                else {
+                    isError = true
+                }
             }
             Spacer(modifier = Modifier.height(60.dp))
         }

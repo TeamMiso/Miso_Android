@@ -2,10 +2,11 @@ package com.example.miso.ui.sign_in.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.miso.ui.component.textfield.MisoSimpleTextField
 import com.example.miso.ui.component.textfield.MisoTextField
 
 @Composable
-fun SignInTextField(
+fun SignInSimpleTextField(
     isError: Boolean = false,
     placeHolder: String = "이메일을 입력해주세요",
     readOnly: Boolean = false,
@@ -14,7 +15,7 @@ fun SignInTextField(
     onFocusChange: (Boolean) -> Unit = {},
     onValueChange: (String) -> Unit = {}
 ) {
-    MisoTextField(
+    MisoSimpleTextField(
         isError = isError,
         placeHolder = placeHolder,
         readOnly = readOnly,
@@ -27,8 +28,8 @@ fun SignInTextField(
 
 @Composable
 @Preview(showBackground = true)
-fun SignInTextFieldPreView() {
-    SignInTextField(
+fun SignInSimpleTextFieldPreView() {
+    SignInSimpleTextField(
         isError = false,
         placeHolder = "이메일을 입력해주세요",
         readOnly = false,
