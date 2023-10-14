@@ -59,7 +59,6 @@ dependencies {
     implementation(Dependency.Google.HILT_ANDROID)
     kapt(Dependency.Google.HILT_ANDROID_COMPILER)
 
-    // 수정 요망
     implementation(Dependency.AndroidX.CORE_KTX)
     implementation(Dependency.AndroidX.LIFECYCLE_RUNTIME)
     implementation(Dependency.Compose.ACTIVITY_COMPOSE)

@@ -14,7 +14,7 @@ fun SignInTitleText(isClick: Boolean = false) {
                 Text(
                     text = "SIGN IN",
                     color = colors.WHITE,
-                    style = typography.title,
+                    style = typography.title1,
                     fontWeight = FontWeight.SemiBold
                 )
             }
