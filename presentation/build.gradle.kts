@@ -74,5 +74,6 @@ dependencies {
     debugImplementation(Dependency.Compose.COMPOSE_TOOLING)
     debugImplementation(Dependency.Test.COMPOSE_MANIFEST)
     implementation(Dependency.Google.ACCOMPANIST)
+    implementation(Dependency.Navigation.NAVIGATION)
 
 }

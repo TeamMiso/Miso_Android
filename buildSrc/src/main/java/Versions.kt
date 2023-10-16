@@ -37,7 +37,6 @@ object Versions {
     const val FIREBASE = "21.0.3"
     const val FIREBASE_BOM = "30.0.1"
 
-
     const val MOSHI = "1.13.0"
 
     const val RETROFIT = "2.7.1"
@@ -52,4 +51,7 @@ object Versions {
     const val COIL_VERSION = "2.1.0"
 
     const val ACCOMPANIST = "0.31.0-alpha"
+
+    const val NAVIGATION = "2.6.0"
+
 }
