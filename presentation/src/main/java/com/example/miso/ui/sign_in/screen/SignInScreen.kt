@@ -35,6 +35,7 @@ import com.example.miso.ui.sign_in.component.SignInSimpleTextField
 fun SignInScreen(
     context: Context,
     onSignUpClick: () -> Unit,
+    onMainClick: () -> Unit
 ) {
     var isClick by remember { mutableStateOf(false) }
     val isKeyboardOpen by keyboardAsState()
@@ -111,6 +112,7 @@ fun SignInScreen(
             SignInButton {
                 if (email.isNotEmpty() && pw.isNotEmpty()) {
                     isError = false
+                    onMainClick()
                 }
                 else {
                     isError = true
@@ -124,5 +126,5 @@ fun SignInScreen(
 @Composable
 @Preview(showBackground = true)
 fun SignInScreenPreView() {
-    SignInScreen(LocalContext.current, onSignUpClick = {})
+    SignInScreen(LocalContext.current, onSignUpClick = {}, onMainClick = {})
 }

@@ -36,7 +36,7 @@ import com.example.miso.ui.sign_up.component.SignUpTextField
 @Composable
 fun EmailScreen(
     context: Context,
-    onClick: () -> Unit,
+    onSignInClick: () -> Unit,
 ) {
     var isClick by remember { mutableStateOf(false) }
     val isKeyboardOpen by keyboardAsState()
@@ -93,6 +93,10 @@ fun EmailScreen(
             EmailButton(isError = isError) {
                 if (number.isEmpty()) {
                     isError = true
+                }
+                else {
+                    isError = false
+                    onSignInClick()
                 }
             }
             Spacer(modifier = Modifier.height(60.dp))
