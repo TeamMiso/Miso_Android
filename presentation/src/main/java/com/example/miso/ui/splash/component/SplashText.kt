@@ -1,4 +1,4 @@
-package com.example.miso.ui.email.component
+package com.example.miso.ui.splash.component
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -8,14 +8,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.miso.ui.theme.MisoTheme
 
 @Composable
-fun EmailText(
+fun SplashText(
 ) {
     MisoTheme { colors, typography ->
         Text(
-            text = "이메일로 인증번호를\n" +
-                    "발송하였습니다.",
-            color = colors.BLACK,
-            style = typography.title3,
+            text = "“미소”\n" +
+                    "환경을 웃음으로 바꾸다.",
+            color = colors.M1,
+            style = typography.title2,
             fontWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Center
         )
@@ -24,6 +24,6 @@ fun EmailText(
 
 @Composable
 @Preview(showBackground = true)
-fun EmailTextPreView() {
-    EmailText()
+fun SplashTextPreView() {
+    SplashText()
 }

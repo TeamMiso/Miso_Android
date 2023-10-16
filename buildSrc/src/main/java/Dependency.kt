@@ -66,4 +66,8 @@ object Dependency {
 
         const val ACCOMPANIST = "com.google.accompanist:accompanist-systemuicontroller:${Versions.ACCOMPANIST}"
     }
+
+    object Navigation {
+        const val NAVIGATION = "androidx.navigation:navigation-compose:${Versions.NAVIGATION}"
+    }
 }
