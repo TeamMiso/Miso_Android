@@ -17,7 +17,7 @@
             android:name=".ui.sign_up.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true"
             android:label="@string/app_name" >
         </activity>
