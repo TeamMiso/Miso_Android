@@ -43,7 +43,7 @@ fun MisoTextField(
         var color = if (isFocused) colors.BLACK
         else if (!isError) {
             if (setChangeText.isEmpty()) colors.GRAY1
-            else colors.BLUE
+            else colors.BLUE1
         }
         else colors.ERROR
         Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
@@ -170,7 +170,7 @@ fun MisoErrorTextField(
     MisoTheme { colors, typography ->
         var color = if (isFocused) colors.BLACK
         else if (setChangeText.isEmpty()) colors.GRAY1
-        else if (!isError) colors.BLUE
+        else if (!isError) colors.BLUE1
         else colors.ERROR
         Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
             OutlinedTextField(
@@ -214,7 +214,7 @@ fun MisoErrorTextField(
             if (setChangeText.isNotEmpty()) {
                 Text(
                     text = errorText,
-                    color = if (isError) colors.ERROR else colors.BLUE,
+                    color = if (isError) colors.ERROR else colors.BLUE1,
                     style = typography.content3
                 )
             }

@@ -26,7 +26,7 @@ fun LogoutButton(
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null
-            ) { onClick }
+            ) { onClick() }
     )
 }
 
