@@ -14,7 +14,7 @@ fun SplashText(
         Text(
             text = "“미소”\n" +
                     "환경을 웃음으로 바꾸다.",
-            color = colors.M1,
+            color = colors.WHITE,
             style = typography.title2,
             fontWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Center
