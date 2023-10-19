@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 import com.example.miso.ui.theme.ColorTheme
 
 object LightColor : ColorTheme() {
-    override val M1 = Color(0xFF58C0B3)
+    override val M1 = Color(0xFF81A895)
 
     override val GRAY1 = Color(0xFFDADADA)
     override val GRAY2 = Color(0xFF50555C)
