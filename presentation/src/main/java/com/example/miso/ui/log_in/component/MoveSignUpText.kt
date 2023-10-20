@@ -1,4 +1,4 @@
-package com.example.miso.ui.sign_in.component
+package com.example.miso.ui.log_in.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -19,19 +19,19 @@ import androidx.compose.ui.unit.dp
 import com.example.miso.ui.theme.MisoTheme
 
 @Composable
-fun SignInContentText(onSignUpClick: () -> Unit) {
+fun MoveSignUpText(onSignUpClick: () -> Unit) {
     MisoTheme { colors, typography ->
         Row(
             modifier = Modifier
                 .padding(start = 16.dp, end = 16.dp)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
+            horizontalArrangement = Arrangement.Center
         ) {
             Text(
                 text = "계정이 없으신가요?",
-                color = colors.GRAY2,
-                style = typography.content2,
+                color = colors.GRAY5,
+                style = typography.content3,
                 fontWeight = FontWeight.Normal,
                 modifier = Modifier.clickable(
                     indication = null,
@@ -43,9 +43,9 @@ fun SignInContentText(onSignUpClick: () -> Unit) {
             Spacer(modifier = Modifier.width(4.dp))
             Text(
                 text = "회원가입",
-                color = colors.BLACK,
+                color = colors.M1,
                 style = typography.content2,
-                fontWeight = FontWeight.Normal,
+                fontWeight = FontWeight.Bold,
                 modifier = Modifier.clickable(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }
@@ -59,6 +59,6 @@ fun SignInContentText(onSignUpClick: () -> Unit) {
 
 @Composable
 @Preview(showBackground = true)
-fun SignInContentTextPreView() {
-    SignInContentText(onSignUpClick = {})
+fun MoveSignUpTextPreView() {
+    MoveSignUpText(onSignUpClick = {})
 }

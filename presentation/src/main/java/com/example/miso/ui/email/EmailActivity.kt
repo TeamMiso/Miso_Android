@@ -1,12 +1,10 @@
 package com.example.miso.ui.email
 
 import android.content.Intent
-import android.util.Log
 import androidx.activity.compose.setContent
 import com.example.miso.ui.base.BaseActivity
 import com.example.miso.ui.email.screen.EmailScreen
-import com.example.miso.ui.sign_in.SignInActivity
-import com.example.miso.ui.sign_up.SignUpActivity
+import com.example.miso.ui.log_in.LogInActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,7 +24,7 @@ class EmailActivity : BaseActivity() {
         startActivity(
             Intent(
                 this,
-                SignInActivity::class.java
+                LogInActivity::class.java
             )
         )
     }

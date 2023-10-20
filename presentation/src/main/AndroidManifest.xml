@@ -22,10 +22,8 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".ui.sign_in.SignInActivity"
-            android:exported="true"
-            android:label="@string/app_name" >
-        </activity>
+            android:name=".ui.log_in.LogInActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.email.EmailActivity"
             android:exported="false" />

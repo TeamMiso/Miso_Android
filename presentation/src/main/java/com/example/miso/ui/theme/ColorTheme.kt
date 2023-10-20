@@ -4,6 +4,8 @@ import androidx.compose.ui.graphics.Color
 
 abstract class ColorTheme {
     abstract val M1: Color
+    abstract val M2: Color
+    abstract val M3: Color
 
     abstract val GRAY1: Color
     abstract val GRAY2: Color
@@ -16,7 +18,9 @@ abstract class ColorTheme {
 
     abstract val ERROR: Color
     abstract val BLACK: Color
+    abstract val BLACK2: Color
     abstract val WHITE: Color
+    abstract val WHITE2: Color
     abstract val TRANSPARENT: Color
 
     abstract val TRANSPARENTBLACK: Color

@@ -1,4 +1,4 @@
-package com.example.miso.ui.sign_in.screen
+package com.example.miso.ui.log_in.screen
 
 import android.content.Context
 import androidx.compose.animation.core.animateDpAsState
@@ -25,14 +25,16 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.miso.ui.component.util.keyboardAsState
-import com.example.miso.ui.sign_in.component.SignInBackground
-import com.example.miso.ui.sign_in.component.SignInButton
-import com.example.miso.ui.sign_in.component.SignInContentText
-import com.example.miso.ui.sign_in.component.SignInErrorSimpleTextField
-import com.example.miso.ui.sign_in.component.SignInSimpleTextField
+import com.example.miso.ui.log_in.component.EmailTextField
+import com.example.miso.ui.log_in.component.LogInBackground
+import com.example.miso.ui.log_in.component.LogInBackground2
+import com.example.miso.ui.log_in.component.LogInButton
+import com.example.miso.ui.log_in.component.LogInTitleText
+import com.example.miso.ui.log_in.component.MoveSignUpText
+import com.example.miso.ui.log_in.component.PasswordTextField
 
 @Composable
-fun SignInScreen(
+fun LogInScreen(
     context: Context,
     onSignUpClick: () -> Unit,
     onMainClick: () -> Unit
@@ -50,9 +52,6 @@ fun SignInScreen(
         }
     }
 
-    val targetOffset = if (!isClick) 0.dp else (-280).dp
-    val offset by animateDpAsState(targetValue = targetOffset, label = "")
-
     var email by remember { mutableStateOf("") }
     var pw by remember { mutableStateOf("") }
 
@@ -66,18 +65,22 @@ fun SignInScreen(
                 focusManager.clearFocus()
             }
     ) {
-        SignInBackground(isClick = isClick)
+        LogInBackground()
+        Column {
+            Spacer(modifier = Modifier.weight(1f))
+            LogInBackground2()
+        }
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .offset(y = offset),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.fillMaxHeight(0.6f))
-            SignInSimpleTextField(
+            Spacer(modifier = Modifier.fillMaxHeight(0.28f))
+            LogInTitleText()
+            Spacer(modifier = Modifier.height(12.dp))
+            EmailTextField(
                 isError = isError,
-                placeHolder = "이메일을 입력해주세요",
+                placeHolder = "Email",
                 readOnly = false,
                 setChangeText = email,
                 onFocusChange = { isTextFieldFocused ->
@@ -88,43 +91,37 @@ fun SignInScreen(
                 }
             )
             Spacer(modifier = Modifier.height(16.dp))
-            SignInErrorSimpleTextField(
+            PasswordTextField(
                 isError = isError,
-                placeHolder = "비밀번호를 입력해주세요",
+                placeHolder = "Password",
                 readOnly = false,
-                errorText = "이메일 또는 비밀번호가 일치하지 않습니다.",
                 setChangeText = pw,
                 onFocusChange = { isTextFieldFocused ->
                     isClick = isTextFieldFocused
                 },
-                onValueChange = {text ->
+                onValueChange = { text ->
                     pw = text
                 }
             )
-            Spacer(modifier = Modifier.height(4.dp))
-            SignInContentText(onSignUpClick = { onSignUpClick() })
-            if (!isClick) {
-                Spacer(modifier = Modifier.weight(1f))
-            }
-            else {
-                Spacer(modifier = Modifier.height(30.dp))
-            }
-            SignInButton {
+            Spacer(modifier = Modifier.height(50.dp))
+            LogInButton {
                 if (email.isNotEmpty() && pw.isNotEmpty()) {
                     isError = false
                     onMainClick()
-                }
-                else {
+                } else {
                     isError = true
                 }
             }
-            Spacer(modifier = Modifier.height(60.dp))
+            Spacer(modifier = Modifier.height(4.dp))
+            MoveSignUpText {
+                onSignUpClick()
+            }
         }
     }
 }
 
 @Composable
 @Preview(showBackground = true)
-fun SignInScreenPreView() {
-    SignInScreen(LocalContext.current, onSignUpClick = {}, onMainClick = {})
+fun LogInScreenPreView() {
+    LogInScreen(LocalContext.current, onSignUpClick = {}, onMainClick = {})
 }
