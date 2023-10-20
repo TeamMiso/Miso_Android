@@ -25,7 +25,7 @@ object MisoTypography {
     @Stable
     val title1 = TextStyle(
         fontFamily = inter,
-        fontSize = 40.sp,
+        fontSize = 30.sp,
         lineHeight = 16.sp
     )
 
@@ -60,14 +60,14 @@ object MisoTypography {
     @Stable
     val content2 = TextStyle(
         fontFamily = inter,
-        fontSize = 12.sp,
+        fontSize = 13.sp,
         lineHeight = 15.sp
     )
 
     @Stable
     val content3 = TextStyle(
         fontFamily = inter,
-        fontSize = 10.sp,
+        fontSize = 12.sp,
         lineHeight = 15.sp
     )
 }
