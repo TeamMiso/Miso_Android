@@ -1,7 +1,6 @@
-package com.example.miso.ui.email.screen
+package com.example.miso.ui.sign_up.screen
 
 import android.content.Context
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -20,23 +18,31 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.miso.ui.component.util.keyboardAsState
-import com.example.miso.ui.email.component.EmailButton
-import com.example.miso.ui.email.component.EmailImage
-import com.example.miso.ui.email.component.EmailText
-import com.example.miso.ui.email.component.EmailTextField
+import com.example.miso.ui.sign_up.component.sign_up.EmailTextField
+import com.example.miso.ui.sign_up.component.sign_up.MoveLogInText
+import com.example.miso.ui.sign_up.component.sign_up.PasswordTextField
+import com.example.miso.ui.sign_up.component.sign_up.RePasswordTextField
 import com.example.miso.ui.sign_up.component.SignUpBackground
-import com.example.miso.ui.sign_up.component.SignUpButton
-import com.example.miso.ui.sign_up.component.SignUpErrorTextField
-import com.example.miso.ui.sign_up.component.SignUpSimpleTextField
-import com.example.miso.ui.sign_up.component.SignUpTextField
+import com.example.miso.ui.sign_up.component.SignUpBackground2
+import com.example.miso.ui.sign_up.component.sign_up.SignUpButton
+import com.example.miso.ui.sign_up.component.SignUpTitleText
+import com.example.miso.ui.sign_up.component.email.EmailButton
+import com.example.miso.ui.sign_up.component.email.EmailContentText
+import com.example.miso.ui.sign_up.component.email.EmailIcon
+import com.example.miso.ui.sign_up.component.email.MoveBackText
+import com.example.miso.ui.sign_up.component.email.NumberTextField
 
 @Composable
 fun EmailScreen(
     context: Context,
-    onSignInClick: () -> Unit,
+    onCompleteClick: () -> Unit,
+    navController: NavController
 ) {
     var isClick by remember { mutableStateOf(false) }
     val isKeyboardOpen by keyboardAsState()
@@ -51,9 +57,6 @@ fun EmailScreen(
         }
     }
 
-    val targetOffset = if (!isClick) 0.dp else (-140).dp
-    val offset by animateDpAsState(targetValue = targetOffset, label = "")
-
     var number by remember { mutableStateOf("") }
 
     Box(
@@ -66,40 +69,49 @@ fun EmailScreen(
                 focusManager.clearFocus()
             }
     ) {
+        SignUpBackground()
+        Column {
+            Spacer(modifier = Modifier.weight(1f))
+            SignUpBackground2()
+        }
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .offset(y = offset),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.fillMaxHeight(0.4f))
-            EmailImage()
-            Spacer(modifier = Modifier.height(16.dp))
-            EmailText()
-            Spacer(modifier = Modifier.height(32.dp))
-            EmailTextField(
+            Spacer(modifier = Modifier.fillMaxHeight(0.17f))
+            SignUpTitleText()
+            Spacer(modifier = Modifier.height(55.dp))
+            EmailIcon()
+            Spacer(modifier = Modifier.height(8.dp))
+            EmailContentText()
+            Spacer(modifier = Modifier.height(18.dp))
+            NumberTextField(
                 text = number,
                 isError = isError,
                 onValueChange = {
                     number = it
                 }
             )
-            if (!isClick) {
-                Spacer(modifier = Modifier.weight(1f))
-            } else {
-                Spacer(modifier = Modifier.height(60.dp))
-            }
-            EmailButton(isError = isError) {
-                if (number.isEmpty()) {
-                    isError = true
+            Spacer(modifier = Modifier.height(82.dp))
+            EmailButton {
+                if (number.isNotEmpty()) {
+                    onCompleteClick()
                 }
                 else {
-                    isError = false
-                    onSignInClick()
+                    isError = true
                 }
             }
-            Spacer(modifier = Modifier.height(60.dp))
+            Spacer(modifier = Modifier.height(4.dp))
+            MoveBackText {
+                navController.popBackStack()
+            }
         }
     }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun EmailScreenPreView() {
+    EmailScreen(LocalContext.current, onCompleteClick = {}, navController = NavController(LocalContext.current))
 }

@@ -2,35 +2,54 @@ package com.example.miso.ui.sign_up
 
 import android.content.Intent
 import androidx.activity.compose.setContent
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.miso.ui.base.BaseActivity
 import com.example.miso.ui.email.EmailActivity
 import com.example.miso.ui.log_in.LogInActivity
+import com.example.miso.ui.sign_up.screen.EmailScreen
 import com.example.miso.ui.sign_up.screen.SignUpScreen
 import dagger.hilt.android.AndroidEntryPoint
+
+enum class SignUpPage(val value: String) {
+    SignUp("SignUp"),
+    Email("Email"),
+    Complete("Complete"),
+}
 
 @AndroidEntryPoint
 class SignUpActivity : BaseActivity() {
     override fun init() {
         setContent {
-            SignUpScreen(
-                context = this,
-                onEmailClick = {
-                    pageEmail()
-                },
-                onLogInClick = {
-                    pageLogIn()
-                }
-            )
-        }
-    }
+            val navController = rememberNavController()
 
-    private fun pageEmail() {
-        startActivity(
-            Intent(
-                this,
-                EmailActivity::class.java
-            )
-        )
+            NavHost(
+                navController = navController,
+                startDestination = "SignUp"
+            ) {
+                composable(SignUpPage.SignUp.name) {
+                    SignUpScreen(
+                        context = this@SignUpActivity,
+                        onEmailClick = {
+                            navController.navigate(SignUpPage.Email.name)
+                        },
+                        onLogInClick = {
+                            pageLogIn()
+                        }
+                    )
+                }
+                composable(SignUpPage.Email.name) {
+                    EmailScreen(
+                        context = this@SignUpActivity,
+                        onCompleteClick = {
+                            navController.navigate(SignUpPage.Complete.name)
+                        },
+                        navController = navController
+                    )
+                }
+            }
+        }
     }
 
     private fun pageLogIn() {

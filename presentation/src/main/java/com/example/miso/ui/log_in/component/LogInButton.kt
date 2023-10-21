@@ -6,7 +6,7 @@ import com.example.miso.ui.component.button.MisoButton
 
 @Composable
 fun LogInButton(onClick: () -> Unit) {
-    MisoButton(text = "Log In") {
+    MisoButton(text = "로그인") {
         onClick()
     }
 }

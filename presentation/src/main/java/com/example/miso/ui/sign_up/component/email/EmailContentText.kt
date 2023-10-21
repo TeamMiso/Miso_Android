@@ -1,4 +1,4 @@
-package com.example.miso.ui.email.component
+package com.example.miso.ui.sign_up.component.email
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -8,22 +8,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.miso.ui.theme.MisoTheme
 
 @Composable
-fun EmailText(
-) {
+fun EmailContentText() {
     MisoTheme { colors, typography ->
         Text(
             text = "이메일로 인증번호를\n" +
                     "발송하였습니다.",
-            color = colors.BLACK,
+            textAlign = TextAlign.Center,
+            color = colors.GRAY6,
             style = typography.title3,
-            fontWeight = FontWeight.SemiBold,
-            textAlign = TextAlign.Center
+            fontWeight = FontWeight.ExtraLight
         )
     }
 }
 
 @Composable
 @Preview(showBackground = true)
-fun EmailTextPreView() {
-    EmailText()
+fun EmailContentTextPreView() {
+    EmailContentText()
 }

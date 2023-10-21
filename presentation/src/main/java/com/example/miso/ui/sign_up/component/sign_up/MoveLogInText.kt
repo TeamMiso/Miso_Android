@@ -1,4 +1,4 @@
-package com.example.miso.ui.log_in.component
+package com.example.miso.ui.sign_up.component.sign_up
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.example.miso.ui.theme.MisoTheme
 
 @Composable
-fun MoveSignUpText(onSignUpClick: () -> Unit) {
+fun MoveLogInText(onLogInClick: () -> Unit) {
     MisoTheme { colors, typography ->
         Row(
             modifier = Modifier
@@ -29,7 +29,7 @@ fun MoveSignUpText(onSignUpClick: () -> Unit) {
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "계정이 없으신가요?",
+                text = "계정이 있으신가요?",
                 color = colors.GRAY5,
                 style = typography.content3,
                 fontWeight = FontWeight.ExtraLight,
@@ -37,12 +37,12 @@ fun MoveSignUpText(onSignUpClick: () -> Unit) {
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }
                 ) {
-                    onSignUpClick()
+                    onLogInClick()
                 }
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text(
-                text = "회원가입",
+                text = "로그인",
                 color = colors.M1,
                 style = typography.content2,
                 fontWeight = FontWeight.ExtraLight,
@@ -50,7 +50,7 @@ fun MoveSignUpText(onSignUpClick: () -> Unit) {
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }
                 ) {
-                    onSignUpClick()
+                    onLogInClick()
                 }
             )
         }
@@ -59,6 +59,6 @@ fun MoveSignUpText(onSignUpClick: () -> Unit) {
 
 @Composable
 @Preview(showBackground = true)
-fun MoveSignUpTextPreView() {
-    MoveSignUpText(onSignUpClick = {})
+fun MoveLogInTextPreView() {
+    MoveLogInText(onLogInClick = {})
 }

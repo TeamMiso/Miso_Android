@@ -1,17 +1,12 @@
-package com.example.miso.ui.email.component
+package com.example.miso.ui.sign_up.component.email
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.miso.ui.component.button.MisoButton
 
 @Composable
-fun EmailButton(
-    isError: Boolean,
-    onClick: () -> Unit
-) {
-    MisoButton(
-        text = if (!isError) "확인" else "재발송"
-    ) {
+fun EmailButton(onClick: () -> Unit) {
+    MisoButton(text = "확인") {
         onClick()
     }
 }
@@ -19,5 +14,5 @@ fun EmailButton(
 @Composable
 @Preview(showBackground = true)
 fun EmailButtonPreView() {
-    EmailButton(isError = false, onClick = {})
+    EmailButton(onClick = {})
 }

@@ -13,7 +13,7 @@ fun SignUpTitleText() {
             text = "Sign Up",
             color = colors.M2,
             style = typography.title1,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.ExtraLight
         )
     }
 }

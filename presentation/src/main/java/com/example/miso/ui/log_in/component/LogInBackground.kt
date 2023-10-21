@@ -44,7 +44,7 @@ fun LogInBackground(
                     text = "“미소”",
                     color = colors.WHITE,
                     style = typography.title2,
-                    fontWeight = FontWeight.SemiBold,
+                    fontWeight = FontWeight.ExtraLight,
                     textAlign = TextAlign.Center
                 )
             }

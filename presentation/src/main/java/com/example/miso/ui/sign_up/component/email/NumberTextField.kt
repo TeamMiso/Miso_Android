@@ -1,4 +1,4 @@
-package com.example.miso.ui.email.component
+package com.example.miso.ui.sign_up.component.email
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.example.miso.ui.theme.MisoTheme
 
 @Composable
-fun EmailTextField(
+fun NumberTextField(
     text: String,
     isError: Boolean,
     onValueChange: (String) -> Unit,
@@ -44,14 +44,14 @@ fun EmailTextField(
                 decorationBox = {
                     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                         text.forEachIndexed { index, char ->
-                            EmailTextFieldCharContainer(
+                            NumberTextFieldCharContainer(
                                 text = char,
                                 isError = isError,
                                 isFocused = index == text.lastIndex,
                             )
                         }
                         repeat(4 - text.length) {
-                            EmailTextFieldCharContainer(
+                            NumberTextFieldCharContainer(
                                 text = ' ',
                                 isError = isError,
                                 isFocused = false,
@@ -60,20 +60,12 @@ fun EmailTextField(
                     }
                 },
             )
-            if (isError) {
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = "인증번호가 일치하지 않습니다.",
-                    color = colors.ERROR,
-                    style = typography.content3
-                )
-            }
         }
     }
 }
 
 @Composable
-private fun EmailTextFieldCharContainer(
+private fun NumberTextFieldCharContainer(
     text: Char,
     isError: Boolean,
     isFocused: Boolean,
@@ -114,7 +106,7 @@ private fun EmailTextFieldCharContainer(
                 text = text.toString(),
                 color = colors.GRAY5,
                 style = typography.number,
-                fontWeight = FontWeight.SemiBold,
+                fontWeight = FontWeight.ExtraLight,
                 textAlign = TextAlign.Center
             )
         }
@@ -124,5 +116,5 @@ private fun EmailTextFieldCharContainer(
 @Composable
 @Preview(showBackground = true)
 fun EmailTextFieldPreView() {
-    EmailTextField("", false ,{})
+    NumberTextField("", false ,{})
 }

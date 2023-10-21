@@ -1,13 +1,11 @@
-package com.example.miso.ui.sign_up.component
+package com.example.miso.ui.sign_up.component.email
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -19,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.example.miso.ui.theme.MisoTheme
 
 @Composable
-fun MoveLogInText(onLogInClick: () -> Unit) {
+fun MoveBackText(onBackClick: () -> Unit) {
     MisoTheme { colors, typography ->
         Row(
             modifier = Modifier
@@ -29,28 +27,15 @@ fun MoveLogInText(onLogInClick: () -> Unit) {
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "계정이 있으신가요?",
-                color = colors.GRAY5,
-                style = typography.content3,
-                fontWeight = FontWeight.Normal,
-                modifier = Modifier.clickable(
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() }
-                ) {
-                    onLogInClick()
-                }
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(
-                text = "로그인",
+                text = "뒤로가기",
                 color = colors.M1,
                 style = typography.content2,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.ExtraLight,
                 modifier = Modifier.clickable(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }
                 ) {
-                    onLogInClick()
+                    onBackClick()
                 }
             )
         }
@@ -59,6 +44,6 @@ fun MoveLogInText(onLogInClick: () -> Unit) {
 
 @Composable
 @Preview(showBackground = true)
-fun MoveLogInTextPreView() {
-    MoveLogInText(onLogInClick = {})
+fun MoveBackTextPreView() {
+    MoveBackText(onBackClick = {})
 }

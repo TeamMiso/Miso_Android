@@ -1,7 +1,6 @@
 package com.example.miso.ui.sign_up.screen
 
 import android.content.Context
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -25,14 +23,13 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.miso.ui.component.util.keyboardAsState
-import com.example.miso.ui.log_in.component.LogInBackground2
-import com.example.miso.ui.sign_up.component.EmailTextField
-import com.example.miso.ui.sign_up.component.MoveLogInText
-import com.example.miso.ui.sign_up.component.PasswordTextField
-import com.example.miso.ui.sign_up.component.RePasswordTextField
+import com.example.miso.ui.sign_up.component.sign_up.EmailTextField
+import com.example.miso.ui.sign_up.component.sign_up.MoveLogInText
+import com.example.miso.ui.sign_up.component.sign_up.PasswordTextField
+import com.example.miso.ui.sign_up.component.sign_up.RePasswordTextField
 import com.example.miso.ui.sign_up.component.SignUpBackground
 import com.example.miso.ui.sign_up.component.SignUpBackground2
-import com.example.miso.ui.sign_up.component.SignUpButton
+import com.example.miso.ui.sign_up.component.sign_up.SignUpButton
 import com.example.miso.ui.sign_up.component.SignUpTitleText
 
 @Composable

@@ -10,70 +10,69 @@ import com.example.miso.R
 
 object MisoTypography {
 
-    internal val inter = FontFamily(
-        Font(R.font.inter_black, FontWeight.Black),
-        Font(R.font.inter_bold, FontWeight.Bold),
-        Font(R.font.inter_extrabold, FontWeight.ExtraBold),
-        Font(R.font.inter_extralight, FontWeight.ExtraLight),
-        Font(R.font.inter_light, FontWeight.Light),
-        Font(R.font.inter_medium, FontWeight.Medium),
-        Font(R.font.inter_regular, FontWeight.Normal),
-        Font(R.font.inter_semibold, FontWeight.SemiBold),
-        Font(R.font.inter_thin, FontWeight.Thin),
+    internal val suit = FontFamily(
+        Font(R.font.suitv1_bold, FontWeight.Bold),
+        Font(R.font.suitv1_extrabold, FontWeight.ExtraBold),
+        Font(R.font.suitv1_extralight, FontWeight.ExtraLight),
+        Font(R.font.suitv1_light, FontWeight.Light),
+        Font(R.font.suitv1_medium, FontWeight.Medium),
+        Font(R.font.suitv1_regular, FontWeight.Normal),
+        Font(R.font.suitv1_semibold, FontWeight.SemiBold),
+        Font(R.font.suitv1_thin, FontWeight.Thin),
     )
 
     @Stable
     val title1 = TextStyle(
-        fontFamily = inter,
+        fontFamily = suit,
         fontSize = 30.sp,
         lineHeight = 16.sp
     )
 
     @Stable
     val title2 = TextStyle(
-        fontFamily = inter,
+        fontFamily = suit,
         fontSize = 24.sp,
         lineHeight = 26.sp
     )
 
     @Stable
     val title3 = TextStyle(
-        fontFamily = inter,
+        fontFamily = suit,
         fontSize = 20.sp,
         lineHeight = 22.sp
     )
 
     @Stable
     val number = TextStyle(
-        fontFamily = inter,
+        fontFamily = suit,
         fontSize = 30.sp,
         lineHeight = 16.sp
     )
 
     @Stable
     val content1 = TextStyle(
-        fontFamily = inter,
+        fontFamily = suit,
         fontSize = 15.sp,
         lineHeight = 16.sp
     )
 
     @Stable
     val content2 = TextStyle(
-        fontFamily = inter,
+        fontFamily = suit,
         fontSize = 13.sp,
         lineHeight = 15.sp
     )
 
     @Stable
     val content3 = TextStyle(
-        fontFamily = inter,
+        fontFamily = suit,
         fontSize = 12.sp,
         lineHeight = 15.sp
     )
 
     @Stable
     val content4 = TextStyle(
-        fontFamily = inter,
+        fontFamily = suit,
         fontSize = 10.sp,
         lineHeight = 15.sp
     )
