@@ -28,10 +28,6 @@ import com.example.miso.ui.email.component.EmailImage
 import com.example.miso.ui.email.component.EmailText
 import com.example.miso.ui.email.component.EmailTextField
 import com.example.miso.ui.sign_up.component.SignUpBackground
-import com.example.miso.ui.sign_up.component.SignUpButton
-import com.example.miso.ui.sign_up.component.SignUpErrorTextField
-import com.example.miso.ui.sign_up.component.SignUpSimpleTextField
-import com.example.miso.ui.sign_up.component.SignUpTextField
 
 @Composable
 fun EmailScreen(
@@ -51,9 +47,6 @@ fun EmailScreen(
         }
     }
 
-    val targetOffset = if (!isClick) 0.dp else (-140).dp
-    val offset by animateDpAsState(targetValue = targetOffset, label = "")
-
     var number by remember { mutableStateOf("") }
 
     Box(
@@ -67,9 +60,7 @@ fun EmailScreen(
             }
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .offset(y = offset),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

@@ -1,4 +1,4 @@
-package com.example.miso.ui.sign_up.component
+package com.example.miso.ui.sign_up.component.sign_up
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -54,11 +54,6 @@ fun EmailTextField(
     val focusRequester = remember { FocusRequester() }
     text = setChangeText
     MisoTheme { colors, typography ->
-        var color = if (isFocused) colors.BLACK
-        else if (!isError) {
-            if (setChangeText.isEmpty()) colors.GRAY1
-            else colors.BLUE1
-        } else colors.ERROR
         Box(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -67,6 +62,7 @@ fun EmailTextField(
                     text = "Email",
                     color = colors.BLACK2,
                     style = typography.content2,
+                    fontWeight = FontWeight.ExtraLight
                 )
                 Box(
                     modifier = Modifier
@@ -89,7 +85,7 @@ fun EmailTextField(
                             Spacer(modifier = Modifier.width(10.dp))
                             Divider(
                                 modifier = Modifier
-                                    .width(1.dp)
+                                    .width(0.5.dp)
                                     .height(30.dp)
                                     .background(color = colors.GRAY2)
                             )
@@ -106,7 +102,7 @@ fun EmailTextField(
                                     text = placeHolder,
                                     style = typography.content2,
                                     color = colors.GRAY5,
-                                    fontWeight = FontWeight.Normal
+                                    fontWeight = FontWeight.ExtraLight
                                 )
                             },
                             modifier = Modifier

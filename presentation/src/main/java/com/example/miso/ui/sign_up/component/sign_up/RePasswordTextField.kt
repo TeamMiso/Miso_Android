@@ -1,9 +1,8 @@
-package com.example.miso.ui.sign_up.component
+package com.example.miso.ui.sign_up.component.sign_up
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -78,6 +77,7 @@ fun RePasswordTextField(
                     text = "Re Password",
                     color = colors.BLACK2,
                     style = typography.content2,
+                    fontWeight = FontWeight.ExtraLight
                 )
                 Box(
                     modifier = Modifier
@@ -105,7 +105,7 @@ fun RePasswordTextField(
                             Spacer(modifier = Modifier.width(12.dp))
                             Divider(
                                 modifier = Modifier
-                                    .width(1.dp)
+                                    .width(0.5.dp)
                                     .height(30.dp)
                                     .background(color = colors.GRAY2)
                             )
@@ -122,7 +122,7 @@ fun RePasswordTextField(
                                     text = placeHolder,
                                     style = typography.content2,
                                     color = colors.GRAY5,
-                                    fontWeight = FontWeight.Normal
+                                    fontWeight = FontWeight.ExtraLight
                                 )
                             },
                             modifier = Modifier

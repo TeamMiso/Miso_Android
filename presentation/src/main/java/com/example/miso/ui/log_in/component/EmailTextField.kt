@@ -69,6 +69,7 @@ fun EmailTextField(
                     text = "Email",
                     color = colors.BLACK2,
                     style = typography.content2,
+                    fontWeight = FontWeight.ExtraLight
                 )
                 Box(
                     modifier = Modifier
@@ -91,7 +92,7 @@ fun EmailTextField(
                             Spacer(modifier = Modifier.width(10.dp))
                             Divider(
                                 modifier = Modifier
-                                    .width(1.dp)
+                                    .width(0.5.dp)
                                     .height(30.dp)
                                     .background(color = colors.GRAY2)
                             )
@@ -108,7 +109,7 @@ fun EmailTextField(
                                     text = placeHolder,
                                     style = typography.content2,
                                     color = colors.GRAY5,
-                                    fontWeight = FontWeight.Normal
+                                    fontWeight = FontWeight.ExtraLight
                                 )
                             },
                             modifier = Modifier

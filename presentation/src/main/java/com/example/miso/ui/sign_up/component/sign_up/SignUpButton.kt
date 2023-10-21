@@ -1,4 +1,4 @@
-package com.example.miso.ui.sign_up.component
+package com.example.miso.ui.sign_up.component.sign_up
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview

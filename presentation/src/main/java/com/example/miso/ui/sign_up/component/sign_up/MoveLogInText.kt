@@ -1,4 +1,4 @@
-package com.example.miso.ui.sign_up.component
+package com.example.miso.ui.sign_up.component.sign_up
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -32,7 +32,7 @@ fun MoveLogInText(onLogInClick: () -> Unit) {
                 text = "계정이 있으신가요?",
                 color = colors.GRAY5,
                 style = typography.content3,
-                fontWeight = FontWeight.Normal,
+                fontWeight = FontWeight.ExtraLight,
                 modifier = Modifier.clickable(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }
@@ -45,7 +45,7 @@ fun MoveLogInText(onLogInClick: () -> Unit) {
                 text = "로그인",
                 color = colors.M1,
                 style = typography.content2,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.ExtraLight,
                 modifier = Modifier.clickable(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }

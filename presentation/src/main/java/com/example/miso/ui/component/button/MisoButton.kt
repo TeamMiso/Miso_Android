@@ -43,7 +43,7 @@ fun MisoButton(
                     text = text,
                     color = colors.M3,
                     style = typography.title3,
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.ExtraLight
                 )
             }
         }

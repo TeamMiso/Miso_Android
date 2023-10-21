@@ -13,7 +13,7 @@ fun LogInTitleText() {
             text = "Log In",
             color = colors.M2,
             style = typography.title1,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.ExtraLight
         )
     }
 }

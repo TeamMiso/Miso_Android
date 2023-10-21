@@ -32,7 +32,7 @@ fun MoveSignUpText(onSignUpClick: () -> Unit) {
                 text = "계정이 없으신가요?",
                 color = colors.GRAY5,
                 style = typography.content3,
-                fontWeight = FontWeight.Normal,
+                fontWeight = FontWeight.ExtraLight,
                 modifier = Modifier.clickable(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }
@@ -45,7 +45,7 @@ fun MoveSignUpText(onSignUpClick: () -> Unit) {
                 text = "회원가입",
                 color = colors.M1,
                 style = typography.content2,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.ExtraLight,
                 modifier = Modifier.clickable(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }

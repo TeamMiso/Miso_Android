@@ -56,11 +56,6 @@ fun PasswordTextField(
     val focusRequester = remember { FocusRequester() }
     text = setChangeText
     MisoTheme { colors, typography ->
-        var color = if (isFocused) colors.BLACK
-        else if (!isError) {
-            if (setChangeText.isEmpty()) colors.GRAY1
-            else colors.BLUE1
-        } else colors.ERROR
         Box(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -69,6 +64,7 @@ fun PasswordTextField(
                     text = "Password",
                     color = colors.BLACK2,
                     style = typography.content2,
+                    fontWeight = FontWeight.ExtraLight
                 )
                 Box(
                     modifier = Modifier
@@ -91,7 +87,7 @@ fun PasswordTextField(
                             Spacer(modifier = Modifier.width(12.dp))
                             Divider(
                                 modifier = Modifier
-                                    .width(1.dp)
+                                    .width(0.5.dp)
                                     .height(30.dp)
                                     .background(color = colors.GRAY2)
                             )
@@ -108,7 +104,7 @@ fun PasswordTextField(
                                     text = placeHolder,
                                     style = typography.content2,
                                     color = colors.GRAY5,
-                                    fontWeight = FontWeight.Normal
+                                    fontWeight = FontWeight.ExtraLight
                                 )
                             },
                             modifier = Modifier
