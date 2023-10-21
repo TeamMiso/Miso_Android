@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.activity.compose.setContent
 import com.example.miso.ui.base.BaseActivity
 import com.example.miso.ui.email.EmailActivity
+import com.example.miso.ui.log_in.LogInActivity
 import com.example.miso.ui.sign_up.screen.SignUpScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,6 +16,9 @@ class SignUpActivity : BaseActivity() {
                 context = this,
                 onEmailClick = {
                     pageEmail()
+                },
+                onLogInClick = {
+                    pageLogIn()
                 }
             )
         }
@@ -25,6 +29,15 @@ class SignUpActivity : BaseActivity() {
             Intent(
                 this,
                 EmailActivity::class.java
+            )
+        )
+    }
+
+    private fun pageLogIn() {
+        startActivity(
+            Intent(
+                this,
+                LogInActivity::class.java
             )
         )
     }
