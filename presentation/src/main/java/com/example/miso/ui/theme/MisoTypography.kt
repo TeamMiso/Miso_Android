@@ -70,4 +70,11 @@ object MisoTypography {
         fontSize = 12.sp,
         lineHeight = 15.sp
     )
+
+    @Stable
+    val content4 = TextStyle(
+        fontFamily = inter,
+        fontSize = 10.sp,
+        lineHeight = 15.sp
+    )
 }
