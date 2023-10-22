@@ -93,7 +93,7 @@ fun EmailScreen(
                     number = it
                 }
             )
-            Spacer(modifier = Modifier.height(82.dp))
+            Spacer(modifier = Modifier.height(80.dp))
             EmailButton {
                 if (number.isNotEmpty()) {
                     onCompleteClick()

@@ -31,7 +31,7 @@ object MisoTypography {
     @Stable
     val title2 = TextStyle(
         fontFamily = suit,
-        fontSize = 24.sp,
+        fontSize = 25.sp,
         lineHeight = 26.sp
     )
 
