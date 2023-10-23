@@ -20,9 +20,9 @@ import com.example.miso.ui.camera.component.CameraPreview
 
 @Composable
 fun CameraScreen(context: Context){
+    CameraPreview()
     CameraBackground()
     CameraBtn(onClick = {}, context = context)
-    CameraPreview()
 }
 
 @Composable

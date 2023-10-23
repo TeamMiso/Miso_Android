@@ -49,20 +49,3 @@ fun MisoButton(
         }
     }
 }
-
-@Composable
-fun MisoBackButton(
-    onClick: () -> Unit
-) {
-    Image(
-        painter = painterResource(id = R.drawable.ic_back),
-        contentDescription = "Back Icon",
-        contentScale = ContentScale.FillBounds,
-        modifier = Modifier
-            .size(width = 9.dp, height = 16.dp)
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null
-            ) { onClick() }
-    )
-}
