@@ -9,8 +9,19 @@ import androidx.compose.ui.unit.dp
 import com.example.miso.R
 
 @Composable
+fun MisoLogoIcon(
+    modifier: Modifier = Modifier.size(70.dp)
+) {
+    Image(
+        painter = painterResource(id = R.drawable.ic_miso_logo),
+        contentDescription = "Miso Logo Icon",
+        modifier = modifier
+    )
+}
+
+@Composable
 fun MisoLogoWhiteIcon(
-    modifier: Modifier = Modifier.size(114.dp),
+    modifier: Modifier = Modifier.size(70.dp),
     isClick: Boolean = false
 ) {
     when (isClick) {

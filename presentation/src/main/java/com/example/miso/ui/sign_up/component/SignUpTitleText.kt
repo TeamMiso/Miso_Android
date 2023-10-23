@@ -7,20 +7,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.miso.ui.theme.MisoTheme
 
 @Composable
-fun SignUpTitleText(isClick: Boolean = false) {
-    when (isClick) {
-        false -> {
-            MisoTheme { colors, typography ->
-                Text(
-                    text = "SIGN UP",
-                    color = colors.WHITE,
-                    style = typography.title,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
-        }
-
-        true -> {}
+fun SignUpTitleText() {
+    MisoTheme { colors, typography ->
+        Text(
+            text = "Sign Up",
+            color = colors.M2,
+            style = typography.title1,
+            fontWeight = FontWeight.ExtraLight
+        )
     }
 }
 

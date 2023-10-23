@@ -16,15 +16,17 @@ fun MisoTheme(
     typography: MisoTypography = MisoTypography,
     content: @Composable (colors: ColorTheme, typography: MisoTypography) -> Unit
 ) {
-    content(colors, typography)
     val darkTheme = isSystemInDarkTheme()
+    content(colors, typography)
     val view = LocalView.current
     SideEffect {
-        with(view.context as Activity) {
-            WindowCompat.setDecorFitsSystemWindows(window, false)
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
-            window.statusBarColor = Color.Transparent.toArgb()
-            window.navigationBarColor = Color.Transparent.toArgb()
+        val context = view.context
+        if (context is Activity) {
+            WindowCompat.setDecorFitsSystemWindows(context.window, false)
+            val insetsController = WindowCompat.getInsetsController(context.window, view)
+            insetsController.isAppearanceLightStatusBars = darkTheme
+            context.window.statusBarColor = Color.Transparent.toArgb()
+            context.window.navigationBarColor = Color.Transparent.toArgb()
         }
     }
 }
