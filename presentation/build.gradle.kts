@@ -59,21 +59,31 @@ dependencies {
     implementation(Dependency.Google.HILT_ANDROID)
     kapt(Dependency.Google.HILT_ANDROID_COMPILER)
 
+    //CameraX
+    implementation(Dependency.AndroidX.CAMERA_CORE)
+    implementation(Dependency.AndroidX.CAMERA_CAMERA2)
+    implementation(Dependency.AndroidX.CAMERA_LIFECYCLE)
+    implementation(Dependency.AndroidX.CAMERA_VIEW)
+    implementation(Dependency.AndroidX.CAMERA_EXTENSIONS)
+    // 수정 요망
+    implementation(Dependency.AndroidX.APP_COMPAT)
     implementation(Dependency.AndroidX.CORE_KTX)
     implementation(Dependency.AndroidX.LIFECYCLE_RUNTIME)
+
     implementation(Dependency.Compose.ACTIVITY_COMPOSE)
     implementation(Dependency.Compose.COMPOSE)
     implementation(Dependency.Compose.COMPOSE_TOOLING)
     implementation(Dependency.Compose.COMPOSE_MATERIAL)
     implementation(Dependency.Compose.COMPOSE_MATERIAL3)
     implementation(Dependency.Compose.COMPOSE_PREVIEW)
+
     testImplementation(Dependency.Test.JUNIT)
     androidTestImplementation(Dependency.Test.ANDROID_JUNIT)
     androidTestImplementation(Dependency.Test.ESPRESSO_CORE)
     androidTestImplementation(Dependency.Test.COMPOSE_JUNIT)
     debugImplementation(Dependency.Compose.COMPOSE_TOOLING)
     debugImplementation(Dependency.Test.COMPOSE_MANIFEST)
+
     implementation(Dependency.Google.ACCOMPANIST)
-    implementation(Dependency.Navigation.NAVIGATION)
 
 }
