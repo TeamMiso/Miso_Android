@@ -1,4 +1,4 @@
-package com.example.miso.ui.main.component
+package com.example.miso.ui.main.component.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -14,15 +14,15 @@ import androidx.compose.ui.unit.dp
 import com.example.miso.R
 
 @Composable
-fun LogoutButton(
+fun SearchButton(
     onClick: () -> Unit
 ) {
     Image(
-        painter = painterResource(id = R.drawable.ic_logout),
+        painter = painterResource(id = R.drawable.ic_search),
         contentDescription = "Logout Icon",
         contentScale = ContentScale.FillBounds,
         modifier = Modifier
-            .size(width = 14.dp, height = 22.dp)
+            .size(width = 24.dp, height = 24.dp)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null
@@ -32,6 +32,6 @@ fun LogoutButton(
 
 @Composable
 @Preview(showBackground = true)
-fun LogoutButtonPreView() {
-    LogoutButton({})
+fun SearchButtonPreView() {
+    SearchButton({})
 }
