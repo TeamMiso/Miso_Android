@@ -14,7 +14,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.miso.ui.main.component.SearchButton
+import com.example.miso.ui.main.component.main.SearchButton
 import com.example.miso.ui.theme.MisoTheme
 
 @Composable
