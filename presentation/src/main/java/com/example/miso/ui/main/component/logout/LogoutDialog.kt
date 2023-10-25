@@ -1,6 +1,5 @@
-package com.example.miso.ui.main.component
+package com.example.miso.ui.main.component.logout
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,7 +34,7 @@ fun LogoutDialog(
                 Card(
                     shape = RoundedCornerShape(14.dp),
                     modifier = Modifier
-                        .size(355.dp, 180.dp)
+                        .size(355.dp, 170.dp)
                         .padding(top = 5.dp, bottom = 10.dp),
                     elevation = 8.dp
                 ) {
@@ -51,6 +50,7 @@ fun LogoutDialog(
                                 style = typography.title3,
                                 fontWeight = FontWeight.Normal,
                             )
+                            Spacer(modifier = Modifier.height(4.dp))
                             Text(
                                 text = "정말 이대로 로그아웃 하시겠습니까?",
                                 textAlign = TextAlign.Center,
@@ -123,5 +123,5 @@ fun LogoutDialog(
 @Preview(showBackground = true)
 @Composable
 fun LogoutDialogPreview() {
-    LogoutDialog(openDialog = true, {})
+    LogoutDialog(openDialog = true) {}
 }

@@ -20,8 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.miso.ui.main.component.logout.LogoutDialog
 import com.example.miso.ui.main.component.main.LogoutButton
-import com.example.miso.ui.main.component.main.LogoutDialog
 import com.example.miso.ui.main.component.main.MainContentPager
 import com.example.miso.ui.main.component.main.MainContentText
 import com.example.miso.ui.main.component.main.MainTitleText
