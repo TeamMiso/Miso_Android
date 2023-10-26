@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.miso.ui.base.BaseActivity
 import com.example.miso.ui.main.screen.MainScreen
+import com.example.miso.ui.main.screen.SearchScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 enum class MainPage(val value: String) {
@@ -30,7 +31,10 @@ class MainActivity : BaseActivity() {
                     )
                 }
                 composable(MainPage.Search.name) {
-
+                    SearchScreen(
+                        context = this@MainActivity,
+                        navController = navController
+                    )
                 }
             }
         }
