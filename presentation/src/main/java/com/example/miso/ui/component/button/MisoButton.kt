@@ -49,3 +49,19 @@ fun MisoButton(
         }
     }
 }
+
+@Composable
+fun MisoBackBlackButton(
+    modifier: Modifier = Modifier.size(9.dp, 16.dp),
+    onClick: () -> Unit
+) {
+    Image(
+        painter = painterResource(id = R.drawable.ic_back_black),
+        contentDescription = "Back Black Icon",
+        modifier = modifier
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ) { onClick() },
+    )
+}

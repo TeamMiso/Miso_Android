@@ -43,7 +43,7 @@ fun MoveCameraButton(
         val transition = updateTransition(targetState = isFocus)
         val backgroundColor by transition.animateColor(
             transitionSpec = {
-                tween(durationMillis = 1000)
+                tween(durationMillis = 500)
             }
         ) { isFocused ->
             if (isFocused) colors.M1 else colors.TRANSPARENTM1

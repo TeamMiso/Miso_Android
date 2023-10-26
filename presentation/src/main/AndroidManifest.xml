@@ -28,9 +28,6 @@
             android:name=".ui.log_in.LogInActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.email.EmailActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
