@@ -65,9 +65,6 @@ fun SearchTextField(
                         modifier = modifier
                             .fillMaxWidth()
                             .height(24.dp)
-                            .onFocusEvent { state ->
-                                onFocusChange(state.isFocused)
-                            }
                             .drawWithContent {
                                 drawContent()
                                 drawLine(
@@ -82,6 +79,9 @@ fun SearchTextField(
                                     ),
                                     strokeWidth = 1.dp.toPx(),
                                 )
+                            }
+                            .onFocusEvent { state ->
+                                onFocusChange(state.isFocused)
                             },
                     ) {
                         innerTextField()

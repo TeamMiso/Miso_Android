@@ -30,6 +30,7 @@ import com.example.miso.ui.main.component.main.SearchButton
 @Composable
 fun MainScreen(
     context: Context,
+    onInquiryClick: () -> Unit,
     onSearchClick: () -> Unit
 ) {
     var openDialog by remember { mutableStateOf(false) }
@@ -68,7 +69,9 @@ fun MainScreen(
         }
         Column {
             Spacer(modifier = Modifier.height(230.dp))
-            MainContentPager()
+            MainContentPager(
+                onInquiryClick = { onInquiryClick() }
+            )
         }
     }
 }
@@ -76,5 +79,5 @@ fun MainScreen(
 @Composable
 @Preview(showBackground = true)
 fun MainScreenPreView() {
-    MainScreen(LocalContext.current, onSearchClick = {})
+    MainScreen(LocalContext.current, {}, onSearchClick = {})
 }
