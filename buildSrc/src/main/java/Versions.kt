@@ -48,7 +48,7 @@ object Versions {
 
     const val COROUTINE = "1.3.9"
 
-    const val COIL_VERSION = "2.1.0"
+    const val COIL_VERSION = "2.4.0"
 
     const val ACCOMPANIST = "0.31.0-alpha"
 

@@ -72,4 +72,8 @@ object Dependency {
     object Navigation {
         const val NAVIGATION = "androidx.navigation:navigation-compose:${Versions.NAVIGATION}"
     }
+
+    object Image {
+        const val COIL = "io.coil-kt:coil-compose:${Versions.COIL_VERSION}"
+    }
 }
