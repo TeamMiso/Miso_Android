@@ -1,5 +1,6 @@
 package com.example.miso.ui.main.component.main
 
+import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,17 +17,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.miso.ui.inquiry.screen.InquiryScreen
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MainContentPager() {
+fun MainContentPager(
+    onInquiryClick: () -> Unit
+) {
     val pagerState = rememberPagerState(initialPage = Int.MAX_VALUE / 2 - 3)
-    val navController = rememberNavController()
     var isFocus by remember { mutableStateOf(0) }
 
     Column(
@@ -43,22 +48,22 @@ fun MainContentPager() {
             when (page % 4) {
                 0 -> {
                     MoveCameraButton(isPageFocused) {
-                        navController.navigate("Camera")
+
                     }
                 }
                 1 -> {
                     MoveShopButton(isPageFocused) {
-                        navController.navigate("Shop")
+
                     }
                 }
                 2 -> {
                     MoveInquiryButton(isPageFocused) {
-                        navController.navigate("Inquiry")
+                        onInquiryClick()
                     }
                 }
                 3 -> {
                     MoveListButton(isPageFocused) {
-                        navController.navigate("List")
+
                     }
                 }
             }
@@ -75,25 +80,10 @@ fun MainContentPager() {
             currentPageOffsetFraction = pagerState.currentPageOffsetFraction
         )
     }
-
-    NavHost(navController, startDestination = "Camera") {
-        composable("Camera") {
-
-        }
-        composable("Shop") {
-
-        }
-        composable("Inquiry") {
-
-        }
-        composable("List") {
-
-        }
-    }
 }
 
 @Composable
 @Preview(showBackground = true)
 fun MainContentPagerPreView() {
-    MainContentPager()
+    MainContentPager({})
 }

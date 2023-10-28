@@ -87,4 +87,6 @@ dependencies {
 
     implementation(Dependency.Google.ACCOMPANIST)
 
+    implementation(Dependency.Image.COIL)
+
 }

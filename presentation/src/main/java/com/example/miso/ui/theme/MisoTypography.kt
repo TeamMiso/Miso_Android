@@ -60,7 +60,8 @@ object MisoTypography {
     val content2 = TextStyle(
         fontFamily = suit,
         fontSize = 13.sp,
-        lineHeight = 15.sp
+        lineHeight = 15.sp,
+        fontWeight = FontWeight.ExtraLight
     )
 
     @Stable
