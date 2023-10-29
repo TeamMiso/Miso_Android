@@ -29,7 +29,8 @@ import com.example.miso.ui.inquiry.screen.InquiryScreen
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainContentPager(
-    onInquiryClick: () -> Unit
+    onInquiryClick: () -> Unit,
+    onListClick: () -> Unit
 ) {
     val pagerState = rememberPagerState(initialPage = Int.MAX_VALUE / 2 - 3)
     var isFocus by remember { mutableStateOf(0) }
@@ -63,7 +64,7 @@ fun MainContentPager(
                 }
                 3 -> {
                     MoveListButton(isPageFocused) {
-
+                        onListClick()
                     }
                 }
             }
@@ -85,5 +86,5 @@ fun MainContentPager(
 @Composable
 @Preview(showBackground = true)
 fun MainContentPagerPreView() {
-    MainContentPager({})
+    MainContentPager({}, {})
 }
