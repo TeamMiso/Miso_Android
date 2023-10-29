@@ -9,6 +9,7 @@ import com.example.miso.ui.inquiry.component.InquiryButton
 import com.example.miso.ui.inquiry.component.InquiryTitleText
 import android.content.Context
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,11 +64,10 @@ fun InquiryScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }
-            ) {
-                focusManager.clearFocus()
+            .pointerInput(Unit) {
+                detectTapGestures { offset ->
+                    focusManager.clearFocus()
+                }
             }
     ) {
         Row(

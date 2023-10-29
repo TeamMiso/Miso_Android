@@ -57,7 +57,11 @@ fun SearchTextField(
                     text = it
                     onValueChange(it)
                 },
-                modifier = modifier.fillMaxWidth(0.8f),
+                modifier = modifier
+                    .fillMaxWidth(0.8f)
+                    .onFocusEvent { state ->
+                        onFocusChange(state.isFocused)
+                    },
                 textStyle = typography.content1,
                 singleLine = true,
                 decorationBox = { innerTextField ->
@@ -79,9 +83,6 @@ fun SearchTextField(
                                     ),
                                     strokeWidth = 1.dp.toPx(),
                                 )
-                            }
-                            .onFocusEvent { state ->
-                                onFocusChange(state.isFocused)
                             },
                     ) {
                         innerTextField()

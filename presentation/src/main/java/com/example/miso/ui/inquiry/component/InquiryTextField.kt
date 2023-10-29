@@ -46,7 +46,8 @@ fun InquiryTextField(
             },
             singleLine = singleLine,
             textStyle = typography.content2,
-            modifier = modifier,
+            modifier = modifier
+                .focusRequester(focusRequester),
             decorationBox = { innerTextField ->
                 Box(
                     modifier = modifier
@@ -60,8 +61,7 @@ fun InquiryTextField(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(start = 16.dp, end = 16.dp, top = 10.dp, bottom = 10.dp)
-                            .focusRequester(focusRequester),
+                            .padding(start = 16.dp, end = 16.dp, top = 10.dp, bottom = 10.dp),
                         verticalArrangement = Arrangement.Top
                     ) {
                         innerTextField()
