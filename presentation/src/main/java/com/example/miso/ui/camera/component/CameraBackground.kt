@@ -16,14 +16,6 @@ import com.example.miso.R
 fun CameraBackground(){
     Box(modifier = Modifier.fillMaxSize()){
         Image(
-            painter = painterResource(id = R.drawable.ic_camera_background_top),
-            contentDescription = "Camera Background Bottom",
-            contentScale = ContentScale.FillBounds,
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.TopCenter)
-        )
-        Image(
             painter = painterResource(id = R.drawable.ic_camera_background_bottom),
             contentDescription = "Camera Background Top",
             contentScale = ContentScale.FillBounds,
