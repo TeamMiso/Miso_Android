@@ -31,6 +31,7 @@ fun InquiryTextField(
     modifier: Modifier = Modifier,
     setChangeText: String,
     singleLine: Boolean = true,
+    readOnly: Boolean = false,
     onValueChange: (String) -> Unit = {}
 ) {
     var text by remember { mutableStateOf("") }
@@ -45,6 +46,7 @@ fun InquiryTextField(
                 onValueChange(it)
             },
             singleLine = singleLine,
+            readOnly = readOnly,
             textStyle = typography.content2,
             modifier = modifier
                 .focusRequester(focusRequester),

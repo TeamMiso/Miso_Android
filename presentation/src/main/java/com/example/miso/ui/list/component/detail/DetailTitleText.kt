@@ -1,4 +1,4 @@
-package com.example.miso.ui.list.component
+package com.example.miso.ui.list.component.detail
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -8,7 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.miso.ui.theme.MisoTheme
 
 @Composable
-fun ListTitleText() {
+fun DetailTitleText() {
     MisoTheme { colors, typography ->
         Text(
             text = "문의하기",
@@ -22,6 +22,6 @@ fun ListTitleText() {
 
 @Composable
 @Preview(showBackground = true)
-fun ListTitleTextPreView() {
-    ListTitleText()
+fun DetailTitleTextPreView() {
+    DetailTitleText()
 }
