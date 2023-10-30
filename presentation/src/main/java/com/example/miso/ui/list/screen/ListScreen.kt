@@ -52,7 +52,7 @@ fun ListScreen(
                 .padding(start = 28.dp, end = 28.dp)
         ) {
             Spacer(modifier = Modifier.height(144.dp))
-            InquiryList(items = 4)
+            InquiryList(items = 4, navController = navController)
         }
     }
 }

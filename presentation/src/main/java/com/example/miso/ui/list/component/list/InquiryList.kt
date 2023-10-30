@@ -9,13 +9,19 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.miso.ui.main.MainPage
 import com.example.miso.ui.theme.MisoTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun InquiryList(items: Int) {
+fun InquiryList(
+    items: Int,
+    navController: NavController
+) {
     MisoTheme { colors, _ ->
         LazyColumn(
             modifier = Modifier.fillMaxSize()
@@ -30,7 +36,7 @@ fun InquiryList(items: Int) {
                     "유색 페트병이 등록되어있지 않습니다",
                     "-"
                 ) {
-
+                    navController.navigate(MainPage.Detail.name + "/$index")
                 }
                 Divider(
                     modifier = Modifier
@@ -46,5 +52,5 @@ fun InquiryList(items: Int) {
 @Composable
 @Preview(showBackground = true)
 fun SearchListPreView() {
-    InquiryList(4)
+    InquiryList(4, NavController(LocalContext.current))
 }
