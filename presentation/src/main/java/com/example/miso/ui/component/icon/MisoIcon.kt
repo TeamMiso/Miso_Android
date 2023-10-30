@@ -22,17 +22,10 @@ fun MisoLogoIcon(
 @Composable
 fun MisoLogoWhiteIcon(
     modifier: Modifier = Modifier.size(70.dp),
-    isClick: Boolean = false
 ) {
-    when (isClick) {
-        false -> {
-            Image(
-                painter = painterResource(id = R.drawable.ic_miso_logo_white),
-                contentDescription = "Miso Logo White Icon",
-                modifier = modifier
-            )
-        }
-
-        true -> {}
-    }
+    Image(
+        painter = painterResource(id = R.drawable.ic_miso_logo_white),
+        contentDescription = "Miso Logo White Icon",
+        modifier = modifier
+    )
 }
