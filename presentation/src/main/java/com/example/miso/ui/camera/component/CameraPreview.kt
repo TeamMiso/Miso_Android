@@ -5,6 +5,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
 import androidx.camera.core.CameraSelector
 import androidx.camera.view.PreviewView
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -29,7 +30,7 @@ fun CameraPreview(){
                 .padding(innerPadding),
             factory = { context ->
                 PreviewView(context).apply {
-                    setBackgroundColor(Color.White.toArgb())
+                    setBackgroundColor(Color.LightGray.toArgb())
                     layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
                     scaleType = PreviewView.ScaleType.FILL_START
                     implementationMode = PreviewView.ImplementationMode.COMPATIBLE
