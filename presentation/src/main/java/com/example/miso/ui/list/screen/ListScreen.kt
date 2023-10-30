@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.navigation.NavController
 import com.example.miso.ui.component.button.MisoBackBlackButton
-import com.example.miso.ui.inquiry.component.InquiryTitleText
 import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,9 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.miso.ui.list.component.InquiryList
-import com.example.miso.ui.list.component.ListTitleText
-import com.example.miso.ui.main.component.search.SearchList
+import com.example.miso.ui.list.component.list.InquiryList
+import com.example.miso.ui.list.component.list.ListTitleText
 
 @Composable
 fun ListScreen(

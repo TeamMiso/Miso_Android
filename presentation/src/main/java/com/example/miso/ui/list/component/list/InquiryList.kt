@@ -1,4 +1,4 @@
-package com.example.miso.ui.list.component
+package com.example.miso.ui.list.component.list
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
