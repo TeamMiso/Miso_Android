@@ -44,7 +44,7 @@ fun SignUpBackground(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(modifier = Modifier.height(60.dp))
+                Spacer(modifier = Modifier.fillMaxHeight(0.07f))
                 Text(
                     text = "“미소”",
                     color = colors.WHITE,
@@ -54,7 +54,7 @@ fun SignUpBackground(
                 )
             }
             Column(modifier = Modifier.fillMaxSize()) {
-                Spacer(modifier = Modifier.height(30.dp))
+                Spacer(modifier = Modifier.fillMaxHeight(0.03f))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween

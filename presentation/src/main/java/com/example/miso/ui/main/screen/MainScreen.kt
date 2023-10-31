@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -65,11 +66,11 @@ fun MainScreen(
             }
         }
         Column(modifier = Modifier.padding(start = 16.dp)) {
-            Spacer(modifier = Modifier.height(180.dp))
+            Spacer(modifier = Modifier.fillMaxHeight(0.2f))
             MainContentText()
         }
         Column {
-            Spacer(modifier = Modifier.height(230.dp))
+            Spacer(modifier = Modifier.fillMaxHeight(0.25f))
             MainContentPager(
                 onInquiryClick = { onInquiryClick() },
                 onListClick = { onListClick() }
