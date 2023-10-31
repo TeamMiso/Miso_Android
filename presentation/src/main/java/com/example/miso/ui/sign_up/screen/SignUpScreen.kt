@@ -81,7 +81,7 @@ fun SignUpScreen(
         ) {
             Spacer(modifier = Modifier.fillMaxHeight(0.17f))
             SignUpTitleText()
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.fillMaxHeight(0.02f))
             EmailTextField(
                 isError = false,
                 placeHolder = "Email",
@@ -94,7 +94,7 @@ fun SignUpScreen(
                     email = text
                 }
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.fillMaxHeight(0.03f))
             PasswordTextField(
                 isState = isState,
                 placeHolder = "Password",
@@ -107,7 +107,7 @@ fun SignUpScreen(
                     pw = text
                 }
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.fillMaxHeight(0.03f))
             RePasswordTextField(
                 isState = isState,
                 placeHolder = "Re Password",
@@ -120,13 +120,13 @@ fun SignUpScreen(
                     repw = text
                 }
             )
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.fillMaxHeight(0.145f))
             SignUpButton {
                 if (email.isNotEmpty() && pw.isNotEmpty() && repw.isNotEmpty()) {
                     onEmailClick()
                 }
             }
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.fillMaxHeight(0.01f))
             MoveLogInText {
                 onLogInClick()
             }

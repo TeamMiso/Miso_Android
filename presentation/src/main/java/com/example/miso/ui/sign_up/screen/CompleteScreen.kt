@@ -40,9 +40,9 @@ fun CompleteScreen(
         ) {
             Spacer(modifier = Modifier.fillMaxHeight(0.28f))
             SignUpTitleText()
-            Spacer(modifier = Modifier.height(82.dp))
+            Spacer(modifier = Modifier.fillMaxHeight(0.168f))
             CompleteContentText()
-            Spacer(modifier = Modifier.height(80.dp))
+            Spacer(modifier = Modifier.fillMaxHeight(0.195f))
             CompleteButton {
                 onLogInClick()
             }

@@ -81,11 +81,11 @@ fun EmailScreen(
         ) {
             Spacer(modifier = Modifier.fillMaxHeight(0.17f))
             SignUpTitleText()
-            Spacer(modifier = Modifier.height(55.dp))
+            Spacer(modifier = Modifier.fillMaxHeight(0.1f))
             EmailIcon()
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.fillMaxHeight(0.02f))
             EmailContentText()
-            Spacer(modifier = Modifier.height(18.dp))
+            Spacer(modifier = Modifier.fillMaxHeight(0.035f))
             NumberTextField(
                 text = number,
                 isError = isError,
@@ -93,7 +93,7 @@ fun EmailScreen(
                     number = it
                 }
             )
-            Spacer(modifier = Modifier.height(80.dp))
+            Spacer(modifier = Modifier.fillMaxHeight(0.195f))
             EmailButton {
                 if (number.isNotEmpty()) {
                     onCompleteClick()
@@ -102,7 +102,7 @@ fun EmailScreen(
                     isError = true
                 }
             }
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.fillMaxHeight(0.01f))
             MoveBackText {
                 navController.popBackStack()
             }
