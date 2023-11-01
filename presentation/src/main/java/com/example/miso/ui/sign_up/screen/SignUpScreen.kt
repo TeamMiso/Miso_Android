@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.domain.model.auth.request.AuthSignUpRequestModel
 import com.example.miso.ui.component.util.keyboardAsState
 import com.example.miso.ui.sign_up.component.sign_up.EmailTextField
 import com.example.miso.ui.sign_up.component.sign_up.MoveLogInText
@@ -35,8 +36,9 @@ import com.example.miso.ui.sign_up.component.SignUpTitleText
 @Composable
 fun SignUpScreen(
     context: Context,
+    onLogInClick: () -> Unit,
     onEmailClick: () -> Unit,
-    onLogInClick: () -> Unit
+    onSignUpClick: (body: AuthSignUpRequestModel) -> Unit
 ) {
     var isClick by remember { mutableStateOf(false) }
     val isKeyboardOpen by keyboardAsState()
@@ -58,6 +60,12 @@ fun SignUpScreen(
     if (pw.isEmpty() || repw.isEmpty()) isState = "Normal"
     else if (pw == repw) isState = "Success"
     else isState = "Error"
+
+    val body = AuthSignUpRequestModel(
+        email = email,
+        password = pw,
+        passwordCheck = repw
+    )
 
     Box(
         modifier = Modifier
@@ -123,6 +131,7 @@ fun SignUpScreen(
             Spacer(modifier = Modifier.fillMaxHeight(0.145f))
             SignUpButton {
                 if (email.isNotEmpty() && pw.isNotEmpty() && repw.isNotEmpty()) {
+                    onSignUpClick(body)
                     onEmailClick()
                 }
             }
@@ -137,5 +146,5 @@ fun SignUpScreen(
 @Composable
 @Preview(showBackground = true)
 fun SignUpScreenPreView() {
-    SignUpScreen(LocalContext.current, onEmailClick = {}, onLogInClick = {})
+    SignUpScreen(LocalContext.current, onLogInClick = {}, onEmailClick = {}, onSignUpClick = {})
 }
