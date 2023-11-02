@@ -5,7 +5,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface EmailAPI {
-    @POST("auth")
+    @POST("email")
     suspend fun email(
         @Body body: EmailRequest
     )

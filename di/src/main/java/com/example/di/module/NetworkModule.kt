@@ -60,7 +60,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun email(retrofit: Retrofit): EmailAPI {
+    fun emailService(retrofit: Retrofit): EmailAPI {
         return retrofit.create(EmailAPI::class.java)
     }
 }
