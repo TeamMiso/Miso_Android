@@ -19,7 +19,6 @@ class AuthDatasourceImpl @Inject constructor(
                 .httpRequest { api.authSignUp(body = body) }
                 .sendRequest()
         )
-        Log.d("testt2", "tesst2")
     }.flowOn(Dispatchers.IO)
 
 }
