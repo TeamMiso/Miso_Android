@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.domain.model.email.request.EmailRequestModel
 import com.example.miso.ui.component.util.keyboardAsState
 import com.example.miso.ui.sign_up.component.sign_up.EmailTextField
 import com.example.miso.ui.sign_up.component.sign_up.MoveLogInText
@@ -42,7 +43,8 @@ import com.example.miso.ui.sign_up.component.email.NumberTextField
 fun EmailScreen(
     context: Context,
     onCompleteClick: () -> Unit,
-    navController: NavController
+    navController: NavController,
+    onEmailClick: (body: EmailRequestModel) -> Unit
 ) {
     var isClick by remember { mutableStateOf(false) }
     val isKeyboardOpen by keyboardAsState()
@@ -58,6 +60,10 @@ fun EmailScreen(
     }
 
     var number by remember { mutableStateOf("") }
+
+    val body = EmailRequestModel(
+        randomKey = number
+    )
 
     Box(
         modifier = Modifier
@@ -96,6 +102,7 @@ fun EmailScreen(
             Spacer(modifier = Modifier.fillMaxHeight(0.195f))
             EmailButton {
                 if (number.isNotEmpty()) {
+                    onEmailClick(body)
                     onCompleteClick()
                 }
                 else {
@@ -113,5 +120,5 @@ fun EmailScreen(
 @Composable
 @Preview(showBackground = true)
 fun EmailScreenPreView() {
-    EmailScreen(LocalContext.current, onCompleteClick = {}, navController = NavController(LocalContext.current))
+    EmailScreen(LocalContext.current, onCompleteClick = {}, navController = NavController(LocalContext.current), onEmailClick = {})
 }

@@ -9,6 +9,8 @@ import com.example.domain.usecase.auth.AuthSignUpUseCase
 import com.example.miso.viewmodel.util.Event
 import com.example.miso.viewmodel.util.errorHandling
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,8 +20,8 @@ class AuthViewModel @Inject constructor(
     private val authSignUpUseCase: AuthSignUpUseCase
 ): ViewModel() {
 
-    private val _authSignUpResponse = MutableLiveData<Event<Unit>>()
-    val authSignUpResponse: LiveData<Event<Unit>> = _authSignUpResponse
+    private val _authSignUpResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
+    val authSignUpResponse = _authSignUpResponse.asStateFlow()
 
     fun authSignUp(body: AuthSignUpRequestModel) = viewModelScope.launch {
         authSignUpUseCase(
