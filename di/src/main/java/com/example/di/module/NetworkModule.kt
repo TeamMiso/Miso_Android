@@ -1,6 +1,7 @@
 package com.example.di.module
 
 import com.example.data.remote.api.AuthAPI
+import com.example.data.remote.api.EmailAPI
 import com.example.di.BuildConfig
 import dagger.Module
 import dagger.Provides
@@ -55,5 +56,11 @@ object NetworkModule {
     @Singleton
     fun authService(retrofit: Retrofit): AuthAPI {
         return retrofit.create(AuthAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun email(retrofit: Retrofit): EmailAPI {
+        return retrofit.create(EmailAPI::class.java)
     }
 }
