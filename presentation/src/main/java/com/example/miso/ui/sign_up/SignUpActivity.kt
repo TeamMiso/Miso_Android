@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -30,26 +32,28 @@ class SignUpActivity : BaseActivity() {
     private val authViewModel by viewModels<AuthViewModel>()
     private val emailViewModel by viewModels<EmailViewModel>()
 
+    private lateinit var navController: NavController
+
     override fun init() {
         lifecycleScope.launch {
             authViewModel.authSignUpResponse.collect {
                 if (it is Event.Success) {
-                    Log.d("signup", it.toString())
+                    navController.navigate(SignUpPage.Email.name)
                 }
             }
         }
         lifecycleScope.launch {
             emailViewModel.emailResponse.collect {
                 if (it is Event.Success) {
-                    Log.d("email", it.toString())
+                    navController.navigate(SignUpPage.Complete.name)
                 }
             }
         }
         setContent {
-            val navController = rememberNavController()
+            navController = rememberNavController()
 
             NavHost(
-                navController = navController,
+                navController = navController as NavHostController,
                 startDestination = "SignUp"
             ) {
                 composable(SignUpPage.SignUp.name) {
@@ -59,7 +63,7 @@ class SignUpActivity : BaseActivity() {
                             pageLogIn()
                         },
                         onEmailClick = {
-                            navController.navigate(SignUpPage.Email.name)
+
                         },
                         onSignUpClick = { body ->
                             authViewModel.authSignUp(body = body)
@@ -70,7 +74,7 @@ class SignUpActivity : BaseActivity() {
                     EmailScreen(
                         context = this@SignUpActivity,
                         onCompleteClick = {
-                            navController.navigate(SignUpPage.Complete.name)
+
                         },
                         navController = navController,
                         onEmailClick = { body ->
