@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.domain.model.auth.request.AuthLogInRequestModel
 import com.example.miso.ui.component.util.keyboardAsState
 import com.example.miso.ui.log_in.component.EmailTextField
 import com.example.miso.ui.log_in.component.LogInBackground
@@ -37,7 +38,7 @@ import com.example.miso.ui.log_in.component.PasswordTextField
 fun LogInScreen(
     context: Context,
     onSignUpClick: () -> Unit,
-    onMainClick: () -> Unit
+    onMainClick: (body: AuthLogInRequestModel) -> Unit
 ) {
     var isClick by remember { mutableStateOf(false) }
     val isKeyboardOpen by keyboardAsState()
@@ -54,6 +55,11 @@ fun LogInScreen(
 
     var email by remember { mutableStateOf("") }
     var pw by remember { mutableStateOf("") }
+
+    val body = AuthLogInRequestModel(
+        email = email,
+        password = pw
+    )
 
     Box(
         modifier = Modifier
@@ -107,7 +113,7 @@ fun LogInScreen(
             LogInButton {
                 if (email.isNotEmpty() && pw.isNotEmpty()) {
                     isError = false
-                    onMainClick()
+                    onMainClick(body)
                 } else {
                     isError = true
                 }
