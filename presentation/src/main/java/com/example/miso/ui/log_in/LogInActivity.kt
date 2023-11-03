@@ -2,23 +2,37 @@ package com.example.miso.ui.log_in
 
 import android.content.Intent
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.miso.ui.base.BaseActivity
 import com.example.miso.ui.log_in.screen.LogInScreen
 import com.example.miso.ui.main.MainActivity
 import com.example.miso.ui.sign_up.SignUpActivity
+import com.example.miso.viewmodel.AuthViewModel
+import com.example.miso.viewmodel.util.Event
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LogInActivity : BaseActivity() {
+    private val authViewModel by viewModels<AuthViewModel>()
+
     override fun init() {
+        lifecycleScope.launch {
+            authViewModel.authLogInResponse.collect {
+                if (it is Event.Success) {
+                    pageMain()
+                }
+            }
+        }
         setContent {
             LogInScreen(
                 context = this,
                 onSignUpClick = {
                     pageSignUp()
                 },
-                onMainClick = {
-                    pageMain()
+                onMainClick = { body ->
+                    authViewModel.authLogIn(body = body)
                 }
             )
         }
