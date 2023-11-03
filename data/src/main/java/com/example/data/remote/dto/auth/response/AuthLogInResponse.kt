@@ -1,13 +1,12 @@
 package com.example.data.remote.dto.auth.response
 
 import com.example.domain.model.auth.response.AuthLogInResponseModel
-import java.time.ZonedDateTime
 
 data class AuthLogInResponse(
     val accessToken: String,
     val refreshToken: String,
-    val accessExp: ZonedDateTime,
-    val refreshExp: ZonedDateTime
+    val accessExp: String,
+    val refreshExp: String
 )
 
 fun AuthLogInResponse.toLogInModel() =
