@@ -2,6 +2,7 @@ package com.example.di.module
 
 import com.example.data.remote.api.AuthAPI
 import com.example.data.remote.api.EmailAPI
+import com.example.data.util.AuthInterceptor
 import com.example.di.BuildConfig
 import dagger.Module
 import dagger.Provides
@@ -21,15 +22,15 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkhttpClient(): OkHttpClient {
+    fun provideOkhttpClient(
+        authInterceptor: AuthInterceptor,
+    ): OkHttpClient {
         return OkHttpClient.Builder()
             .cookieJar(CookieJar.NO_COOKIES)
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
+            .addInterceptor(authInterceptor)
             .build()
     }
 

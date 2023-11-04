@@ -70,6 +70,8 @@ dependencies {
     //androidTest
     androidTestImplementation(Dependency.Test.ANDROID_JUNIT)
     androidTestImplementation(Dependency.Test.ESPRESSO_CORE)
+
+    implementation(Dependency.DataStore.PREFERENCES)
 }
 
 fun getApiKey(propertyKey: String): String {

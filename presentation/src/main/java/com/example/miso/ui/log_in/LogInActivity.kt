@@ -1,6 +1,7 @@
 package com.example.miso.ui.log_in
 
 import android.content.Intent
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -11,6 +12,7 @@ import com.example.miso.ui.sign_up.SignUpActivity
 import com.example.miso.viewmodel.AuthViewModel
 import com.example.miso.viewmodel.util.Event
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -20,6 +22,13 @@ class LogInActivity : BaseActivity() {
     override fun init() {
         lifecycleScope.launch {
             authViewModel.authLogInResponse.collect {
+                if (it is Event.Success) {
+                    authViewModel.saveToken(token = it.data!!)
+                }
+            }
+        }
+        lifecycleScope.launch {
+            authViewModel.saveTokenResponse.collect {
                 if (it is Event.Success) {
                     pageMain()
                 }

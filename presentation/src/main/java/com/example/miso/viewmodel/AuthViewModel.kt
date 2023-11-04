@@ -1,7 +1,5 @@
 package com.example.miso.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.auth.request.AuthLogInRequestModel
@@ -9,6 +7,8 @@ import com.example.domain.model.auth.request.AuthSignUpRequestModel
 import com.example.domain.model.auth.response.AuthLogInResponseModel
 import com.example.domain.usecase.auth.AuthLogInUseCase
 import com.example.domain.usecase.auth.AuthSignUpUseCase
+import com.example.domain.usecase.auth.GetAccessTokenUseCase
+import com.example.domain.usecase.auth.SaveTokenUseCase
 import com.example.miso.viewmodel.util.Event
 import com.example.miso.viewmodel.util.errorHandling
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +21,9 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val authSignUpUseCase: AuthSignUpUseCase,
-    private val authLogInUseCase: AuthLogInUseCase
+    private val authLogInUseCase: AuthLogInUseCase,
+    private val saveTokenUseCase: SaveTokenUseCase,
+    private val getAccessTokenUseCase: GetAccessTokenUseCase
 ): ViewModel() {
 
     private val _authSignUpResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
@@ -29,6 +31,12 @@ class AuthViewModel @Inject constructor(
 
     private val _authLogInResponse = MutableStateFlow<Event<AuthLogInResponseModel>>(Event.Loading)
     val authLogInResponse = _authLogInResponse.asStateFlow()
+
+    private val _saveTokenResponse = MutableStateFlow<Event<Nothing>>(Event.Loading)
+    val saveTokenResponse = _saveTokenResponse.asStateFlow()
+
+    private val _getAccessTokenResponse = MutableStateFlow<Event<String>>(Event.Loading)
+    val getAccessTokenResponse = _getAccessTokenResponse.asStateFlow()
 
     fun authSignUp(body: AuthSignUpRequestModel) = viewModelScope.launch {
         authSignUpUseCase(
@@ -56,5 +64,28 @@ class AuthViewModel @Inject constructor(
         }.onFailure {
             _authLogInResponse.value = it.errorHandling()
         }
+    }
+
+    fun saveToken(token: AuthLogInResponseModel) = viewModelScope.launch {
+        saveTokenUseCase(
+            token = token
+        ).onSuccess {
+            _saveTokenResponse.value = Event.Success()
+        }.onFailure {
+            _saveTokenResponse.value = it.errorHandling()
+        }
+    }
+
+    fun getAccessToken() = viewModelScope.launch {
+        getAccessTokenUseCase()
+            .onSuccess {
+                it.catch { remoteError ->
+                    _getAccessTokenResponse.value = remoteError.errorHandling()
+                }.collect { response ->
+                    _getAccessTokenResponse.value = Event.Success(data = response)
+                }
+            }.onFailure { error ->
+                _getAccessTokenResponse.value = error.errorHandling()
+            }
     }
 }

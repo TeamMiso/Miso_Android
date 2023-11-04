@@ -1,6 +1,6 @@
 package com.example.data.repository
 
-import android.util.Log
+import com.example.data.local.datasource.auth.LocalAuthDataSource
 import com.example.data.remote.datasource.auth.AuthDatasource
 import com.example.data.remote.dto.auth.request.AuthLogInRequest
 import com.example.data.remote.dto.auth.request.AuthSignUpRequest
@@ -14,10 +14,11 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val authDatasource: AuthDatasource
+    private val localAuthDataSource: LocalAuthDataSource,
+    private val remoteAuthDatasource: AuthDatasource
 ): AuthRepository {
     override suspend fun authSignUp(body: AuthSignUpRequestModel): Flow<Unit> {
-        return authDatasource.authSignUp(
+        return remoteAuthDatasource.authSignUp(
             body = AuthSignUpRequest(
                 email = body.email,
                 password = body.password,
@@ -27,7 +28,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun authLogIn(body: AuthLogInRequestModel): Flow<AuthLogInResponseModel> {
-        return authDatasource.authLogIn(
+        return remoteAuthDatasource.authLogIn(
             body = AuthLogInRequest(
                 email = body.email,
                 password = body.password
@@ -35,4 +36,16 @@ class AuthRepositoryImpl @Inject constructor(
         ).map { it.toLogInModel() }
     }
 
+    override suspend fun saveToken(token: AuthLogInResponseModel) {
+        token.let {
+            localAuthDataSource.setAccessToken(it.accessToken)
+            localAuthDataSource.setAccessTime(it.accessExp)
+            localAuthDataSource.setRefreshToken(it.refreshToken)
+            localAuthDataSource.setRefreshTime(it.refreshExp)
+        }
+    }
+
+    override suspend fun getAccessToken(): Flow<String> {
+        return localAuthDataSource.getAccessToken()
+    }
 }
