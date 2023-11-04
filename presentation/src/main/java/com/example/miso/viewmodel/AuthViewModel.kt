@@ -7,6 +7,7 @@ import com.example.domain.model.auth.request.AuthSignUpRequestModel
 import com.example.domain.model.auth.response.AuthLogInResponseModel
 import com.example.domain.usecase.auth.AuthLogInUseCase
 import com.example.domain.usecase.auth.AuthSignUpUseCase
+import com.example.domain.usecase.auth.GetAccessTokenUseCase
 import com.example.domain.usecase.auth.SaveTokenUseCase
 import com.example.miso.viewmodel.util.Event
 import com.example.miso.viewmodel.util.errorHandling
@@ -21,7 +22,8 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(
     private val authSignUpUseCase: AuthSignUpUseCase,
     private val authLogInUseCase: AuthLogInUseCase,
-    private val saveTokenUseCase: SaveTokenUseCase
+    private val saveTokenUseCase: SaveTokenUseCase,
+    private val getAccessTokenUseCase: GetAccessTokenUseCase
 ): ViewModel() {
 
     private val _authSignUpResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
@@ -32,6 +34,9 @@ class AuthViewModel @Inject constructor(
 
     private val _saveTokenResponse = MutableStateFlow<Event<Nothing>>(Event.Loading)
     val saveTokenResponse = _saveTokenResponse.asStateFlow()
+
+    private val _getAccessTokenResponse = MutableStateFlow<Event<String>>(Event.Loading)
+    val getAccessTokenResponse = _getAccessTokenResponse.asStateFlow()
 
     fun authSignUp(body: AuthSignUpRequestModel) = viewModelScope.launch {
         authSignUpUseCase(
@@ -69,5 +74,18 @@ class AuthViewModel @Inject constructor(
         }.onFailure {
             _saveTokenResponse.value = it.errorHandling()
         }
+    }
+
+    fun getAccessToken() = viewModelScope.launch {
+        getAccessTokenUseCase()
+            .onSuccess {
+                it.catch { remoteError ->
+                    _getAccessTokenResponse.value = remoteError.errorHandling()
+                }.collect { response ->
+                    _getAccessTokenResponse.value = Event.Success(data = response)
+                }
+            }.onFailure { error ->
+                _getAccessTokenResponse.value = error.errorHandling()
+            }
     }
 }

@@ -44,4 +44,8 @@ class AuthRepositoryImpl @Inject constructor(
             localAuthDataSource.setRefreshTime(it.refreshExp)
         }
     }
+
+    override suspend fun getAccessToken(): Flow<String> {
+        return localAuthDataSource.getAccessToken()
+    }
 }
