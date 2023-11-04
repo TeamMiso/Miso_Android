@@ -1,7 +1,5 @@
 package com.example.miso.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.auth.request.AuthLogInRequestModel
@@ -9,6 +7,7 @@ import com.example.domain.model.auth.request.AuthSignUpRequestModel
 import com.example.domain.model.auth.response.AuthLogInResponseModel
 import com.example.domain.usecase.auth.AuthLogInUseCase
 import com.example.domain.usecase.auth.AuthSignUpUseCase
+import com.example.domain.usecase.auth.SaveTokenUseCase
 import com.example.miso.viewmodel.util.Event
 import com.example.miso.viewmodel.util.errorHandling
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val authSignUpUseCase: AuthSignUpUseCase,
-    private val authLogInUseCase: AuthLogInUseCase
+    private val authLogInUseCase: AuthLogInUseCase,
+    private val saveTokenUseCase: SaveTokenUseCase
 ): ViewModel() {
 
     private val _authSignUpResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
@@ -29,6 +29,9 @@ class AuthViewModel @Inject constructor(
 
     private val _authLogInResponse = MutableStateFlow<Event<AuthLogInResponseModel>>(Event.Loading)
     val authLogInResponse = _authLogInResponse.asStateFlow()
+
+    private val _saveTokenResponse = MutableStateFlow<Event<Nothing>>(Event.Loading)
+    val saveTokenResponse = _saveTokenResponse.asStateFlow()
 
     fun authSignUp(body: AuthSignUpRequestModel) = viewModelScope.launch {
         authSignUpUseCase(
@@ -55,6 +58,16 @@ class AuthViewModel @Inject constructor(
             }
         }.onFailure {
             _authLogInResponse.value = it.errorHandling()
+        }
+    }
+
+    fun saveToken(token: AuthLogInResponseModel) = viewModelScope.launch {
+        saveTokenUseCase(
+            token = token
+        ).onSuccess {
+            _saveTokenResponse.value = Event.Success()
+        }.onFailure {
+            _saveTokenResponse.value = it.errorHandling()
         }
     }
 }
