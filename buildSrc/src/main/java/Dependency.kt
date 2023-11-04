@@ -76,4 +76,8 @@ object Dependency {
     object Image {
         const val COIL = "io.coil-kt:coil-compose:${Versions.COIL_VERSION}"
     }
+
+    object DataStore {
+        const val PREFERENCES = "androidx.datastore:datastore-preferences:${Versions.PREFERENCES}"
+    }
 }

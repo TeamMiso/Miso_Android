@@ -54,4 +54,6 @@ object Versions {
 
     const val NAVIGATION = "2.6.0"
 
+    const val PREFERENCES = "1.0.0"
+
 }
