@@ -10,4 +10,6 @@ interface AuthDatasource {
 
     suspend fun authLogIn(body: AuthLogInRequest): Flow<AuthLogInResponse>
 
+    suspend fun logout(): Flow<Unit>
+
 }

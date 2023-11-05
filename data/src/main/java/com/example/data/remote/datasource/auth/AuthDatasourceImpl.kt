@@ -31,4 +31,12 @@ class AuthDatasourceImpl @Inject constructor(
         )
     }.flowOn(Dispatchers.IO)
 
+    override suspend fun logout(): Flow<Unit> = flow {
+        emit(
+            MisoApiHandler<Unit>()
+                .httpRequest { api.logout() }
+                .sendRequest()
+        )
+    }.flowOn(Dispatchers.IO)
+
 }
