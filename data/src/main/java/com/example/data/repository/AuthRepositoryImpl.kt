@@ -48,4 +48,15 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun getAccessToken(): Flow<String> {
         return localAuthDataSource.getAccessToken()
     }
+
+    override suspend fun logout(): Flow<Unit> {
+        return remoteAuthDatasource.logout()
+    }
+
+    override suspend fun deleteToken() {
+        localAuthDataSource.removeAccessToken()
+        localAuthDataSource.removeRefreshToken()
+        localAuthDataSource.removeAccessTime()
+        localAuthDataSource.removeRefreshTime()
+    }
 }

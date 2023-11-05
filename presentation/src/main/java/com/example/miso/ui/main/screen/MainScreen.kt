@@ -33,7 +33,8 @@ fun MainScreen(
     context: Context,
     onInquiryClick: () -> Unit,
     onListClick: () -> Unit,
-    onSearchClick: () -> Unit
+    onSearchClick: () -> Unit,
+    onLogoutClick: () -> Unit
 ) {
     var openDialog by remember { mutableStateOf(false) }
 
@@ -42,6 +43,9 @@ fun MainScreen(
             openDialog = openDialog,
             onStateChange = {
                 openDialog = it
+            },
+            onLogoutClick = {
+                onLogoutClick()
             }
         )
     }
@@ -82,5 +86,5 @@ fun MainScreen(
 @Composable
 @Preview(showBackground = true)
 fun MainScreenPreView() {
-    MainScreen(LocalContext.current, {}, {}, onSearchClick = {})
+    MainScreen(LocalContext.current, {}, {}, onSearchClick = {}, {})
 }

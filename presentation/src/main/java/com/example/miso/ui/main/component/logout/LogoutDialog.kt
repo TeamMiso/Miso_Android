@@ -24,7 +24,8 @@ import com.example.miso.ui.theme.MisoTheme
 @Composable
 fun LogoutDialog(
     openDialog: Boolean,
-    onStateChange: (Boolean) -> Unit
+    onStateChange: (Boolean) -> Unit,
+    onLogoutClick: () -> Unit
 ) {
     var openDialog by remember { mutableStateOf(openDialog) }
 
@@ -100,6 +101,7 @@ fun LogoutDialog(
                                     .weight(1f),
                                 onClick = {
                                     openDialog = false
+                                    onLogoutClick()
                                 }
                             ) {
                                 Text(
@@ -123,5 +125,5 @@ fun LogoutDialog(
 @Preview(showBackground = true)
 @Composable
 fun LogoutDialogPreview() {
-    LogoutDialog(openDialog = true) {}
+    LogoutDialog(openDialog = true, {}) {}
 }

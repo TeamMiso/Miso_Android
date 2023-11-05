@@ -7,7 +7,9 @@ import com.example.domain.model.auth.request.AuthSignUpRequestModel
 import com.example.domain.model.auth.response.AuthLogInResponseModel
 import com.example.domain.usecase.auth.AuthLogInUseCase
 import com.example.domain.usecase.auth.AuthSignUpUseCase
+import com.example.domain.usecase.auth.DeleteTokenUseCase
 import com.example.domain.usecase.auth.GetAccessTokenUseCase
+import com.example.domain.usecase.auth.LogoutUseCase
 import com.example.domain.usecase.auth.SaveTokenUseCase
 import com.example.miso.viewmodel.util.Event
 import com.example.miso.viewmodel.util.errorHandling
@@ -23,8 +25,10 @@ class AuthViewModel @Inject constructor(
     private val authSignUpUseCase: AuthSignUpUseCase,
     private val authLogInUseCase: AuthLogInUseCase,
     private val saveTokenUseCase: SaveTokenUseCase,
-    private val getAccessTokenUseCase: GetAccessTokenUseCase
-): ViewModel() {
+    private val getAccessTokenUseCase: GetAccessTokenUseCase,
+    private val logoutUseCase: LogoutUseCase,
+    private val deleteTokenUseCase: DeleteTokenUseCase
+) : ViewModel() {
 
     private val _authSignUpResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
     val authSignUpResponse = _authSignUpResponse.asStateFlow()
@@ -37,6 +41,9 @@ class AuthViewModel @Inject constructor(
 
     private val _getAccessTokenResponse = MutableStateFlow<Event<String>>(Event.Loading)
     val getAccessTokenResponse = _getAccessTokenResponse.asStateFlow()
+
+    private val _logoutResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
+    val logoutResponse = _logoutResponse.asStateFlow()
 
     fun authSignUp(body: AuthSignUpRequestModel) = viewModelScope.launch {
         authSignUpUseCase(
@@ -86,6 +93,20 @@ class AuthViewModel @Inject constructor(
                 }
             }.onFailure { error ->
                 _getAccessTokenResponse.value = error.errorHandling()
+            }
+    }
+
+    fun logout() = viewModelScope.launch {
+        logoutUseCase()
+            .onSuccess {
+                it.catch { remoteError ->
+                    _logoutResponse.value = remoteError.errorHandling()
+                }.collect { response ->
+                    _logoutResponse.value = Event.Success(data = response)
+                    deleteTokenUseCase()
+                }
+            }.onFailure {
+                _logoutResponse.value = it.errorHandling()
             }
     }
 }

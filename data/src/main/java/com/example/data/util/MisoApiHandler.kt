@@ -57,6 +57,8 @@ class MisoApiHandler<T> {
             throw TimeOutException(message = e.message)
         } catch (e: UnknownHostException) {
             throw NoInternetException()
+        } catch (e: TokenExpirationException) {
+            throw TokenExpirationException()
         } catch (e: Exception) {
             throw UnKnownException(message = e.message)
         }
