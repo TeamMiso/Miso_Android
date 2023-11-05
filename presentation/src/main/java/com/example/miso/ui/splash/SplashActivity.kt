@@ -13,7 +13,6 @@ import com.example.miso.ui.theme.MisoTheme
 import com.example.miso.viewmodel.AuthViewModel
 import com.example.miso.viewmodel.util.Event
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint

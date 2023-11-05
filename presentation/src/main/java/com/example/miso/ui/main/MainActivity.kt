@@ -1,6 +1,10 @@
 package com.example.miso.ui.main
 
+import android.content.Intent
+import android.util.Log
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -10,9 +14,14 @@ import com.example.miso.ui.base.BaseActivity
 import com.example.miso.ui.inquiry.screen.InquiryScreen
 import com.example.miso.ui.list.screen.DetailScreen
 import com.example.miso.ui.list.screen.ListScreen
+import com.example.miso.ui.log_in.LogInActivity
 import com.example.miso.ui.main.screen.MainScreen
 import com.example.miso.ui.main.screen.SearchScreen
+import com.example.miso.ui.sign_up.SignUpPage
+import com.example.miso.viewmodel.AuthViewModel
+import com.example.miso.viewmodel.util.Event
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 enum class MainPage(val value: String) {
     Main("Main"),
@@ -24,10 +33,18 @@ enum class MainPage(val value: String) {
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
+    private val authViewModel by viewModels<AuthViewModel>()
+
     override fun init() {
+        lifecycleScope.launch {
+            authViewModel.logoutResponse.collect {
+                if (it is Event.Success) {
+                    pageLogIn()
+                }
+            }
+        }
         setContent {
             val navController = rememberNavController()
-            var content = ""
 
             NavHost(
                 navController = navController,
@@ -38,7 +55,8 @@ class MainActivity : BaseActivity() {
                         context = this@MainActivity,
                         onInquiryClick = { navController.navigate(MainPage.Inquiry.value) },
                         onListClick = { navController.navigate(MainPage.List.value) },
-                        onSearchClick = { navController.navigate(MainPage.Search.value) }
+                        onSearchClick = { navController.navigate(MainPage.Search.value) },
+                        onLogoutClick = { authViewModel.logout() }
                     )
                 }
                 composable(MainPage.Search.name) {
@@ -70,5 +88,13 @@ class MainActivity : BaseActivity() {
                 }
             }
         }
+    }
+    private fun pageLogIn() {
+        startActivity(
+            Intent(
+                this,
+                LogInActivity::class.java
+            )
+        )
     }
 }
