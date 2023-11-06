@@ -65,6 +65,9 @@ dependencies {
     implementation(Dependency.AndroidX.CAMERA_LIFECYCLE)
     implementation(Dependency.AndroidX.CAMERA_VIEW)
     implementation(Dependency.AndroidX.CAMERA_EXTENSIONS)
+
+    //coil
+    implementation(Dependency.Image.COIL)
     // 수정 요망
     implementation(Dependency.AndroidX.APP_COMPAT)
     implementation(Dependency.AndroidX.CORE_KTX)
