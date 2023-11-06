@@ -11,32 +11,53 @@ import com.example.miso.ui.main.MainActivity
 import com.example.miso.ui.splash.screen.SplashScreen
 import com.example.miso.ui.theme.MisoTheme
 import com.example.miso.viewmodel.AuthViewModel
+import com.example.miso.viewmodel.UserViewModel
 import com.example.miso.viewmodel.util.Event
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SplashActivity : BaseActivity() {
     private val authViewModel by viewModels<AuthViewModel>()
+    private val userViewModel by viewModels<UserViewModel>()
 
-    @SuppressLint("StateFlowValueCalledInComposition")
     override fun init() {
-        setContent {
-            if (authViewModel.getAccessTokenResponse.value is Event.Loading) {
+        if (userViewModel.getUserInfoResponse.value is Event.Loading) {
+            setContent {
                 MisoTheme { _, _ ->
                     SplashScreen()
                 }
             }
         }
-        authViewModel.getAccessToken()
+        lifecycleScope.launch {
+            delay(800)
+            authViewModel.getAccessToken()
+        }
         lifecycleScope.launch {
             authViewModel.getAccessTokenResponse.collect {
                 if (it is Event.Success) {
-                    if (it.data!!.isNotBlank()) pageMain()
-                    else pageLogIn()
+                    if (it.data!!.isNotBlank()) {
+                        userViewModel.getUserInfo()
+                    } else {
+                        pageLogIn()
+                    }
                 }
-                else {
+            }
+        }
+        lifecycleScope.launch {
+            userViewModel.getUserInfoResponse.collect {
+                if (it is Event.Success) {
+                    userViewModel.saveUserInfo(it.data!!)
+                } else if (it is Event.Unauthorized) {
                     pageLogIn()
+                }
+            }
+        }
+        lifecycleScope.launch {
+            userViewModel.saveUserInfoResponse.collect {
+                if (it is Event.Success) {
+                    pageMain()
                 }
             }
         }
