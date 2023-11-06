@@ -11,6 +11,7 @@ import com.example.domain.usecase.auth.DeleteTokenUseCase
 import com.example.domain.usecase.auth.GetAccessTokenUseCase
 import com.example.domain.usecase.auth.LogoutUseCase
 import com.example.domain.usecase.auth.SaveTokenUseCase
+import com.example.domain.usecase.user.DeleteUserInfoUseCase
 import com.example.miso.viewmodel.util.Event
 import com.example.miso.viewmodel.util.errorHandling
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +28,8 @@ class AuthViewModel @Inject constructor(
     private val saveTokenUseCase: SaveTokenUseCase,
     private val getAccessTokenUseCase: GetAccessTokenUseCase,
     private val logoutUseCase: LogoutUseCase,
-    private val deleteTokenUseCase: DeleteTokenUseCase
+    private val deleteTokenUseCase: DeleteTokenUseCase,
+    private val deleteUserInfoUseCase: DeleteUserInfoUseCase
 ) : ViewModel() {
 
     private val _authSignUpResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
@@ -104,6 +106,7 @@ class AuthViewModel @Inject constructor(
                 }.collect { response ->
                     _logoutResponse.value = Event.Success(data = response)
                     deleteTokenUseCase()
+                    deleteUserInfoUseCase()
                 }
             }.onFailure {
                 _logoutResponse.value = it.errorHandling()
