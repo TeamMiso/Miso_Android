@@ -4,6 +4,8 @@ import com.example.data.remote.datasource.auth.AuthDatasource
 import com.example.data.remote.datasource.auth.AuthDatasourceImpl
 import com.example.data.remote.datasource.email.EmailDatasource
 import com.example.data.remote.datasource.email.EmailDatasourceImpl
+import com.example.data.remote.datasource.user.UserDatasource
+import com.example.data.remote.datasource.user.UserDatasourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -22,4 +24,9 @@ abstract class RemoteDatasourceModule {
     abstract fun provideEmailDatasource(
         emailDatasourceImpl: EmailDatasourceImpl
     ): EmailDatasource
+
+    @Binds
+    abstract fun provideUserDatasource(
+        userDataSourceImpl: UserDatasourceImpl
+    ): UserDatasource
 }

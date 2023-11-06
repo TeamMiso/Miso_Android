@@ -24,7 +24,8 @@ import com.example.miso.ui.list.component.list.ListTitleText
 @Composable
 fun ListScreen(
     context: Context,
-    navController: NavController
+    navController: NavController,
+    role: String
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -60,5 +61,5 @@ fun ListScreen(
 @Composable
 @Preview(showBackground = true)
 fun ListScreenPreView() {
-    ListScreen(LocalContext.current, NavController(LocalContext.current))
+    ListScreen(LocalContext.current, NavController(LocalContext.current), "ROLE_USER")
 }
