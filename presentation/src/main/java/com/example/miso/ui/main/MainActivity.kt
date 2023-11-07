@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -62,10 +63,17 @@ class MainActivity : BaseActivity() {
                             composable(MainPage.Main.name) {
                                 MainScreen(
                                     context = this@MainActivity,
+                                    onCameraClick = { navController.navigate(MainPage.Camera.value)},
                                     onInquiryClick = { navController.navigate(MainPage.Inquiry.value) },
                                     onListClick = { navController.navigate(MainPage.List.value) },
                                     onSearchClick = { navController.navigate(MainPage.Search.value) },
                                     onLogoutClick = { authViewModel.logout() }
+                                )
+                            }
+                            composable(MainPage.Camera.name){
+                                CameraScreen(
+                                    context = this@MainActivity,
+                                    navController = navController
                                 )
                             }
                             composable(MainPage.Search.name) {
@@ -95,9 +103,6 @@ class MainActivity : BaseActivity() {
                                         navController = navController
                                     )
                                 }
-                            }
-                            composable(MainPage.Camera.name){
-                                CameraScreen(context = this@MainActivity)
                             }
                         }
                     }

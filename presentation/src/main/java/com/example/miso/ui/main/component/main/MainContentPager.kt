@@ -29,6 +29,7 @@ import com.example.miso.ui.inquiry.screen.InquiryScreen
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainContentPager(
+    onCameraClick: () -> Unit,
     onInquiryClick: () -> Unit,
     onListClick: () -> Unit
 ) {
@@ -49,13 +50,11 @@ fun MainContentPager(
             when (page % 4) {
                 0 -> {
                     MoveCameraButton(isPageFocused) {
-
+                        onCameraClick()
                     }
                 }
                 1 -> {
-                    MoveShopButton(isPageFocused) {
-
-                    }
+                    MoveShopButton(isPageFocused) {}
                 }
                 2 -> {
                     MoveInquiryButton(isPageFocused) {
@@ -86,5 +85,5 @@ fun MainContentPager(
 @Composable
 @Preview(showBackground = true)
 fun MainContentPagerPreView() {
-    MainContentPager({}, {})
+    MainContentPager({}, {}, {})
 }
