@@ -1,4 +1,4 @@
-package com.example.miso.ui.component.util
+package com.example.miso.ui.util
 
 import android.view.ViewTreeObserver
 import androidx.compose.runtime.Composable
