@@ -92,4 +92,6 @@ dependencies {
 
     implementation(Dependency.Image.COIL)
 
+    implementation(Dependency.Google.GSON)
+
 }

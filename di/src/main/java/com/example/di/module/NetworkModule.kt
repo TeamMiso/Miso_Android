@@ -2,6 +2,7 @@ package com.example.di.module
 
 import com.example.data.remote.api.AuthAPI
 import com.example.data.remote.api.EmailAPI
+import com.example.data.remote.api.InquiryAPI
 import com.example.data.remote.api.UserAPI
 import com.example.data.util.AuthInterceptor
 import com.example.di.BuildConfig
@@ -70,5 +71,11 @@ object NetworkModule {
     @Singleton
     fun userService(retrofit: Retrofit): UserAPI {
         return retrofit.create(UserAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun inquiryService(retrofit: Retrofit): InquiryAPI {
+        return retrofit.create(InquiryAPI::class.java)
     }
 }

@@ -28,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.miso.ui.component.button.MisoBackBlackButton
-import com.example.miso.ui.component.util.keyboardAsState
+import com.example.miso.ui.util.keyboardAsState
 import com.example.miso.ui.inquiry.component.InquiryButton
 import com.example.miso.ui.inquiry.component.InquiryContentText
 import com.example.miso.ui.inquiry.component.InquiryContentTitleText
