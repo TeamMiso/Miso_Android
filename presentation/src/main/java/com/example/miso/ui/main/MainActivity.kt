@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -19,6 +21,7 @@ import com.example.miso.ui.main.screen.MainScreen
 import com.example.miso.ui.main.screen.SearchScreen
 import com.example.miso.ui.sign_up.SignUpPage
 import com.example.miso.viewmodel.AuthViewModel
+import com.example.miso.viewmodel.InquiryViewModel
 import com.example.miso.viewmodel.UserViewModel
 import com.example.miso.viewmodel.util.Event
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,6 +39,9 @@ enum class MainPage(val value: String) {
 class MainActivity : BaseActivity() {
     private val authViewModel by viewModels<AuthViewModel>()
     private val userViewModel by viewModels<UserViewModel>()
+    private val inquiryViewModel by viewModels<InquiryViewModel>()
+
+    private lateinit var navController: NavController
 
     override fun init() {
         userViewModel.getRole()
@@ -47,13 +53,20 @@ class MainActivity : BaseActivity() {
             }
         }
         lifecycleScope.launch {
+            inquiryViewModel.requestInquiryResponse.collect {
+                if (it is Event.Success) {
+                    navController.navigate(MainPage.Main.value)
+                }
+            }
+        }
+        lifecycleScope.launch {
             userViewModel.getRoleResponse.collect { response ->
                 if (response is Event.Success) {
                     setContent {
-                        val navController = rememberNavController()
+                        navController = rememberNavController()
 
                         NavHost(
-                            navController = navController,
+                            navController = navController as NavHostController,
                             startDestination = "Main"
                         ) {
                             composable(MainPage.Main.name) {
@@ -74,7 +87,10 @@ class MainActivity : BaseActivity() {
                             composable(MainPage.Inquiry.name) {
                                 InquiryScreen(
                                     context = this@MainActivity,
-                                    navController = navController
+                                    navController = navController,
+                                    onInquiryClick = { filePart, inquiryPart ->
+                                        inquiryViewModel.requestInquiry(filePart = filePart, inquiryPart = inquiryPart)
+                                    }
                                 )
                             }
                             composable(MainPage.List.name) {

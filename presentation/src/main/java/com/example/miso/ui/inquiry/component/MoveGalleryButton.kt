@@ -33,6 +33,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.example.miso.R
 import com.example.miso.ui.theme.MisoTheme
 import coil.compose.rememberImagePainter
@@ -40,6 +41,7 @@ import coil.compose.rememberImagePainter
 @Composable
 fun MoveGalleryButton(
     modifier: Modifier = Modifier,
+    selectedImageUri: (uri: Uri) -> Unit
 ) {
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
 
@@ -47,6 +49,7 @@ fun MoveGalleryButton(
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
                 selectedImageUri = uri
+                selectedImageUri(uri)
             }
         }
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -92,7 +95,7 @@ fun MoveGalleryButton(
                 }
                 else {
                     Image(
-                        painter = rememberImagePainter(data = selectedImageUri),
+                        painter = rememberAsyncImagePainter(model = selectedImageUri),
                         contentDescription = null,
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop
@@ -106,5 +109,5 @@ fun MoveGalleryButton(
 @Composable
 @Preview(showBackground = true)
 fun MoveGalleryButtonPreView() {
-    MoveGalleryButton()
+    MoveGalleryButton(selectedImageUri = {})
 }
