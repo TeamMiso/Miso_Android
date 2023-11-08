@@ -89,6 +89,7 @@ dependencies {
     debugImplementation(Dependency.Test.COMPOSE_MANIFEST)
 
     implementation(Dependency.Google.ACCOMPANIST)
+    implementation(Dependency.Google.ACCOMPANIST_PERMISSION)
 
     implementation(Dependency.Image.COIL)
 

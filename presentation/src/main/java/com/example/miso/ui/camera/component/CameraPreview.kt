@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
 import androidx.camera.core.CameraSelector
+import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
@@ -20,9 +21,14 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
 
 @Composable
 fun CameraPreview(){
+    val context = LocalContext.current
+    val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+    val cameraController: LifecycleCameraController = remember { LifecycleCameraController(context) }
+
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding: PaddingValues ->
         AndroidView(
             modifier = Modifier
@@ -30,11 +36,17 @@ fun CameraPreview(){
                 .padding(innerPadding),
             factory = { context ->
                 PreviewView(context).apply {
-                    setBackgroundColor(Color.LightGray.toArgb())
+                    setBackgroundColor(Color.White.toArgb())
                     layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
                     scaleType = PreviewView.ScaleType.FILL_START
                     implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+                }.also { previewView ->
+                    previewView.controller = cameraController
+                    cameraController.bindToLifecycle(lifecycleOwner)
                 }
+            },
+            onRelease = {
+                cameraController.unbind()
             }
         )
     }
