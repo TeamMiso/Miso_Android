@@ -58,6 +58,7 @@ class SplashActivity : BaseActivity() {
 
                     else -> {
                         pageLogIn()
+                        authViewModel.logout()
                     }
                 }
             }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.navigation.NavController
 import com.example.miso.ui.component.button.MisoBackBlackButton
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,20 +14,65 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.domain.model.inquiry.response.InquiryListModel
 import com.example.miso.ui.list.component.list.InquiryList
 import com.example.miso.ui.list.component.list.ListTitleText
+import com.example.miso.viewmodel.InquiryViewModel
+import com.example.miso.viewmodel.util.Event
 
 @Composable
 fun ListScreen(
     context: Context,
+    viewModel: InquiryViewModel,
     navController: NavController,
-    role: String
+    role: String,
+    onBackClick: () -> Unit
 ) {
+    val progressState = remember {
+        mutableStateOf(false)
+    }
+
+    LaunchedEffect("Start") {
+        when (role) {
+            "ROLE_USER" -> viewModel.getInquiryList()
+            "ROLE_ADMIN" -> viewModel.getInquiryAllList()
+            else -> {}
+        }
+        Log.d("LaunchedEffect:Start", "작동")
+    }
+
+    LaunchedEffect("GetInquiryList") {
+        getInquiryList(
+            viewModel = viewModel,
+            progressState = { progressState.value = it },
+            onSuccess = { list ->
+                viewModel.addInquiryList(list)
+            }
+        )
+        Log.d("LaunchedEffect:List", "작동22")
+    }
+
+    LaunchedEffect("GetInquiryListAll") {
+        getInquiryListAll(
+            viewModel = viewModel,
+            progressState = { progressState.value = it },
+            onSuccess = { list ->
+                viewModel.addInquiryListAll(list)
+            }
+        )
+        Log.d("LaunchedEffect:List", "작동33")
+    }
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -36,7 +82,9 @@ fun ListScreen(
                 .padding(start = 16.dp, end = 16.dp, top = 48.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            MisoBackBlackButton { navController.popBackStack() }
+            MisoBackBlackButton {
+                onBackClick()
+            }
         }
         Row(
             modifier = Modifier
@@ -53,7 +101,58 @@ fun ListScreen(
                 .padding(start = 28.dp, end = 28.dp)
         ) {
             Spacer(modifier = Modifier.height(144.dp))
-            InquiryList(items = 4, navController = navController)
+            InquiryList(
+                inquiryList = if (role == "ROLE_USER") viewModel.inquiryList else viewModel.inquiryListAll,
+                progressState = progressState.value,
+                navController = navController
+            )
+        }
+    }
+}
+
+suspend fun getInquiryList(
+    viewModel: InquiryViewModel,
+    progressState: (Boolean) -> Unit,
+    onSuccess: (inquiryList: List<InquiryListModel>) -> Unit,
+) {
+    viewModel.getInquiryListResponse.collect { response ->
+        Log.d("LaunchedEffect:GetInquiryList", "작동")
+        when (response) {
+            is Event.Success -> {
+                progressState(false)
+                onSuccess(response.data!!.inquiryList)
+            }
+
+            is Event.Loading -> {
+                progressState(true)
+            }
+
+            else -> {
+                progressState(false)
+            }
+        }
+    }
+}
+
+suspend fun getInquiryListAll(
+    viewModel: InquiryViewModel,
+    progressState: (Boolean) -> Unit,
+    onSuccess: (inquiryList: List<InquiryListModel>) -> Unit
+) {
+    viewModel.getInquiryListAllResponse.collect { response ->
+        when (response) {
+            is Event.Success -> {
+                progressState(false)
+                onSuccess(response.data!!.inquiryList)
+            }
+
+            is Event.Loading -> {
+                progressState(true)
+            }
+
+            else -> {
+                progressState(false)
+            }
         }
     }
 }
@@ -61,5 +160,5 @@ fun ListScreen(
 @Composable
 @Preview(showBackground = true)
 fun ListScreenPreView() {
-    ListScreen(LocalContext.current, NavController(LocalContext.current), "ROLE_USER")
+    // ListScreen(LocalContext.current, NavController(LocalContext.current), "ROLE_USER")
 }
