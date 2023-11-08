@@ -4,7 +4,9 @@ import android.content.Intent
 import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -63,8 +65,9 @@ class MainActivity : BaseActivity() {
             userViewModel.getRoleResponse.collect { response ->
                 if (response is Event.Success) {
                     setContent {
+                        inquiryViewModel.clearInquiryList()
+                        inquiryViewModel.clearInquiryListAll()
                         navController = rememberNavController()
-
                         NavHost(
                             navController = navController as NavHostController,
                             startDestination = "Main"
@@ -96,8 +99,14 @@ class MainActivity : BaseActivity() {
                             composable(MainPage.List.name) {
                                 ListScreen(
                                     context = this@MainActivity,
+                                    viewModel = viewModel(LocalContext.current as MainActivity),
                                     navController = navController,
-                                    role = response.data ?: "ROLE_USER"
+                                    role = response.data ?: "",
+                                    onBackClick = {
+                                        navController.popBackStack()
+                                        inquiryViewModel.clearInquiryList()
+                                        inquiryViewModel.clearInquiryListAll()
+                                    }
                                 )
                             }
                             composable(MainPage.Detail.name + "/{index}", arguments = listOf(navArgument("index") { type = NavType.IntType })) { backStackEntry ->

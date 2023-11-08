@@ -1,5 +1,6 @@
 package com.example.data.repository
 
+import android.util.Log
 import com.example.data.remote.datasource.inquiry.InquiryDatasource
 import com.example.data.remote.dto.inquiry.response.toInquiryModel
 import com.example.domain.model.inquiry.response.InquiryListResponseModel
@@ -28,5 +29,6 @@ class InquiryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getInquiryListAll(): Flow<InquiryListResponseModel> {
-        return inquiryDatasource.getInquiryListAll().map { it.toInquiryModel() }    }
+        return inquiryDatasource.getInquiryListAll().map { it.toInquiryModel() }
+    }
 }

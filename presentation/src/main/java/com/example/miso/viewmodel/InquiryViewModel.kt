@@ -1,5 +1,6 @@
 package com.example.miso.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -86,6 +87,7 @@ class InquiryViewModel @Inject constructor(
     }
 
     fun addInquiryList(list: List<InquiryListModel>) {
+        Log.d("Add", inquiryList.toList().toString())
         inquiryList.addAll(list)
     }
 
