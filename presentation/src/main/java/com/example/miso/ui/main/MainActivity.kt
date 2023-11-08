@@ -65,8 +65,6 @@ class MainActivity : BaseActivity() {
             userViewModel.getRoleResponse.collect { response ->
                 if (response is Event.Success) {
                     setContent {
-                        inquiryViewModel.clearInquiryList()
-                        inquiryViewModel.clearInquiryListAll()
                         navController = rememberNavController()
                         NavHost(
                             navController = navController as NavHostController,
