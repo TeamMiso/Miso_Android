@@ -36,4 +36,12 @@ class InquiryRepositoryImpl @Inject constructor(
     override suspend fun getInquiryListDetail(id: Long): Flow<InquiryListDetailResponseModel> {
         return inquiryDatasource.getInquiryListDetail(id = id).map { it.toInquiryModel() }
     }
+
+    override suspend fun adopt(id: Long): Flow<Unit> {
+        return inquiryDatasource.adopt(id = id)
+    }
+
+    override suspend fun unadopt(id: Long): Flow<Unit> {
+        return inquiryDatasource.unadopt(id = id)
+    }
 }
