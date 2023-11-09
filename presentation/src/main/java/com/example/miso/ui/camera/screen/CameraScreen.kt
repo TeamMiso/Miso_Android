@@ -43,8 +43,8 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 
 @Composable
-fun CameraScreen(context: Context, navController: NavController,){
-    ExampleCameraScreen()
+fun CameraScreen(context: Context, navController: NavController){
+    ExampleCameraScreen(navController)
     Box(){
         //CameraPreview()
         CameraBackground()
@@ -56,7 +56,7 @@ fun CameraScreen(context: Context, navController: NavController,){
             Spacer(modifier = Modifier.fillMaxHeight(0.05f))
             Row(modifier = Modifier.fillMaxWidth()) {
                 Spacer(modifier = Modifier.fillMaxWidth(0.03f))
-                CameraBackBtn(onClick = { /*TODO*/ }, context = context)
+                CameraBackBtn{ navController.popBackStack() }
                 Spacer(modifier = Modifier.fillMaxWidth(0.35f))
                 CameraFlashBtn(
                     onClick = {},
@@ -69,11 +69,11 @@ fun CameraScreen(context: Context, navController: NavController,){
     }
     //checkPermission(context = context,navController = navController)
 }
-@OptIn(ExperimentalPermissionsApi::class)
+/*@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun checkPermission(context: Context,navController: NavController){
 
-    /*val showPermissionDialog = remember { mutableStateOf(false) }
+    val showPermissionDialog = remember { mutableStateOf(false) }
 
     val permissionList = listOf(
         Manifest.permission.CAMERA,
@@ -84,11 +84,11 @@ fun checkPermission(context: Context,navController: NavController){
     HandlePermissionActions(
         permissionState = permissionState,
         showPermissionDialog = showPermissionDialog
-    )*/
-}
+    )
+}*/
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun ExampleCameraScreen() {
+fun ExampleCameraScreen(navController: NavController) {
 
     val cameraPermissionState: PermissionState = rememberPermissionState(android.Manifest.permission.CAMERA)
 
@@ -99,10 +99,9 @@ fun ExampleCameraScreen() {
     }
 
     if (cameraPermissionState.status.isGranted) {
-        // Permission is granted, we can show the camera preview
         CameraPreview()
     } else {
-
+        navController.popBackStack()
     }
 }
 

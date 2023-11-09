@@ -3,6 +3,8 @@ package com.example.miso.ui.camera.component
 import android.content.Context
 import android.opengl.Visibility
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.IconButton
@@ -48,13 +50,18 @@ fun CameraFlashBtn(onClick: () -> Unit, context: Context){
     }
 }
 @Composable
-fun CameraBackBtn(onClick: () -> Unit, context: Context){
+fun CameraBackBtn(onClick: () -> Unit){
     IconButton(
         onClick = { /*TODO*/ }
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_camera_backbutton),
-            contentDescription = "Flash Off Btn",
+            contentDescription = "backBtn",
+            modifier = Modifier
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
+                ) { onClick() },
         )
     }
 }
@@ -65,6 +72,6 @@ fun CameraBtnPreView() {
     Column(modifier = Modifier.fillMaxSize()){
         CameraCaptureBtn(onClick = {}, context = LocalContext.current)
         CameraFlashBtn(onClick = { /*TODO*/ }, context = LocalContext.current)
-        CameraBackBtn(onClick = { /*TODO*/ }, context = LocalContext.current)
+        CameraBackBtn(onClick = { /*TODO*/ })
     }
 }
