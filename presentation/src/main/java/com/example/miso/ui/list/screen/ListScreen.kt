@@ -34,9 +34,9 @@ import com.example.miso.viewmodel.util.Event
 fun ListScreen(
     context: Context,
     viewModel: InquiryViewModel,
-    navController: NavController,
     role: String,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onItemClick: (id: Long) -> Unit
 ) {
     val progressState = remember {
         mutableStateOf(false)
@@ -104,8 +104,9 @@ fun ListScreen(
             InquiryList(
                 inquiryList = if (role == "ROLE_USER") viewModel.inquiryList else viewModel.inquiryListAll,
                 progressState = progressState.value,
-                navController = navController
-            )
+            ) {
+                onItemClick(it)
+            }
         }
     }
 }
