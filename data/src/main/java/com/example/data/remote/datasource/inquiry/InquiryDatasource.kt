@@ -16,4 +16,8 @@ interface InquiryDatasource {
 
     suspend fun getInquiryListDetail(id: Long): Flow<InquiryListDetailResponse>
 
+    suspend fun adopt(id: Long): Flow<Unit>
+
+    suspend fun unadopt(id: Long): Flow<Unit>
+
 }
