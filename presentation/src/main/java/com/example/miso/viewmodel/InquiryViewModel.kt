@@ -6,9 +6,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.inquiry.request.InquiryRequestModel
+import com.example.domain.model.inquiry.response.InquiryListDetailResponseModel
 import com.example.domain.model.inquiry.response.InquiryListModel
 import com.example.domain.model.inquiry.response.InquiryListResponseModel
 import com.example.domain.usecase.inquiry.GetInquiryListAllUseCase
+import com.example.domain.usecase.inquiry.GetInquiryListDetailUseCase
 import com.example.domain.usecase.inquiry.GetInquiryListUseCase
 import com.example.domain.usecase.inquiry.RequestInquiryUseCase
 import com.example.miso.viewmodel.util.Event
@@ -26,7 +28,8 @@ import javax.inject.Inject
 class InquiryViewModel @Inject constructor(
     private val requestInquiryUseCase: RequestInquiryUseCase,
     private val getInquiryListUseCase: GetInquiryListUseCase,
-    private val getInquiryListAllUseCase: GetInquiryListAllUseCase
+    private val getInquiryListAllUseCase: GetInquiryListAllUseCase,
+    private val getInquiryListDetailUseCase: GetInquiryListDetailUseCase
 ) : ViewModel() {
 
     private val _requestInquiryResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
@@ -38,10 +41,24 @@ class InquiryViewModel @Inject constructor(
     private val _getInquiryListAllResponse = MutableStateFlow<Event<InquiryListResponseModel>>(Event.Loading)
     val getInquiryListAllResponse = _getInquiryListAllResponse.asStateFlow()
 
+    private val _getInquiryListDetailResponse = MutableStateFlow<Event<InquiryListDetailResponseModel>>(Event.Loading)
+    val getInquiryListDetailResponse = _getInquiryListDetailResponse.asStateFlow()
+
     var inquiryList = mutableStateListOf<InquiryListModel>()
         private set
 
     var inquiryListAll = mutableStateListOf<InquiryListModel>()
+        private set
+
+    var id = mutableStateOf(0L)
+        private set
+    var title = mutableStateOf("")
+        private set
+    var content = mutableStateOf("")
+        private set
+    var imageUrl = mutableStateOf<String?>(null)
+        private set
+    var inquiryStatus = mutableStateOf("")
         private set
 
     fun requestInquiry(filePart: MultipartBody.Part?, inquiryPart: RequestBody) =
@@ -86,13 +103,34 @@ class InquiryViewModel @Inject constructor(
             }
     }
 
+    fun getInquiryListDetail(id: Long) = viewModelScope.launch {
+        getInquiryListDetailUseCase(id = id)
+            .onSuccess {
+                it.catch { remoteError ->
+                    _getInquiryListDetailResponse.value = remoteError.errorHandling()
+                }.collect { response ->
+                    _getInquiryListDetailResponse.value = Event.Success(data = response)
+                }
+            }.onFailure {
+                _getInquiryListDetailResponse.value = it.errorHandling()
+            }
+    }
+
     fun addInquiryList(list: List<InquiryListModel>) {
-        Log.d("Add", inquiryList.toList().toString())
         inquiryList.addAll(list)
+        Log.d("Add", inquiryList.toList().toString())
     }
 
     fun addInquiryListAll(list: List<InquiryListModel>) {
         inquiryListAll.addAll(list)
+    }
+
+    fun addInquiryListDetail(data: InquiryListDetailResponseModel) {
+        id.value = data.id
+        title.value = data.title
+        content.value = data.content
+        imageUrl.value = data.imageUrl
+        inquiryStatus.value = data.inquiryStatus
     }
 
     fun clearInquiryList() {

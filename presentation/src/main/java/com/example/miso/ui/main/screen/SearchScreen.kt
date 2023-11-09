@@ -39,7 +39,7 @@ import com.example.miso.ui.main.component.search.SearchTextField
 @Composable
 fun SearchScreen(
     context: Context,
-    navController: NavController
+    onBackClick: () -> Unit
 ) {
     var isClick by remember { mutableStateOf(false) }
     val isKeyboardOpen by keyboardAsState()
@@ -77,7 +77,7 @@ fun SearchScreen(
                 .padding(start = 16.dp, end = 16.dp, top = 48.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            MisoBackBlackButton { navController.popBackStack() }
+            MisoBackBlackButton { onBackClick() }
             Spacer(modifier = Modifier.width(20.dp))
             SearchTextField(
                 setChangeText = search,
@@ -108,5 +108,5 @@ fun SearchScreen(
 @Composable
 @Preview(showBackground = true)
 fun SearchScreenPreView() {
-    SearchScreen(LocalContext.current, navController = NavController(LocalContext.current))
+    SearchScreen(LocalContext.current, {})
 }

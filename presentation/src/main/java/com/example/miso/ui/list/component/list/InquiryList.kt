@@ -29,7 +29,7 @@ import com.example.miso.ui.util.toDateString
 fun InquiryList(
     inquiryList: List<InquiryListModel>,
     progressState: Boolean,
-    navController: NavController
+    onClick: (id: Long) -> Unit
 ) {
     MisoTheme { colors, _ ->
         LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -48,7 +48,7 @@ fun InquiryList(
                         else -> ""
                     }
                 ) {
-                    navController.navigate(MainPage.Detail.name + "/$index")
+                    onClick(inquiryList[index].id)
                 }
                 Divider(
                     modifier = Modifier

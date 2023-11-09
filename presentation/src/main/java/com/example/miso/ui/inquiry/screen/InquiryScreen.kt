@@ -47,7 +47,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 @Composable
 fun InquiryScreen(
     context: Context,
-    navController: NavController,
+    onBackClick: () -> Unit,
     onInquiryClick: (filePart: MultipartBody.Part?, inquiryPart: RequestBody) -> Unit
 ) {
     val isKeyboardOpen by keyboardAsState()
@@ -93,7 +93,7 @@ fun InquiryScreen(
                 .padding(start = 16.dp, end = 16.dp, top = 48.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            MisoBackBlackButton { navController.popBackStack() }
+            MisoBackBlackButton { onBackClick() }
         }
         Row(
             modifier = Modifier

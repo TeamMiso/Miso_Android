@@ -62,6 +62,14 @@ class MainActivity : BaseActivity() {
             }
         }
         lifecycleScope.launch {
+            inquiryViewModel.getInquiryListDetailResponse.collect {
+                if (it is Event.Success) {
+                    inquiryViewModel.addInquiryListDetail(it.data!!)
+                    navController.navigate(MainPage.Detail.value)
+                }
+            }
+        }
+        lifecycleScope.launch {
             userViewModel.getRoleResponse.collect { response ->
                 if (response is Event.Success) {
                     setContent {
@@ -82,15 +90,18 @@ class MainActivity : BaseActivity() {
                             composable(MainPage.Search.name) {
                                 SearchScreen(
                                     context = this@MainActivity,
-                                    navController = navController
+                                    onBackClick = { navController.popBackStack() }
                                 )
                             }
                             composable(MainPage.Inquiry.name) {
                                 InquiryScreen(
                                     context = this@MainActivity,
-                                    navController = navController,
+                                    onBackClick = { navController.popBackStack() },
                                     onInquiryClick = { filePart, inquiryPart ->
-                                        inquiryViewModel.requestInquiry(filePart = filePart, inquiryPart = inquiryPart)
+                                        inquiryViewModel.requestInquiry(
+                                            filePart = filePart,
+                                            inquiryPart = inquiryPart
+                                        )
                                     }
                                 )
                             }
@@ -98,23 +109,24 @@ class MainActivity : BaseActivity() {
                                 ListScreen(
                                     context = this@MainActivity,
                                     viewModel = viewModel(LocalContext.current as MainActivity),
-                                    navController = navController,
                                     role = response.data ?: "",
                                     onBackClick = {
                                         navController.popBackStack()
                                         inquiryViewModel.clearInquiryList()
                                         inquiryViewModel.clearInquiryListAll()
+                                    },
+                                    onItemClick = { id ->
+                                        inquiryViewModel.getInquiryListDetail(id)
                                     }
                                 )
                             }
-                            composable(MainPage.Detail.name + "/{index}", arguments = listOf(navArgument("index") { type = NavType.IntType })) { backStackEntry ->
-                                backStackEntry.arguments?.getInt("index")?.let {
-                                    DetailScreen(
-                                        context = this@MainActivity,
-                                        index = it,
-                                        navController = navController
-                                    )
-                                }
+                            composable(MainPage.Detail.name) {
+                                DetailScreen(
+                                    context = this@MainActivity,
+                                    viewModel = viewModel(LocalContext.current as MainActivity),
+                                    role = response.data ?: "",
+                                    onBackClick = { navController.popBackStack() }
+                                )
                             }
                         }
                     }
@@ -122,6 +134,7 @@ class MainActivity : BaseActivity() {
             }
         }
     }
+
     private fun pageLogIn() {
         startActivity(
             Intent(
