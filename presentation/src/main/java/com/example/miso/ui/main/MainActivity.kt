@@ -70,6 +70,20 @@ class MainActivity : BaseActivity() {
             }
         }
         lifecycleScope.launch {
+            inquiryViewModel.adoptResponse.collect {
+                if (it is Event.Success) {
+                    navController.navigate(MainPage.Main.value)
+                }
+            }
+        }
+        lifecycleScope.launch {
+            inquiryViewModel.unadoptResponse.collect {
+                if (it is Event.Success) {
+                    navController.navigate(MainPage.Main.value)
+                }
+            }
+        }
+        lifecycleScope.launch {
             userViewModel.getRoleResponse.collect { response ->
                 if (response is Event.Success) {
                     setContent {

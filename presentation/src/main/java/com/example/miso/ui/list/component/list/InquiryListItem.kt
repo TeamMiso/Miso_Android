@@ -42,7 +42,15 @@ fun InquiryListItem(
                 Row(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(start = 12.dp, end = 24.dp),
+                        .padding(
+                            start = 12.dp,
+                            end = when(state) {
+                                "-" -> 24.dp
+                                "채택" -> 18.dp
+                                "비채택" -> 14.dp
+                                else -> 24.dp
+                            }
+                        ),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
