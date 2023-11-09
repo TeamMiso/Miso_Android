@@ -15,4 +15,8 @@ interface InquiryRepository {
     suspend fun getInquiryListAll(): Flow<InquiryListResponseModel>
 
     suspend fun getInquiryListDetail(id: Long): Flow<InquiryListDetailResponseModel>
+
+    suspend fun adopt(id: Long): Flow<Unit>
+
+    suspend fun unadopt(id: Long): Flow<Unit>
 }

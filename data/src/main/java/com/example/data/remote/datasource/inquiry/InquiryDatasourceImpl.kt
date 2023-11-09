@@ -52,4 +52,20 @@ class InquiryDatasourceImpl @Inject constructor(
                 .sendRequest()
         )
     }.flowOn(Dispatchers.IO)
+
+    override suspend fun adopt(id: Long): Flow<Unit> = flow {
+        emit(
+            MisoApiHandler<Unit>()
+                .httpRequest { api.adopt(id = id) }
+                .sendRequest()
+        )
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun unadopt(id: Long): Flow<Unit> = flow {
+        emit(
+            MisoApiHandler<Unit>()
+                .httpRequest { api.unadopt(id = id) }
+                .sendRequest()
+        )
+    }.flowOn(Dispatchers.IO)
 }

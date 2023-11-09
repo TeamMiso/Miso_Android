@@ -9,10 +9,12 @@ import com.example.domain.model.inquiry.request.InquiryRequestModel
 import com.example.domain.model.inquiry.response.InquiryListDetailResponseModel
 import com.example.domain.model.inquiry.response.InquiryListModel
 import com.example.domain.model.inquiry.response.InquiryListResponseModel
+import com.example.domain.usecase.inquiry.AdoptUseCase
 import com.example.domain.usecase.inquiry.GetInquiryListAllUseCase
 import com.example.domain.usecase.inquiry.GetInquiryListDetailUseCase
 import com.example.domain.usecase.inquiry.GetInquiryListUseCase
 import com.example.domain.usecase.inquiry.RequestInquiryUseCase
+import com.example.domain.usecase.inquiry.UnadoptUseCase
 import com.example.miso.viewmodel.util.Event
 import com.example.miso.viewmodel.util.errorHandling
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,7 +31,9 @@ class InquiryViewModel @Inject constructor(
     private val requestInquiryUseCase: RequestInquiryUseCase,
     private val getInquiryListUseCase: GetInquiryListUseCase,
     private val getInquiryListAllUseCase: GetInquiryListAllUseCase,
-    private val getInquiryListDetailUseCase: GetInquiryListDetailUseCase
+    private val getInquiryListDetailUseCase: GetInquiryListDetailUseCase,
+    private val adoptUseCase: AdoptUseCase,
+    private val unadoptUseCase: UnadoptUseCase
 ) : ViewModel() {
 
     private val _requestInquiryResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
@@ -43,6 +47,12 @@ class InquiryViewModel @Inject constructor(
 
     private val _getInquiryListDetailResponse = MutableStateFlow<Event<InquiryListDetailResponseModel>>(Event.Loading)
     val getInquiryListDetailResponse = _getInquiryListDetailResponse.asStateFlow()
+
+    private val _adoptResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
+    val adoptResponse = _adoptResponse.asStateFlow()
+
+    private val _unadoptResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
+    val unadoptResponse = _unadoptResponse.asStateFlow()
 
     var inquiryList = mutableStateListOf<InquiryListModel>()
         private set
@@ -113,6 +123,32 @@ class InquiryViewModel @Inject constructor(
                 }
             }.onFailure {
                 _getInquiryListDetailResponse.value = it.errorHandling()
+            }
+    }
+
+    fun adopt(id: Long) = viewModelScope.launch {
+        adoptUseCase(id = id)
+            .onSuccess {
+                it.catch { remoteError ->
+                    _adoptResponse.value = remoteError.errorHandling()
+                }.collect { response ->
+                    _adoptResponse.value = Event.Success(data = response)
+                }
+            }.onFailure {
+                _adoptResponse.value = it.errorHandling()
+            }
+    }
+
+    fun unadopt(id: Long) = viewModelScope.launch {
+        unadoptUseCase(id = id)
+            .onSuccess {
+                it.catch { remoteError ->
+                    _unadoptResponse.value = remoteError.errorHandling()
+                }.collect { response ->
+                    _unadoptResponse.value = Event.Success(data = response)
+                }
+            }.onFailure {
+                _unadoptResponse.value = it.errorHandling()
             }
     }
 

@@ -120,11 +120,11 @@ fun DetailScreen(
                 "ROLE_ADMIN" -> {
                     Row {
                         SelectButton(modifier = Modifier.weight(1f)) {
-
+                            viewModel.adopt(viewModel.id.value)
                         }
                         Spacer(modifier = Modifier.width(13.dp))
                         UnselectButton(modifier = Modifier.weight(1f)) {
-
+                            viewModel.unadopt(viewModel.id.value)
                         }
                     }
                 }
