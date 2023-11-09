@@ -1,6 +1,7 @@
 package com.example.domain.repository
 
 import com.example.domain.model.inquiry.request.InquiryRequestModel
+import com.example.domain.model.inquiry.response.InquiryListDetailResponseModel
 import com.example.domain.model.inquiry.response.InquiryListResponseModel
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
@@ -12,4 +13,6 @@ interface InquiryRepository {
     suspend fun getInquiryList(): Flow<InquiryListResponseModel>
 
     suspend fun getInquiryListAll(): Flow<InquiryListResponseModel>
+
+    suspend fun getInquiryListDetail(id: Long): Flow<InquiryListDetailResponseModel>
 }

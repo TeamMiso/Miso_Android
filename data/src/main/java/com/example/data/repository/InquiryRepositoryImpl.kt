@@ -3,6 +3,7 @@ package com.example.data.repository
 import android.util.Log
 import com.example.data.remote.datasource.inquiry.InquiryDatasource
 import com.example.data.remote.dto.inquiry.response.toInquiryModel
+import com.example.domain.model.inquiry.response.InquiryListDetailResponseModel
 import com.example.domain.model.inquiry.response.InquiryListResponseModel
 import com.example.domain.repository.InquiryRepository
 import kotlinx.coroutines.flow.Flow
@@ -30,5 +31,9 @@ class InquiryRepositoryImpl @Inject constructor(
 
     override suspend fun getInquiryListAll(): Flow<InquiryListResponseModel> {
         return inquiryDatasource.getInquiryListAll().map { it.toInquiryModel() }
+    }
+
+    override suspend fun getInquiryListDetail(id: Long): Flow<InquiryListDetailResponseModel> {
+        return inquiryDatasource.getInquiryListDetail(id = id).map { it.toInquiryModel() }
     }
 }
