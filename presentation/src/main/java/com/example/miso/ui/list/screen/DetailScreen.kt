@@ -48,8 +48,8 @@ import com.example.miso.viewmodel.InquiryViewModel
 fun DetailScreen(
     context: Context,
     viewModel: InquiryViewModel,
-    navController: NavController,
-    role: String
+    role: String,
+    onBackClick: () -> Unit
 ) {
     var isManager by remember { mutableStateOf(true) }
 
@@ -65,7 +65,7 @@ fun DetailScreen(
                 .padding(start = 16.dp, end = 16.dp, top = 48.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            MisoBackBlackButton { navController.popBackStack() }
+            MisoBackBlackButton { onBackClick() }
         }
         Row(
             modifier = Modifier
