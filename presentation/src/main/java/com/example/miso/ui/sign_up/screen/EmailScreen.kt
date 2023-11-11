@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.domain.model.email.request.EmailRequestModel
-import com.example.miso.ui.component.util.keyboardAsState
+import com.example.miso.ui.util.keyboardAsState
 import com.example.miso.ui.sign_up.component.sign_up.EmailTextField
 import com.example.miso.ui.sign_up.component.sign_up.MoveLogInText
 import com.example.miso.ui.sign_up.component.sign_up.PasswordTextField

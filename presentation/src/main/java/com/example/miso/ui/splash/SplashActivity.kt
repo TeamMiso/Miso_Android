@@ -47,10 +47,18 @@ class SplashActivity : BaseActivity() {
         }
         lifecycleScope.launch {
             userViewModel.getUserInfoResponse.collect {
-                if (it is Event.Success) {
-                    userViewModel.saveUserInfo(it.data!!)
-                } else if (it is Event.Unauthorized) {
-                    pageLogIn()
+                when (it) {
+                    is Event.Success -> {
+                        userViewModel.saveUserInfo(it.data!!)
+                    }
+
+                    is Event.Loading -> {
+
+                    }
+
+                    else -> {
+                        pageLogIn()
+                    }
                 }
             }
         }

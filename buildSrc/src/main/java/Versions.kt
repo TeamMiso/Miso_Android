@@ -56,4 +56,6 @@ object Versions {
 
     const val PREFERENCES = "1.0.0"
 
+    const val GSON = "2.9.0"
+
 }

@@ -8,9 +8,8 @@ import com.example.miso.ui.component.button.MisoBackBlackButton
 import com.example.miso.ui.inquiry.component.InquiryButton
 import com.example.miso.ui.inquiry.component.InquiryTitleText
 import android.content.Context
-import androidx.compose.foundation.clickable
+import android.net.Uri
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,21 +30,25 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.miso.ui.component.util.keyboardAsState
+import com.example.domain.model.inquiry.request.InquiryRequestModel
+import com.example.miso.ui.util.keyboardAsState
 import com.example.miso.ui.inquiry.component.InquiryContentText
 import com.example.miso.ui.inquiry.component.InquiryContentTitleText
 import com.example.miso.ui.inquiry.component.InquiryImageText
 import com.example.miso.ui.inquiry.component.InquiryTextField
 import com.example.miso.ui.inquiry.component.MoveGalleryButton
-import com.example.miso.ui.sign_up.component.sign_up.EmailTextField
-import com.example.miso.ui.sign_up.component.sign_up.PasswordTextField
-import com.example.miso.ui.sign_up.component.sign_up.RePasswordTextField
-import com.example.miso.ui.sign_up.component.SignUpTitleText
+import com.example.miso.ui.util.toMultipartBody
+import com.google.gson.Gson
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 @Composable
 fun InquiryScreen(
     context: Context,
-    navController: NavController
+    onBackClick: () -> Unit,
+    onInquiryClick: (filePart: MultipartBody.Part?, inquiryPart: RequestBody) -> Unit
 ) {
     val isKeyboardOpen by keyboardAsState()
     var isManager by remember { mutableStateOf(false) }
@@ -60,6 +63,20 @@ fun InquiryScreen(
 
     var title by remember { mutableStateOf("") }
     var content by remember { mutableStateOf("") }
+    var imageUri by remember { mutableStateOf(Uri.EMPTY) }
+
+    val filePart = if (imageUri != Uri.EMPTY) {
+        imageUri.toMultipartBody(context)
+    } else null
+
+    val inquiryData = InquiryRequestModel(
+        title = title,
+        content = content
+    )
+
+    val inquiryJson = Gson().toJson(inquiryData)
+
+    val inquiryRequestBody = inquiryJson.toRequestBody("application/json".toMediaType())
 
     Box(
         modifier = Modifier
@@ -76,7 +93,7 @@ fun InquiryScreen(
                 .padding(start = 16.dp, end = 16.dp, top = 48.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            MisoBackBlackButton { navController.popBackStack() }
+            MisoBackBlackButton { onBackClick() }
         }
         Row(
             modifier = Modifier
@@ -119,10 +136,17 @@ fun InquiryScreen(
             Spacer(modifier = Modifier.fillMaxHeight(0.06f))
             InquiryImageText()
             Spacer(modifier = Modifier.height(8.dp))
-            MoveGalleryButton(modifier = Modifier.weight(1f))
+            MoveGalleryButton(
+                modifier = Modifier.weight(1f),
+                selectedImageUri = { uri ->
+                    if (uri != null) {
+                        imageUri = uri
+                    }
+                }
+            )
             Spacer(modifier = Modifier.height(50.dp))
             InquiryButton {
-
+                onInquiryClick(filePart, inquiryRequestBody)
             }
             Spacer(modifier = Modifier.height(55.dp))
         }
@@ -132,5 +156,5 @@ fun InquiryScreen(
 @Composable
 @Preview(showBackground = true)
 fun InquiryScreenPreView() {
-    InquiryScreen(LocalContext.current, NavController(LocalContext.current))
+    // InquiryScreen(LocalContext.current, NavController(LocalContext.current), {})
 }

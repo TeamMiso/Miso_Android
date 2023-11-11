@@ -26,9 +26,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.navigation.NavController
 import com.example.miso.ui.component.button.MisoBackBlackButton
-import com.example.miso.ui.component.util.keyboardAsState
+import com.example.miso.ui.util.keyboardAsState
 import com.example.miso.ui.inquiry.component.InquiryButton
 import com.example.miso.ui.inquiry.component.InquiryContentText
 import com.example.miso.ui.inquiry.component.InquiryContentTitleText
@@ -41,17 +42,19 @@ import com.example.miso.ui.list.component.detail.DetailImageText
 import com.example.miso.ui.list.component.detail.DetailTitleText
 import com.example.miso.ui.list.component.detail.SelectButton
 import com.example.miso.ui.list.component.detail.UnselectButton
+import com.example.miso.viewmodel.InquiryViewModel
 
 @Composable
 fun DetailScreen(
     context: Context,
-    index: Int,
-    navController: NavController
+    viewModel: InquiryViewModel,
+    role: String,
+    onBackClick: () -> Unit
 ) {
     var isManager by remember { mutableStateOf(true) }
 
-    var title by remember { mutableStateOf("$index") }
-    var content by remember { mutableStateOf("문의 내용") }
+    var title by remember { mutableStateOf(viewModel.title.value) }
+    var content by remember { mutableStateOf(viewModel.content.value) }
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -62,7 +65,7 @@ fun DetailScreen(
                 .padding(start = 16.dp, end = 16.dp, top = 48.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            MisoBackBlackButton { navController.popBackStack() }
+            MisoBackBlackButton { onBackClick() }
         }
         Row(
             modifier = Modifier
@@ -109,17 +112,23 @@ fun DetailScreen(
             Spacer(modifier = Modifier.height(8.dp))
             DetailImage(
                 modifier = Modifier.weight(1f),
-                selectedImageUri = null
+                selectedImageUri = viewModel.imageUrl.value?.toUri()
             )
             Spacer(modifier = Modifier.height(50.dp))
-            Row {
-                SelectButton(modifier = Modifier.weight(1f)) {
-                    
+            when (role) {
+                "ROLE_USER" -> {}
+                "ROLE_ADMIN" -> {
+                    Row {
+                        SelectButton(modifier = Modifier.weight(1f)) {
+                            viewModel.adopt(viewModel.id.value)
+                        }
+                        Spacer(modifier = Modifier.width(13.dp))
+                        UnselectButton(modifier = Modifier.weight(1f)) {
+                            viewModel.unadopt(viewModel.id.value)
+                        }
+                    }
                 }
-                Spacer(modifier = Modifier.width(13.dp))
-                UnselectButton(modifier = Modifier.weight(1f)) {
-                    
-                }
+                else -> {}
             }
             Spacer(modifier = Modifier.height(55.dp))
         }
@@ -129,5 +138,5 @@ fun DetailScreen(
 @Composable
 @Preview(showBackground = true)
 fun DetailScreenPreView() {
-    DetailScreen(LocalContext.current, 0,NavController(LocalContext.current))
+    //DetailScreen(LocalContext.current, ,NavController(LocalContext.current))
 }
