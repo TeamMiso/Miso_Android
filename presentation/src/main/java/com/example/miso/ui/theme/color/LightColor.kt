@@ -15,6 +15,7 @@ object LightColor : ColorTheme() {
     override val GRAY5 = Color(0xFF808080)
     override val GRAY6 = Color(0xFF50555C)
     override val GRAY7 = Color(0xFFD9D9D9)
+    override val GRAY8 = Color(0xFFBEBEBE)
 
     override val BLUE1 = Color(0xFF4C53FF)
     override val BLUE2 = Color(0xFF3298FF)
