@@ -66,7 +66,7 @@ fun CameraScreen(context: Context, navController: NavController,cameraM: CameraM
                 )
             }
             Spacer(modifier = Modifier.fillMaxHeight(0.87f))
-            CameraCaptureBtn(onClick = {})
+            //CameraCaptureBtn(onClick = {})
         }
     }
 }
