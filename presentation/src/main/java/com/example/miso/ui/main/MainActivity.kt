@@ -1,10 +1,14 @@
 package com.example.miso.ui.main
 
 import android.content.Intent
+import android.hardware.camera2.CameraManager
 import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -22,6 +26,7 @@ import com.example.miso.ui.main.screen.MainScreen
 import com.example.miso.ui.main.screen.SearchScreen
 import com.example.miso.ui.sign_up.SignUpPage
 import com.example.miso.viewmodel.AuthViewModel
+import com.example.miso.viewmodel.CameraViewModel
 import com.example.miso.viewmodel.UserViewModel
 import com.example.miso.viewmodel.util.Event
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,6 +45,7 @@ enum class MainPage(val value: String) {
 class MainActivity : BaseActivity() {
     private val authViewModel by viewModels<AuthViewModel>()
     private val userViewModel by viewModels<UserViewModel>()
+    private val cameraViewModel by viewModels<CameraViewModel>()
 
     override fun init() {
         userViewModel.getRole()
@@ -73,7 +79,8 @@ class MainActivity : BaseActivity() {
                             composable(MainPage.Camera.name){
                                 CameraScreen(
                                     context = this@MainActivity,
-                                    navController = navController
+                                    navController = navController,
+                                    viewModel = viewModel(LocalContext.current as MainActivity),
                                 )
                             }
                             composable(MainPage.Search.name) {

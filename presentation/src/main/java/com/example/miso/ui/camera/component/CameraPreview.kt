@@ -1,5 +1,6 @@
 package com.example.miso.ui.camera.component
 
+import android.graphics.Bitmap
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
 import androidx.camera.core.ImageCapture
@@ -22,9 +23,11 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import com.example.miso.ui.camera.util.capturePhoto
 
 @Composable
 fun CameraPreview(
+    onPhotoCaptured: (Bitmap) -> Unit
     ) {
     val context = LocalContext.current
     val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
@@ -33,7 +36,7 @@ fun CameraPreview(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
-            CameraCaptureBtn{}
+            CameraCaptureBtn(onClick = { capturePhoto(context,cameraController, onPhotoCaptured) })
         },
         floatingActionButtonPosition = FabPosition.Center
     ) { innerPadding: PaddingValues ->

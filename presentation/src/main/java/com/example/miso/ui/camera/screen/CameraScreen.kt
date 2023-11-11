@@ -30,12 +30,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.miso.ui.camera.component.CameraBackBtn
 import com.example.miso.ui.camera.component.CameraBackground
 import com.example.miso.ui.camera.component.CameraCaptureBtn
 import com.example.miso.ui.camera.component.CameraFlashBtn
 import com.example.miso.ui.camera.component.CameraPreview
+import com.example.miso.viewmodel.CameraViewModel
 import com.example.miso.viewmodel.util.PermissionHanding
 import com.example.miso.viewmodel.util.PermissionHanding.HandlePermissionActions
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -46,8 +48,12 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 
 @Composable
-fun CameraScreen(context: Context, navController: NavController,cameraM: CameraManager){
-    CheckPermission(context = context, navController = navController)
+fun CameraScreen(
+    context: Context,
+    navController: NavController,
+    viewModel: CameraViewModel
+){
+    CheckPermission(context = context, navController = navController,viewModel = viewModel)
     Box(){
         CameraBackground()
         Column(
@@ -61,18 +67,20 @@ fun CameraScreen(context: Context, navController: NavController,cameraM: CameraM
                 CameraBackBtn{ navController.popBackStack() }
                 Spacer(modifier = Modifier.fillMaxWidth(0.35f))
                 CameraFlashBtn(
-                    onClick = { },
-                    cameraM
+                    onClick = { }
                 )
             }
             Spacer(modifier = Modifier.fillMaxHeight(0.87f))
-            //CameraCaptureBtn(onClick = {})
         }
     }
 }
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun CheckPermission(context: Context,navController: NavController){
+fun CheckPermission(
+    context: Context,
+    navController: NavController,
+    viewModel: CameraViewModel
+){
     val cameraPermissionState: PermissionState = rememberPermissionState(android.Manifest.permission.CAMERA)
 
     LaunchedEffect(key1 = Unit) {
@@ -82,19 +90,14 @@ fun CheckPermission(context: Context,navController: NavController){
     }
 
     if (cameraPermissionState.status.isGranted) {
-        LunchCameraScreen(navController = navController)
+        LunchCameraScreen(viewModel = viewModel)
     } else {
         navController.popBackStack()
     }
 }
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun LunchCameraScreen(navController: NavController) {
-    CameraPreview()
-}
-
-@Composable
-@Preview(showBackground = true)
-fun CameraBtnPreView() {
-    //CameraScreen(LocalContext.current, NavController(LocalContext.current))
+fun LunchCameraScreen(viewModel: CameraViewModel) {
+    CameraPreview(
+        onPhotoCaptured = viewModel::loadImgUrl
+    )
 }
