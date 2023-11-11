@@ -67,6 +67,7 @@ object Dependency {
         const val HILT_PLUGIN = "com.google.dagger.hilt.android"
 
         const val ACCOMPANIST = "com.google.accompanist:accompanist-systemuicontroller:${Versions.ACCOMPANIST}"
+        const val ACCOMPANIST_PERMISSION = "com.google.accompanist:accompanist-permissions:${Versions.ACCOMPANIST}"
     }
 
     object Navigation {
