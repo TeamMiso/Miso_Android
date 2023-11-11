@@ -44,10 +44,16 @@ fun SearchTextField(
     setChangeText: String,
     onFocusChange: (Boolean) -> Unit = {},
     onValueChange: (String) -> Unit,
+    onSearchTextChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var text by remember { mutableStateOf("") }
     text = setChangeText
+
+    LaunchedEffect(key1 = text) {
+        delay(300L)
+        onSearchTextChange(text)
+    }
 
     MisoTheme { colors, typography ->
         Row {
@@ -101,5 +107,5 @@ fun SearchTextField(
 @Composable
 @Preview(showBackground = true)
 fun SearchTextFieldPreView() {
-    SearchTextField("", {}, {})
+    SearchTextField("", {}, {}, {})
 }

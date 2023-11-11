@@ -4,6 +4,7 @@ import android.content.Intent
 import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -14,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.domain.model.recyclables.response.SearchResponseModel
 import com.example.miso.ui.base.BaseActivity
 import com.example.miso.ui.inquiry.screen.InquiryScreen
 import com.example.miso.ui.list.screen.DetailScreen
@@ -24,6 +26,7 @@ import com.example.miso.ui.main.screen.SearchScreen
 import com.example.miso.ui.sign_up.SignUpPage
 import com.example.miso.viewmodel.AuthViewModel
 import com.example.miso.viewmodel.InquiryViewModel
+import com.example.miso.viewmodel.RecyclablesViewModel
 import com.example.miso.viewmodel.UserViewModel
 import com.example.miso.viewmodel.util.Event
 import dagger.hilt.android.AndroidEntryPoint
@@ -104,7 +107,9 @@ class MainActivity : BaseActivity() {
                             composable(MainPage.Search.name) {
                                 SearchScreen(
                                     context = this@MainActivity,
-                                    onBackClick = { navController.popBackStack() }
+                                    viewModel = viewModel(LocalContext.current as MainActivity),
+                                    navController = navController,
+                                    onBackClick = { navController.popBackStack() },
                                 )
                             }
                             composable(MainPage.Inquiry.name) {
@@ -139,7 +144,7 @@ class MainActivity : BaseActivity() {
                                     context = this@MainActivity,
                                     viewModel = viewModel(LocalContext.current as MainActivity),
                                     role = response.data ?: "",
-                                    onBackClick = { navController.popBackStack() }
+                                    onBackClick = { navController.popBackStack() },
                                 )
                             }
                         }
