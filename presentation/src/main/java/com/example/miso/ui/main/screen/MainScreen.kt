@@ -31,6 +31,7 @@ import com.example.miso.ui.main.component.main.SearchButton
 @Composable
 fun MainScreen(
     context: Context,
+    onCameraClick: () -> Unit,
     onInquiryClick: () -> Unit,
     onListClick: () -> Unit,
     onSearchClick: () -> Unit,
@@ -77,7 +78,8 @@ fun MainScreen(
             Spacer(modifier = Modifier.fillMaxHeight(0.25f))
             MainContentPager(
                 onInquiryClick = { onInquiryClick() },
-                onListClick = { onListClick() }
+                onListClick = { onListClick() },
+                onCameraClick = { onCameraClick() }
             )
         }
     }
@@ -86,5 +88,5 @@ fun MainScreen(
 @Composable
 @Preview(showBackground = true)
 fun MainScreenPreView() {
-    MainScreen(LocalContext.current, {}, {}, onSearchClick = {}, {})
+    MainScreen(LocalContext.current,{}, {}, {}, onSearchClick = {}, {})
 }

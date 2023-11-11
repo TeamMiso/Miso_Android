@@ -60,7 +60,7 @@ dependencies {
     kapt(Dependency.Google.HILT_ANDROID_COMPILER)
 
     //CameraX
-    implementation(Dependency.AndroidX.CAMERA_CORE)
+    //implementation(Dependency.AndroidX.CAMERA_CORE)
     implementation(Dependency.AndroidX.CAMERA_CAMERA2)
     implementation(Dependency.AndroidX.CAMERA_LIFECYCLE)
     implementation(Dependency.AndroidX.CAMERA_VIEW)
@@ -89,6 +89,7 @@ dependencies {
     debugImplementation(Dependency.Test.COMPOSE_MANIFEST)
 
     implementation(Dependency.Google.ACCOMPANIST)
+    implementation(Dependency.Google.ACCOMPANIST_PERMISSION)
 
     implementation(Dependency.Image.COIL)
 

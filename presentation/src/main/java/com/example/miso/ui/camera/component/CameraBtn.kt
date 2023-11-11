@@ -1,8 +1,10 @@
 package com.example.miso.ui.camera.component
 
 import android.content.Context
-import android.opengl.Visibility
+import android.hardware.camera2.CameraManager
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.IconButton
@@ -18,43 +20,57 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.miso.R
 
 @Composable
-fun CameraCaptureBtn(onClick: () -> Unit, context: Context){
+fun CameraCaptureBtn(onClick: () -> Unit){
     IconButton(
         onClick = { /*TODO*/ }
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_camera_btn),
             contentDescription = "Camera Btn",
+            modifier = Modifier
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
+                ) { onClick() }
         )
     }
 }
 @Composable
-fun CameraFlashBtn(onClick: () -> Unit, context: Context){
+fun CameraFlashBtn(onClick: () -> Unit){
     var flashOn by remember { mutableStateOf(false) }
     IconButton(
-        onClick = { flashOn = !flashOn}
+        onClick = {
+            flashOn = !flashOn
+        },
     ) {
         if(!flashOn) {
             Image(
                 painter = painterResource(id = R.drawable.ic_camera_flash_off_btn),
                 contentDescription = "Flash Btn",
             )
+
         }else {
             Image(
                 painter = painterResource(id = R.drawable.ic_camera_flash_on_btn),
                 contentDescription = "Flash Btn",
             )
+
         }
     }
 }
 @Composable
-fun CameraBackBtn(onClick: () -> Unit, context: Context){
+fun CameraBackBtn(onClick: () -> Unit){
     IconButton(
         onClick = { /*TODO*/ }
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_camera_backbutton),
-            contentDescription = "Flash Off Btn",
+            contentDescription = "backBtn",
+            modifier = Modifier
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
+                ) { onClick() }
         )
     }
 }
@@ -63,8 +79,8 @@ fun CameraBackBtn(onClick: () -> Unit, context: Context){
 @Preview(showBackground = true)
 fun CameraBtnPreView() {
     Column(modifier = Modifier.fillMaxSize()){
-        CameraCaptureBtn(onClick = {}, context = LocalContext.current)
-        CameraFlashBtn(onClick = { /*TODO*/ }, context = LocalContext.current)
-        CameraBackBtn(onClick = { /*TODO*/ }, context = LocalContext.current)
+        CameraCaptureBtn(onClick = {})
+        CameraFlashBtn(onClick = { /*TODO*/ })
+        CameraBackBtn(onClick = { /*TODO*/ })
     }
 }

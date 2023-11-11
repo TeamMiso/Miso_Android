@@ -26,7 +26,7 @@ object Versions {
     const val PREFERENCE_KTX = "1.2.0"
     const val LIFECYCLE_KTX = "2.3.1"
     const val ROOM = "2.3.0"
-    const val CAMERA = "1.1.0"
+    const val CAMERA = "1.3.0-beta01"
 
     const val HILT = "2.45"
     const val MATERIAL = "1.9.0"
@@ -50,7 +50,7 @@ object Versions {
 
     const val COIL_VERSION = "2.4.0"
 
-    const val ACCOMPANIST = "0.31.0-alpha"
+    const val ACCOMPANIST = "0.31.2-alpha"
 
     const val NAVIGATION = "2.6.0"
 

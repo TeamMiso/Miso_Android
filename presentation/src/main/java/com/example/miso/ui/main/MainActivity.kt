@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.miso.ui.base.BaseActivity
+import com.example.miso.ui.camera.screen.CameraScreen
 import com.example.miso.ui.inquiry.screen.InquiryScreen
 import com.example.miso.ui.list.screen.DetailScreen
 import com.example.miso.ui.list.screen.ListScreen
@@ -23,6 +24,7 @@ import com.example.miso.ui.main.screen.MainScreen
 import com.example.miso.ui.main.screen.SearchScreen
 import com.example.miso.ui.sign_up.SignUpPage
 import com.example.miso.viewmodel.AuthViewModel
+import com.example.miso.viewmodel.CameraViewModel
 import com.example.miso.viewmodel.InquiryViewModel
 import com.example.miso.viewmodel.UserViewModel
 import com.example.miso.viewmodel.util.Event
@@ -31,6 +33,7 @@ import kotlinx.coroutines.launch
 
 enum class MainPage(val value: String) {
     Main("Main"),
+    Camera("Camera"),
     Search("Search"),
     Inquiry("Inquiry"),
     List("List"),
@@ -42,6 +45,7 @@ class MainActivity : BaseActivity() {
     private val authViewModel by viewModels<AuthViewModel>()
     private val userViewModel by viewModels<UserViewModel>()
     private val inquiryViewModel by viewModels<InquiryViewModel>()
+    private val cameraViewModel by viewModels<CameraViewModel>()
 
     private lateinit var navController: NavController
 
@@ -95,10 +99,18 @@ class MainActivity : BaseActivity() {
                             composable(MainPage.Main.name) {
                                 MainScreen(
                                     context = this@MainActivity,
+                                    onCameraClick = {navController.navigate(MainPage.Camera.value)},
                                     onInquiryClick = { navController.navigate(MainPage.Inquiry.value) },
                                     onListClick = { navController.navigate(MainPage.List.value) },
                                     onSearchClick = { navController.navigate(MainPage.Search.value) },
                                     onLogoutClick = { authViewModel.logout() }
+                                )
+                            }
+                            composable(MainPage.Camera.name){
+                                CameraScreen(
+                                    context = this@MainActivity,
+                                    navController = navController,
+                                    viewModel = viewModel(LocalContext.current as MainActivity)
                                 )
                             }
                             composable(MainPage.Search.name) {
