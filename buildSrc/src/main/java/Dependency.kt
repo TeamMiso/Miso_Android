@@ -68,6 +68,8 @@ object Dependency {
 
         const val ACCOMPANIST = "com.google.accompanist:accompanist-systemuicontroller:${Versions.ACCOMPANIST}"
         const val ACCOMPANIST_PERMISSION = "com.google.accompanist:accompanist-permissions:${Versions.ACCOMPANIST}"
+
+        const val GSON = "com.google.code.gson:gson:${Versions.GSON}"
     }
 
     object Navigation {
