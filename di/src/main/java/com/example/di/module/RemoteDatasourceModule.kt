@@ -6,6 +6,8 @@ import com.example.data.remote.datasource.email.EmailDatasource
 import com.example.data.remote.datasource.email.EmailDatasourceImpl
 import com.example.data.remote.datasource.inquiry.InquiryDatasource
 import com.example.data.remote.datasource.inquiry.InquiryDatasourceImpl
+import com.example.data.remote.datasource.recyclables.RecyclablesDatasource
+import com.example.data.remote.datasource.recyclables.RecyclablesDatasourceImpl
 import com.example.data.remote.datasource.user.UserDatasource
 import com.example.data.remote.datasource.user.UserDatasourceImpl
 import dagger.Binds
@@ -36,4 +38,9 @@ abstract class RemoteDatasourceModule {
     abstract fun provideInquiryDatasource(
         inquiryDatasourceImpl: InquiryDatasourceImpl
     ): InquiryDatasource
+
+    @Binds
+    abstract fun provideRecyclablesDatasource(
+        recyclablesDatasourceImpl: RecyclablesDatasourceImpl
+    ): RecyclablesDatasource
 }

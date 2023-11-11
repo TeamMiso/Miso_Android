@@ -11,6 +11,7 @@ import com.example.domain.usecase.auth.DeleteTokenUseCase
 import com.example.domain.usecase.auth.GetAccessTokenUseCase
 import com.example.domain.usecase.auth.LogoutUseCase
 import com.example.domain.usecase.auth.SaveTokenUseCase
+import com.example.domain.usecase.recyclables.DeleteAllSearchHistoryUseCase
 import com.example.domain.usecase.user.DeleteUserInfoUseCase
 import com.example.miso.viewmodel.util.Event
 import com.example.miso.viewmodel.util.errorHandling
@@ -29,7 +30,8 @@ class AuthViewModel @Inject constructor(
     private val getAccessTokenUseCase: GetAccessTokenUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val deleteTokenUseCase: DeleteTokenUseCase,
-    private val deleteUserInfoUseCase: DeleteUserInfoUseCase
+    private val deleteUserInfoUseCase: DeleteUserInfoUseCase,
+    private val deleteAllSearchHistoryUseCase: DeleteAllSearchHistoryUseCase
 ) : ViewModel() {
 
     private val _authSignUpResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
@@ -107,6 +109,7 @@ class AuthViewModel @Inject constructor(
                     _logoutResponse.value = Event.Success(data = response)
                     deleteTokenUseCase()
                     deleteUserInfoUseCase()
+                    deleteAllSearchHistoryUseCase()
                 }
             }.onFailure {
                 _logoutResponse.value = it.errorHandling()
