@@ -14,6 +14,7 @@ abstract class ColorTheme {
     abstract val GRAY5: Color
     abstract val GRAY6: Color
     abstract val GRAY7: Color
+    abstract val GRAY8: Color
 
     abstract val BLUE1: Color
     abstract val BLUE2: Color
