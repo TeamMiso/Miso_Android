@@ -3,15 +3,12 @@ package com.example.miso.ui.camera.component
 import android.graphics.Bitmap
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageProxy
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.FabPosition
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -21,13 +18,13 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.example.miso.ui.camera.util.capturePhoto
 
 @Composable
 fun CameraPreview(
-    onPhotoCaptured: (Bitmap) -> Unit
+    onPhotoCapturedData: (Bitmap) -> Unit,
+    onPhotoCaptured: (Boolean) -> Unit
     ) {
     val context = LocalContext.current
     val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
@@ -36,7 +33,7 @@ fun CameraPreview(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
-            CameraCaptureBtn(onClick = { capturePhoto(context,cameraController, onPhotoCaptured) })
+            CameraCaptureBtn(onClick = { capturePhoto(context,cameraController, onPhotoCapturedData,onPhotoCaptured) })
         },
         floatingActionButtonPosition = FabPosition.Center
     ) { innerPadding: PaddingValues ->
