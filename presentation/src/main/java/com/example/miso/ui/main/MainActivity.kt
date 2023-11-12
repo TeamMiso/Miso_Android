@@ -104,10 +104,21 @@ class MainActivity : BaseActivity() {
             }
         }
         lifecycleScope.launch {
+            userViewModel.givePointResponse.collect {
+                if (it is Event.Success) {
+                    userViewModel.getUserInfo()
+                    navController.navigate(MainPage.Main.value)
+                }
+            }
+        }
+        lifecycleScope.launch {
             userViewModel.getRoleResponse.collect { response ->
                 if (response is Event.Success) {
                     setContent {
                         navController = rememberNavController()
+                        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+                            Log.d("Navigation", "Destination changed: ${destination.route}")
+                        }
                         NavHost(
                             navController = navController as NavHostController,
                             startDestination = MainPage.Main.value
@@ -115,21 +126,21 @@ class MainActivity : BaseActivity() {
                             composable(MainPage.Main.name) {
                                 MainScreen(
                                     context = this@MainActivity,
-                                    onCameraClick = {navController.navigate(MainPage.Camera.value)},
+                                    onCameraClick = { navController.navigate(MainPage.Camera.value) },
                                     onInquiryClick = { navController.navigate(MainPage.Inquiry.value) },
                                     onListClick = { navController.navigate(MainPage.List.value) },
                                     onSearchClick = { navController.navigate(MainPage.Search.value) },
                                     onLogoutClick = { authViewModel.logout() }
                                 )
                             }
-                            composable(MainPage.Camera.name){
+                            composable(MainPage.Camera.name) {
                                 CameraScreen(
                                     context = this@MainActivity,
                                     navController = navController,
                                     viewModel = viewModel(LocalContext.current as MainActivity)
                                 )
                             }
-                            composable(MainPage.CameraResult.value){
+                            composable(MainPage.CameraResult.value) {
                                 CameraResultScreen(
                                     navController = navController,
                                     viewModel = viewModel(LocalContext.current as MainActivity)
@@ -139,8 +150,10 @@ class MainActivity : BaseActivity() {
                                 SearchScreen(
                                     context = this@MainActivity,
                                     viewModel = viewModel(LocalContext.current as MainActivity),
-                                    navController = navController,
+                                    lifecycleScope = lifecycleScope,
                                     onBackClick = { navController.popBackStack() },
+                                    onResultClick = { navController.navigate(MainPage.Result.value) },
+                                    onInquiryClick = { navController.navigate(MainPage.Inquiry.value) }
                                 )
                             }
                             composable(MainPage.Inquiry.name) {
@@ -181,7 +194,8 @@ class MainActivity : BaseActivity() {
                             composable(MainPage.Result.name) {
                                 ResultScreen(
                                     context = this@MainActivity,
-                                    viewModel = viewModel(LocalContext.current as MainActivity)
+                                    viewModel = viewModel(LocalContext.current as MainActivity),
+                                    onResultClick = { userViewModel.givePoint() }
                                 )
                             }
                         }
