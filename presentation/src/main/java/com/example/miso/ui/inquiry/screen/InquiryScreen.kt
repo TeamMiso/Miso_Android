@@ -139,9 +139,7 @@ fun InquiryScreen(
             MoveGalleryButton(
                 modifier = Modifier.weight(1f),
                 selectedImageUri = { uri ->
-                    if (uri != null) {
-                        imageUri = uri
-                    }
+                    imageUri = uri
                 }
             )
             Spacer(modifier = Modifier.height(50.dp))

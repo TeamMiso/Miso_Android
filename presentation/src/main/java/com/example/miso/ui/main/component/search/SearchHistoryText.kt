@@ -7,7 +7,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.miso.ui.theme.MisoTheme
 
 @Composable
-fun SearchContentText() {
+fun SearchHistoryText() {
     MisoTheme { colors, typography ->
         Text(
             text = "최근 검색어",
@@ -20,6 +20,6 @@ fun SearchContentText() {
 
 @Composable
 @Preview(showBackground = true)
-fun SearchContentTextPreView() {
-    SearchContentText()
+fun SearchHistoryTextPreView() {
+    SearchHistoryText()
 }
