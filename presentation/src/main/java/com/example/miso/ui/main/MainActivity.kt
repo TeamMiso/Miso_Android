@@ -25,6 +25,7 @@ import com.example.miso.ui.list.screen.ListScreen
 import com.example.miso.ui.log_in.LogInActivity
 import com.example.miso.ui.main.screen.MainScreen
 import com.example.miso.ui.main.screen.SearchScreen
+import com.example.miso.ui.result.screen.ResultScreen
 import com.example.miso.ui.sign_up.SignUpPage
 import com.example.miso.viewmodel.AuthViewModel
 import com.example.miso.viewmodel.CameraViewModel
@@ -42,7 +43,8 @@ enum class MainPage(val value: String) {
     Search("Search"),
     Inquiry("Inquiry"),
     List("List"),
-    Detail("Detail")
+    Detail("Detail"),
+    Result("Result")
 }
 
 @AndroidEntryPoint
@@ -99,7 +101,7 @@ class MainActivity : BaseActivity() {
                         navController = rememberNavController()
                         NavHost(
                             navController = navController as NavHostController,
-                            startDestination = "Main"
+                            startDestination = MainPage.Main.value
                         ) {
                             composable(MainPage.Main.name) {
                                 MainScreen(
@@ -165,6 +167,11 @@ class MainActivity : BaseActivity() {
                                     viewModel = viewModel(LocalContext.current as MainActivity),
                                     role = response.data ?: "",
                                     onBackClick = { navController.popBackStack() },
+                                )
+                            }
+                            composable(MainPage.Result.name) {
+                                ResultScreen(
+                                    context = this@MainActivity
                                 )
                             }
                         }

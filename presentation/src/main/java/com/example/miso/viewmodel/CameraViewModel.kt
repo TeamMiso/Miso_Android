@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.usecase.camera.LoadImgUrlUseCase
 import com.example.miso.ui.camera.state.CameraState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +14,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CameraViewModel @Inject constructor(
-    private val loadImgUrlUseCase: LoadImgUrlUseCase
 ) : ViewModel() {
     private val _capturedImgBitmapState = MutableStateFlow(CameraState())
     val captureImgBitmapState = _capturedImgBitmapState.asStateFlow()
