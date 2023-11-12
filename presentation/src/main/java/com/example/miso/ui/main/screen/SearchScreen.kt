@@ -205,7 +205,7 @@ suspend fun saveSearchHistory(
                 viewModel.imageUrl.value.isNotBlank() &&
                 viewModel.recyclablesType.value.isNotBlank()
             ) {
-
+                navController.navigate(MainPage.Result.value)
             } else {
                 navController.navigate(MainPage.Inquiry.value)
             }
