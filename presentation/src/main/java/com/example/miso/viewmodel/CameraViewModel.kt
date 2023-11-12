@@ -17,11 +17,13 @@ import javax.inject.Inject
 class CameraViewModel @Inject constructor(
     private val loadImgUrlUseCase: LoadImgUrlUseCase
 ) : ViewModel() {
-    private val _state = MutableStateFlow(CameraState())
-    val state = _state.asStateFlow()
+    private val _capturedImgBitmapState = MutableStateFlow(CameraState())
+    val captureImgBitmapState = _capturedImgBitmapState.asStateFlow()
 
-    fun loadImgUrl(bitmap: Bitmap){
+    fun loadImgBitmap(bitmap: Bitmap){
         viewModelScope.launch {
+            _capturedImgBitmapState.value.capturedImage?.recycle()
+            _capturedImgBitmapState.value = _capturedImgBitmapState.value.copy(capturedImage = bitmap)
             Log.d("testt",bitmap.toString())
         }
     }
