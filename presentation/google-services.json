@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "507889071918",
+    "project_id": "miso-f8a77",
+    "storage_bucket": "miso-f8a77.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507889071918:android:f6fd487095e009e4742cbf",
+        "android_client_info": {
+          "package_name": "com.example.miso"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDinocPRitZYolrpHuXcwDRIMY7zCjx7pA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
