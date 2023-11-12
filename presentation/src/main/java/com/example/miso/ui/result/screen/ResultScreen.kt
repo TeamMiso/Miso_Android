@@ -23,7 +23,8 @@ import com.example.miso.viewmodel.RecyclablesViewModel
 @Composable
 fun ResultScreen(
     context: Context,
-    viewModel: RecyclablesViewModel
+    viewModel: RecyclablesViewModel,
+    onResultClick: () -> Unit
 ) {
     val result = viewModel.result.value
 
@@ -45,7 +46,7 @@ fun ResultScreen(
             }
             Spacer(modifier = Modifier.height(24.dp))
             ResultButton {
-
+                onResultClick()
             }
         }
     }

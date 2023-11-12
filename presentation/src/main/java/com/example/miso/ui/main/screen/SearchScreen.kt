@@ -43,14 +43,17 @@ import com.example.miso.ui.main.component.search.SearchTextField
 import com.example.miso.viewmodel.InquiryViewModel
 import com.example.miso.viewmodel.RecyclablesViewModel
 import com.example.miso.viewmodel.util.Event
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 fun SearchScreen(
     context: Context,
     viewModel: RecyclablesViewModel,
-    navController: NavController,
-    onBackClick: () -> Unit
+    lifecycleScope: CoroutineScope,
+    onBackClick: () -> Unit,
+    onResultClick: () -> Unit,
+    onInquiryClick: () -> Unit
 ) {
     var isClick by remember { mutableStateOf(false) }
     val isKeyboardOpen by keyboardAsState()
@@ -73,7 +76,9 @@ fun SearchScreen(
     var search by remember { mutableStateOf("") }
 
     LaunchedEffect("Start") {
-        viewModel.getSearchHistory()
+        lifecycleScope.launch {
+            viewModel.getSearchHistory()
+        }
     }
 
     LaunchedEffect("Search") {
@@ -132,7 +137,11 @@ fun SearchScreen(
                     onValueChange = {
                         search = it
                     },
-                    onSearchTextChange = { viewModel.search(it) },
+                    onSearchTextChange = {
+                        lifecycleScope.launch {
+                            viewModel.search(it)
+                        }
+                    },
                     modifier = Modifier.focusRequester(focusRequester)
                 )
             }
@@ -142,22 +151,26 @@ fun SearchScreen(
                     SearchItem(
                         search = search,
                         saveSearchHistory = { searchHistory ->
-                            viewModel.saveSearchHistory(searchHistory)
+                            lifecycleScope.launch {
+                                viewModel.saveSearchHistory(searchHistory)
+                            }
                         },
                         imageUrl = viewModel.imageUrl.value,
                         title = viewModel.title.value,
                         recyclablesType = viewModel.recyclablesType.value,
                         onItemClick = {
-                            viewModel.result(viewModel.recyclablesType.value)
                             if (viewModel.title.value.isNotBlank() &&
                                 viewModel.imageUrl.value.isNotBlank() &&
                                 viewModel.recyclablesType.value.isNotBlank()
                             ) {
-                                navController.navigate(MainPage.Result.value)
+                                lifecycleScope.launch {
+                                    viewModel.result(viewModel.recyclablesType.value)
+                                }
+                                onResultClick()
                             } else {
-                                navController.navigate(MainPage.Inquiry.value)
+                                onInquiryClick()
                             }
-                        },
+                        }
                     )
                 }
             }
@@ -177,7 +190,9 @@ fun SearchScreen(
                         search = it
                     },
                     onRemoveClick = { index ->
-                        viewModel.deleteHistory(index)
+                        lifecycleScope.launch {
+                            viewModel.deleteHistory(index)
+                        }
                     }
                 )
             }
