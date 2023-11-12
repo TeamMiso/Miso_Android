@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.domain.model.recyclables.response.ResultResponseModel
 import com.example.domain.model.recyclables.response.SearchResponseModel
 import com.example.miso.ui.base.BaseActivity
 import com.example.miso.ui.camera.screen.CameraResultScreen
@@ -53,6 +54,7 @@ class MainActivity : BaseActivity() {
     private val userViewModel by viewModels<UserViewModel>()
     private val inquiryViewModel by viewModels<InquiryViewModel>()
     private val cameraViewModel by viewModels<CameraViewModel>()
+    private val recyclablesViewModel by viewModels<RecyclablesViewModel>()
 
     private lateinit var navController: NavController
 
@@ -91,6 +93,13 @@ class MainActivity : BaseActivity() {
             inquiryViewModel.unadoptResponse.collect {
                 if (it is Event.Success) {
                     navController.navigate(MainPage.Main.value)
+                }
+            }
+        }
+        lifecycleScope.launch {
+            recyclablesViewModel.resultResponse.collect {
+                if (it is Event.Success) {
+                    recyclablesViewModel.result.value = it.data!!
                 }
             }
         }
@@ -171,7 +180,8 @@ class MainActivity : BaseActivity() {
                             }
                             composable(MainPage.Result.name) {
                                 ResultScreen(
-                                    context = this@MainActivity
+                                    context = this@MainActivity,
+                                    viewModel = viewModel(LocalContext.current as MainActivity)
                                 )
                             }
                         }

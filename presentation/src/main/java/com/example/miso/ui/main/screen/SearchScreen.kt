@@ -86,8 +86,7 @@ fun SearchScreen(
 
     LaunchedEffect("SaveSearchHistory") {
         saveSearchHistory(
-            viewModel = viewModel,
-            navController = navController
+            viewModel = viewModel
         )
     }
 
@@ -148,7 +147,17 @@ fun SearchScreen(
                         imageUrl = viewModel.imageUrl.value,
                         title = viewModel.title.value,
                         recyclablesType = viewModel.recyclablesType.value,
-                        onItemClick = { },
+                        onItemClick = {
+                            viewModel.result(viewModel.recyclablesType.value)
+                            if (viewModel.title.value.isNotBlank() &&
+                                viewModel.imageUrl.value.isNotBlank() &&
+                                viewModel.recyclablesType.value.isNotBlank()
+                            ) {
+                                navController.navigate(MainPage.Result.value)
+                            } else {
+                                navController.navigate(MainPage.Inquiry.value)
+                            }
+                        },
                     )
                 }
             }
@@ -195,20 +204,11 @@ suspend fun search(
 }
 
 suspend fun saveSearchHistory(
-    viewModel: RecyclablesViewModel,
-    navController: NavController
+    viewModel: RecyclablesViewModel
 ) {
     viewModel.saveSearchHistoryResponse.collect {
         if (it is Event.Success) {
             viewModel.getSearchHistory()
-            if (viewModel.title.value.isNotBlank() &&
-                viewModel.imageUrl.value.isNotBlank() &&
-                viewModel.recyclablesType.value.isNotBlank()
-            ) {
-                navController.navigate(MainPage.Result.value)
-            } else {
-                navController.navigate(MainPage.Inquiry.value)
-            }
         }
     }
 }
