@@ -14,7 +14,8 @@ import java.util.concurrent.Executor
 fun capturePhoto(
     context: Context,
     cameraController: LifecycleCameraController,
-    onPhotoCaptured: (Bitmap) -> Unit
+    onPhotoCapturedData: (Bitmap) -> Unit,
+    onPhotoCaptured: (Boolean) -> Unit
 ){
     val mainExecutor: Executor = ContextCompat.getMainExecutor(context)
 
@@ -24,7 +25,8 @@ fun capturePhoto(
                 .toBitmap()
                 .rotateBitmap(image.imageInfo.rotationDegrees)
 
-            onPhotoCaptured(correctedBitmap)
+            onPhotoCapturedData(correctedBitmap)
+            onPhotoCaptured(true)
             image.close()
         }
         override fun onError(exception: ImageCaptureException) {

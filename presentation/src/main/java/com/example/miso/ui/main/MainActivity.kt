@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.miso.ui.base.BaseActivity
+import com.example.miso.ui.camera.screen.CameraResultScreen
 import com.example.miso.ui.camera.screen.CameraScreen
 import com.example.miso.ui.inquiry.screen.InquiryScreen
 import com.example.miso.ui.list.screen.DetailScreen
@@ -34,6 +35,7 @@ import kotlinx.coroutines.launch
 enum class MainPage(val value: String) {
     Main("Main"),
     Camera("Camera"),
+    CameraResult("CameraResult"),
     Search("Search"),
     Inquiry("Inquiry"),
     List("List"),
@@ -109,6 +111,12 @@ class MainActivity : BaseActivity() {
                             composable(MainPage.Camera.name){
                                 CameraScreen(
                                     context = this@MainActivity,
+                                    navController = navController,
+                                    viewModel = viewModel(LocalContext.current as MainActivity)
+                                )
+                            }
+                            composable(MainPage.CameraResult.value){
+                                CameraResultScreen(
                                     navController = navController,
                                     viewModel = viewModel(LocalContext.current as MainActivity)
                                 )
