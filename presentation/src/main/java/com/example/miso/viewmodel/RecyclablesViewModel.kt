@@ -1,12 +1,13 @@
 package com.example.miso.viewmodel
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.model.recyclables.response.ResultResponseModel
 import com.example.domain.model.recyclables.response.SearchResponseModel
 import com.example.domain.usecase.recyclables.DeleteSearchHistoryUseCase
 import com.example.domain.usecase.recyclables.GetSearchHistoryUseCase
+import com.example.domain.usecase.recyclables.ResultUseCase
 import com.example.domain.usecase.recyclables.SaveSearchHistoryUseCase
 import com.example.domain.usecase.recyclables.SearchUseCase
 import com.example.miso.viewmodel.util.Event
@@ -21,12 +22,16 @@ import javax.inject.Inject
 @HiltViewModel
 class RecyclablesViewModel @Inject constructor(
     private val searchUseCase: SearchUseCase,
+    private val resultUseCase: ResultUseCase,
     private val saveSearchHistoryUseCase: SaveSearchHistoryUseCase,
     private val getSearchHistoryUseCase: GetSearchHistoryUseCase,
     private val deleteSearchHistoryUseCase: DeleteSearchHistoryUseCase
 ) : ViewModel() {
     private val _searchResponse = MutableStateFlow<Event<SearchResponseModel>>(Event.Loading)
     val searchResponse = _searchResponse.asStateFlow()
+
+    private val _resultResponse = MutableStateFlow<Event<ResultResponseModel>>(Event.Loading)
+    val resultResponse = _resultResponse.asStateFlow()
 
     private val _saveSearchHistoryResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
     val saveSearchHistoryResponse = _saveSearchHistoryResponse.asStateFlow()
@@ -44,6 +49,8 @@ class RecyclablesViewModel @Inject constructor(
     var recyclablesType = mutableStateOf("")
         private set
 
+    var result = mutableStateOf(ResultResponseModel(0L, "", "", "", "", "", ""))
+
     fun search(search: String) = viewModelScope.launch {
         searchUseCase(search = search)
             .onSuccess {
@@ -54,6 +61,19 @@ class RecyclablesViewModel @Inject constructor(
                 }
             }.onFailure {
                 _searchResponse.value = it.errorHandling()
+            }
+    }
+
+    fun result(recyclablesType: String) = viewModelScope.launch {
+        resultUseCase(recyclablesType = recyclablesType)
+            .onSuccess {
+                it.catch { remoteError ->
+                    _resultResponse.value = remoteError.errorHandling()
+                }.collect { response ->
+                    _resultResponse.value = Event.Success(data = response)
+                }
+            }.onFailure {
+                _resultResponse.value = it.errorHandling()
             }
     }
 
