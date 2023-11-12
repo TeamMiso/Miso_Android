@@ -11,4 +11,6 @@ interface UserRepository {
     suspend fun getRole(): Flow<String>
 
     suspend fun deleteUserInfo()
+
+    suspend fun givePoint(): Flow<Unit>
 }
