@@ -24,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import com.example.miso.R
 import com.example.miso.ui.camera.component.CameraBackBtn
 import com.example.miso.ui.camera.component.CameraBackground
@@ -36,7 +37,7 @@ import com.example.miso.ui.theme.MisoTheme
 import com.example.miso.viewmodel.CameraViewModel
 
 @Composable
-fun CameraResultScreen(viewModel: CameraViewModel) {
+fun CameraResultScreen(navController: NavController,viewModel: CameraViewModel) {
     getBitmap(viewModel = viewModel)
     MisoTheme { colors, typography ->
         CameraBackground()
@@ -50,7 +51,7 @@ fun CameraResultScreen(viewModel: CameraViewModel) {
             Spacer(modifier = Modifier.fillMaxHeight(0.12f))
             Row(modifier = Modifier.fillMaxWidth()) {
                 Spacer(modifier = Modifier.fillMaxWidth(0.07f))
-                CameraReCaptureBtn {}
+                CameraReCaptureBtn {navController.popBackStack()}
                 Spacer(modifier = Modifier.fillMaxWidth(0.06f))
                 CameraConfirmBtn {}
             }

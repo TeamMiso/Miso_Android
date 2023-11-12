@@ -117,6 +117,7 @@ class MainActivity : BaseActivity() {
                             }
                             composable(MainPage.CameraResult.value){
                                 CameraResultScreen(
+                                    navController = navController,
                                     viewModel = viewModel(LocalContext.current as MainActivity)
                                 )
                             }
