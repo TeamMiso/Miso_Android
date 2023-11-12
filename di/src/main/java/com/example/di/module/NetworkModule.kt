@@ -54,6 +54,18 @@ object NetworkModule {
             .addConverterFactory(gsonConverterFactory)
             .build()
     }
+    /*@Provides
+    @Singleton
+    fun provideRetrofitInstance2(
+        okHttpClient: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory,
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.AI_BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(gsonConverterFactory)
+            .build()
+    }*/
 
     @Provides
     @Singleton
