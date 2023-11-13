@@ -34,13 +34,12 @@ class SplashActivity : BaseActivity() {
         lifecycleScope.launch {
             delay(800)
             authViewModel.getAccessToken()
+            userViewModel.getUserInfo()
         }
         lifecycleScope.launch {
             authViewModel.getAccessTokenResponse.collect {
                 if (it is Event.Success) {
-                    if (it.data!!.isNotBlank()) {
-                        userViewModel.getUserInfo()
-                    } else {
+                    if (it.data!!.isBlank()) {
                         pageLogIn()
                         finish()
                     }
@@ -54,12 +53,9 @@ class SplashActivity : BaseActivity() {
                         userViewModel.saveUserInfo(it.data!!)
                     }
 
-                    is Event.Loading -> {
-
-                    }
+                    is Event.Loading -> {}
 
                     else -> {
-                        pageLogIn()
                         finish()
                     }
                 }
