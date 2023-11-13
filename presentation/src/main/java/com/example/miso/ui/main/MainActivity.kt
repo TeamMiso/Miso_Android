@@ -4,8 +4,18 @@ import android.content.Intent
 import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -35,6 +45,7 @@ import com.example.miso.viewmodel.RecyclablesViewModel
 import com.example.miso.viewmodel.UserViewModel
 import com.example.miso.viewmodel.util.Event
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 enum class MainPage(val value: String) {
@@ -127,6 +138,8 @@ class MainActivity : BaseActivity() {
                             composable(MainPage.Main.name) {
                                 MainScreen(
                                     context = this@MainActivity,
+                                    lifecycleScope = lifecycleScope,
+                                    viewModel = viewModel(LocalContext.current as MainActivity),
                                     onCameraClick = { navController.navigate(MainPage.Camera.value) },
                                     onInquiryClick = { navController.navigate(MainPage.Inquiry.value) },
                                     onListClick = { navController.navigate(MainPage.List.value) },
