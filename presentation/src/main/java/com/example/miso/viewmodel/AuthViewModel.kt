@@ -77,6 +77,10 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    fun changeLogIn() {
+        _authLogInResponse.value = Event.Loading
+    }
+
     fun saveToken(token: AuthLogInResponseModel) = viewModelScope.launch {
         saveTokenUseCase(
             token = token
