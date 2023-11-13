@@ -56,6 +56,7 @@ fun ListScreen(
             viewModel = viewModel,
             progressState = { progressState.value = it },
             onSuccess = { list ->
+                viewModel.clearInquiryList()
                 viewModel.addInquiryList(list)
             }
         )
@@ -67,6 +68,7 @@ fun ListScreen(
             viewModel = viewModel,
             progressState = { progressState.value = it },
             onSuccess = { list ->
+                viewModel.clearInquiryListAll()
                 viewModel.addInquiryListAll(list)
             }
         )
