@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -24,6 +25,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.domain.model.email.request.EmailRequestModel
+import com.example.miso.R
+import com.example.miso.ui.component.snackbar.MisoSnackber
+import com.example.miso.ui.sign_up.SignUpPage
 import com.example.miso.ui.util.keyboardAsState
 import com.example.miso.ui.sign_up.component.sign_up.EmailTextField
 import com.example.miso.ui.sign_up.component.sign_up.MoveLogInText
@@ -38,11 +42,19 @@ import com.example.miso.ui.sign_up.component.email.EmailContentText
 import com.example.miso.ui.sign_up.component.email.EmailIcon
 import com.example.miso.ui.sign_up.component.email.MoveBackText
 import com.example.miso.ui.sign_up.component.email.NumberTextField
+import com.example.miso.viewmodel.AuthViewModel
+import com.example.miso.viewmodel.EmailViewModel
+import com.example.miso.viewmodel.util.Event
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun EmailScreen(
     context: Context,
-    onCompleteClick: () -> Unit,
+    lifecycleScope: CoroutineScope,
+    viewModel: EmailViewModel,
     navController: NavController,
     onEmailClick: (body: EmailRequestModel) -> Unit
 ) {
@@ -50,12 +62,23 @@ fun EmailScreen(
     val isKeyboardOpen by keyboardAsState()
     var isError by remember { mutableStateOf(false) }
 
+    val snackBarVisibility = remember { mutableStateOf(false) }
+    val errorText = remember { mutableStateOf("") }
+
     val focusManager = LocalFocusManager.current
 
     LaunchedEffect(isKeyboardOpen) {
         isClick = isKeyboardOpen
         if (!isKeyboardOpen) {
             focusManager.clearFocus()
+        }
+    }
+
+    LaunchedEffect(snackBarVisibility.value) {
+        if (snackBarVisibility.value) {
+            delay(1.5.seconds)
+            snackBarVisibility.value = false
+            viewModel.changeEmail()
         }
     }
 
@@ -102,8 +125,17 @@ fun EmailScreen(
             Spacer(modifier = Modifier.fillMaxHeight(0.195f))
             EmailButton {
                 if (number.isNotEmpty()) {
+                    lifecycleScope.launch {
+                        email(
+                            viewModel = viewModel,
+                            navController = navController,
+                            errorText = { text ->
+                                errorText.value = text
+                                snackBarVisibility.value = true
+                            }
+                        )
+                    }
                     onEmailClick(body)
-                    onCompleteClick()
                 }
                 else {
                     isError = true
@@ -114,11 +146,45 @@ fun EmailScreen(
                 navController.popBackStack()
             }
         }
+        MisoSnackber(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .statusBarsPadding(),
+            text = errorText.value,
+            visible = snackBarVisibility.value,
+            icon = R.drawable.ic_cancel
+        ) {
+            snackBarVisibility.value = false
+        }
+    }
+}
+
+suspend fun email(
+    viewModel: EmailViewModel,
+    navController: NavController,
+    errorText: (errorText: String) -> Unit
+) {
+    viewModel.emailResponse.collect {
+        when (it) {
+            is Event.Loading -> {}
+
+            is Event.Success -> {
+                navController.navigate(SignUpPage.Complete.name)
+            }
+
+            is Event.Unauthorized -> {
+                errorText("인증번호가 일치하지 않습니다!")
+            }
+
+            else -> {
+                errorText("알 수 없는 에러가 발생했습니다!")
+            }
+        }
     }
 }
 
 @Composable
 @Preview(showBackground = true)
 fun EmailScreenPreView() {
-    EmailScreen(LocalContext.current, onCompleteClick = {}, navController = NavController(LocalContext.current), onEmailClick = {})
+    // EmailScreen(LocalContext.current, navController = NavController(LocalContext.current), onEmailClick = {})
 }

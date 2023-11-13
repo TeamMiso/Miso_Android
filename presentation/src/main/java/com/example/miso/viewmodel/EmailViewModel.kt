@@ -35,4 +35,8 @@ class EmailViewModel @Inject constructor(
             _emailResponse.value = it.errorHandling()
         }
     }
+
+    fun changeEmail() {
+        _emailResponse.value = Event.Loading
+    }
 }

@@ -63,6 +63,10 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    fun changeSignUp() {
+        _authSignUpResponse.value = Event.Loading
+    }
+
     fun authLogIn(body: AuthLogInRequestModel) = viewModelScope.launch {
         authLogInUseCase(
             body = body
