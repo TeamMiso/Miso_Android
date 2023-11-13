@@ -53,8 +53,9 @@ object Dependency {
             "com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}"
     }
     object Google {
-        const val FIREBASE = "com.google.firebase:firebase-auth-ktx:${Versions.FIREBASE}"
-        const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics"
+        const val FIREBASE_STORAGE = "com.google.firebase:firebase-storage"
+        const val FIREBASE_DATABASE = "com.google.firebase:firebase-database-ktx:${Versions.FIREBASE_DATABASE}"
+        const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
         const val FIREBASE_BOM = "com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"
 
         const val GMS_PLAY_SERVICE_AUTH =
