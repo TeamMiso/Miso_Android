@@ -2,6 +2,7 @@ package com.example.miso.ui.splash
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -41,6 +42,7 @@ class SplashActivity : BaseActivity() {
                         userViewModel.getUserInfo()
                     } else {
                         pageLogIn()
+                        finish()
                     }
                 }
             }
@@ -58,6 +60,7 @@ class SplashActivity : BaseActivity() {
 
                     else -> {
                         pageLogIn()
+                        finish()
                     }
                 }
             }
@@ -66,6 +69,7 @@ class SplashActivity : BaseActivity() {
             userViewModel.saveUserInfoResponse.collect {
                 if (it is Event.Success) {
                     pageMain()
+                    finish()
                 }
             }
         }

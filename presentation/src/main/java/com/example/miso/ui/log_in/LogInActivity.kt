@@ -31,6 +31,7 @@ class LogInActivity : BaseActivity() {
             authViewModel.saveTokenResponse.collect {
                 if (it is Event.Success) {
                     pageMain()
+                    finish()
                 }
             }
         }
@@ -39,6 +40,7 @@ class LogInActivity : BaseActivity() {
                 context = this,
                 onSignUpClick = {
                     pageSignUp()
+                    finish()
                 },
                 onMainClick = { body ->
                     authViewModel.authLogIn(body = body)

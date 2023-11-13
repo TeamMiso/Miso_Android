@@ -61,6 +61,7 @@ class SignUpActivity : BaseActivity() {
                         context = this@SignUpActivity,
                         onLogInClick = {
                             pageLogIn()
+                            finish()
                         },
                         onEmailClick = {
 
@@ -87,6 +88,7 @@ class SignUpActivity : BaseActivity() {
                         context = this@SignUpActivity,
                         onLogInClick = {
                             pageLogIn()
+                            finish()
                         }
                     )
                 }

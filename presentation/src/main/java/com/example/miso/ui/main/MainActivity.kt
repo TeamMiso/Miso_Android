@@ -64,6 +64,7 @@ class MainActivity : BaseActivity() {
             authViewModel.logoutResponse.collect {
                 if (it is Event.Success) {
                     pageLogIn()
+                    finish()
                 }
             }
         }
