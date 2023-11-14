@@ -83,8 +83,6 @@ fun CheckPermission(
 }
 @Composable
 fun LunchCameraScreen(navController: NavController,viewModel: CameraViewModel) {
-    var capturedPhotoState by remember { mutableStateOf(false) }
-    val captureImgBitmapState by viewModel.captureImgBitmapState.collectAsState()
     CameraPreview(
         onPhotoCapturedData = viewModel::loadImgBitmap,
         onPhotoCaptured = {captured ->

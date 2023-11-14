@@ -2,6 +2,7 @@ package com.example.miso.ui.camera.screen
 
 import android.graphics.Bitmap
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,11 +17,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,6 +43,7 @@ import com.example.miso.viewmodel.CameraViewModel
 
 @Composable
 fun CameraResultScreen(navController: NavController,viewModel: CameraViewModel) {
+    var callSerBitmap by remember { mutableStateOf(false) }
     getBitmap(viewModel = viewModel)
     MisoTheme { colors, typography ->
         CameraBackground()
@@ -53,10 +59,13 @@ fun CameraResultScreen(navController: NavController,viewModel: CameraViewModel) 
                 Spacer(modifier = Modifier.fillMaxWidth(0.07f))
                 CameraReCaptureBtn {navController.popBackStack()}
                 Spacer(modifier = Modifier.fillMaxWidth(0.06f))
-                CameraConfirmBtn {}
+                CameraConfirmBtn{ callSerBitmap = true }
             }
-        }
 
+        }
+    }
+    if(callSerBitmap){
+        sendBitmap(viewModel = viewModel)
     }
 }
 @Composable
@@ -67,9 +76,22 @@ private fun getBitmap(viewModel: CameraViewModel){
         (captureImgBitmapState.capturedImage?.asImageBitmap() ?: null)?.let {
             Image(
                 bitmap = it,
-                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize(),
                 contentDescription = "camera result preview")
         }
+    }
+}
+
+@Composable
+private fun sendBitmap(viewModel: CameraViewModel){
+    val uploadFirebaseState by viewModel.uploadFirebaseState.collectAsState()
+
+    viewModel.sendImgBitmap()
+
+    when(uploadFirebaseState.uploadedBitmap){
+        true -> Toast.makeText(LocalContext.current,"업로드 성공",Toast.LENGTH_SHORT).show()
+        false -> Toast.makeText(LocalContext.current,"업로드 실패",Toast.LENGTH_SHORT).show()
+        else -> Toast.makeText(LocalContext.current,"업로드 중..",Toast.LENGTH_LONG).show()
     }
 }
 @Composable
