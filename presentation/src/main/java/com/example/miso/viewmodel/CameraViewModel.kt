@@ -6,9 +6,12 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.miso.ui.camera.state.CameraState
-import com.example.miso.ui.camera.state.UploadedBitmapState
+import com.example.miso.ui.camera.state.BitmapState
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,8 +26,11 @@ class CameraViewModel @Inject constructor(
     private val _capturedImgBitmapState = MutableStateFlow(CameraState())
     val captureImgBitmapState = _capturedImgBitmapState.asStateFlow()
 
-    private val _uploadFirebaseState = MutableStateFlow(UploadedBitmapState())
+    private val _uploadFirebaseState = MutableStateFlow(BitmapState(uploadedBitmap = null))
     val uploadFirebaseState = _uploadFirebaseState.asStateFlow()
+
+    private val _aiAnswer = MutableStateFlow("")
+    val aiAnswer = _aiAnswer.asStateFlow()
 
     private val imgNum = MutableStateFlow(0)
 
@@ -37,19 +43,7 @@ class CameraViewModel @Inject constructor(
         }
     }
     fun sendImgBitmap(){
-        imgNum.value++
-
-        val database = FirebaseDatabase.getInstance()
-        val databaseRef = database.reference.child("user")
-
-        val storage = Firebase.storage
-        val storageRef = storage.reference.child(imgNum.value.toString()+".jpeg")
-
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        val swapBitmap = _capturedImgBitmapState.value.capturedImage
-        swapBitmap?.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream)
-        val bitmapData = byteArrayOutputStream.toByteArray()
-        Log.d("testt",bitmapData.toString())
+        val (databaseRef, storageRef, bitmapData) = setReference()
 
         val uploadImg = storageRef.putBytes(bitmapData)
         Log.d("testt",uploadImg.toString())
@@ -57,7 +51,7 @@ class CameraViewModel @Inject constructor(
         uploadImg
             .addOnSuccessListener {
                 Log.d("testt","success")
-                _uploadFirebaseState.value = _uploadFirebaseState.value.copy(true)
+                _uploadFirebaseState.value = _uploadFirebaseState.value.copy(uploadedBitmap = true)
 
                 databaseRef
                     .child("img${imgNum.value}")
@@ -65,7 +59,28 @@ class CameraViewModel @Inject constructor(
 
             }.addOnFailureListener {
                 Log.d("testt","failure")
-                _uploadFirebaseState.value = _uploadFirebaseState.value.copy(false)
+                _uploadFirebaseState.value = _uploadFirebaseState.value.copy(uploadedBitmap = false)
             }
     }
+    private fun setReference(): Triple<DatabaseReference, StorageReference, ByteArray> {
+        imgNum.value++
+
+        val databaseRef = FirebaseDatabase.getInstance().reference
+            .child("user")
+
+        val storageRef = Firebase.storage.reference
+            .child(imgNum.value.toString() + ".jpeg")
+
+        val byteArrayOutputStream = ByteArrayOutputStream()
+
+        val swapBitmap = _capturedImgBitmapState.value.capturedImage
+        swapBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+
+        val bitmapData = byteArrayOutputStream.toByteArray()
+        Log.d("testt", bitmapData.toString())
+
+        return Triple(databaseRef, storageRef, bitmapData)
+    }
+
+
 }
