@@ -1,18 +1,14 @@
 package com.example.miso.ui.component.snackbar
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkOut
 import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOut
-import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -20,9 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.rounded.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -31,14 +24,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.lifecycleScope
 import com.example.miso.R
 import com.example.miso.ui.theme.MisoTheme
-import com.example.miso.viewmodel.util.Event
-import kotlinx.coroutines.launch
 
 @Composable
-fun MisoSnackber(
+fun MisoSnackbar(
     modifier: Modifier = Modifier,
     text: String,
     visible: Boolean,
@@ -70,7 +60,7 @@ fun MisoSnackber(
                         .padding(vertical = 14.dp, horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
+                    Image(
                         painter = painterResource(id = icon),
                         contentDescription = null,
                         modifier = Modifier.size(24.dp),
@@ -91,7 +81,7 @@ fun MisoSnackber(
 @Preview
 @Composable
 fun MisoSnackberPre() {
-    MisoSnackber(text = "text", icon = R.drawable.ic_cancel, visible = true) {
+    MisoSnackbar(text = "text", icon = R.drawable.ic_cancel, visible = true) {
 
     }
 }

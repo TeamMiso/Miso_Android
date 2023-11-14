@@ -2,7 +2,6 @@ package com.example.miso.ui.log_in.screen
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +23,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.domain.model.auth.request.AuthLogInRequestModel
 import com.example.miso.R
-import com.example.miso.ui.component.snackbar.MisoSnackber
+import com.example.miso.ui.component.progressbar.MisoProgressbar
+import com.example.miso.ui.component.snackbar.MisoSnackbar
 import com.example.miso.ui.util.keyboardAsState
 import com.example.miso.ui.log_in.component.EmailTextField
 import com.example.miso.ui.log_in.component.LogInBackground
@@ -55,6 +55,7 @@ fun LogInScreen(
 
     val snackBarVisibility = remember { mutableStateOf(false) }
     val errorText = remember { mutableStateOf("") }
+    val progressState = remember { mutableStateOf(false) }
 
     val focusManager = LocalFocusManager.current
 
@@ -70,6 +71,7 @@ fun LogInScreen(
             delay(1.5.seconds)
             snackBarVisibility.value = false
             viewModel.changeLogIn()
+            progressState.value = false
         }
     }
 
@@ -140,6 +142,9 @@ fun LogInScreen(
                                 errorText.value = text
                                 snackBarVisibility.value = true
                             },
+                            progressState = { state ->
+                                progressState.value = state
+                            }
                         )
                     }
                     onMainClick(body)
@@ -152,7 +157,7 @@ fun LogInScreen(
                 onSignUpClick()
             }
         }
-        MisoSnackber(
+        MisoSnackbar(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .statusBarsPadding(),
@@ -162,35 +167,50 @@ fun LogInScreen(
         ) {
             snackBarVisibility.value = false
         }
+        if (progressState.value) {
+            MisoProgressbar(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .statusBarsPadding()
+            )
+        }
     }
 }
 
 suspend fun login(
     viewModel: AuthViewModel,
     errorText: (errorText: String) -> Unit,
+    progressState: (progressState: Boolean) -> Unit
 ) {
     viewModel.authLogInResponse.collect {
         when (it) {
-            is Event.Loading -> {}
+            is Event.Loading -> {
+                progressState(true)
+            }
 
             is Event.Success -> {
                 viewModel.saveToken(token = it.data!!)
+                progressState(false)
             }
 
             is Event.BadRequest -> {
                 errorText("비밀번호가 일치하지 않습니다!")
+                progressState(false)
             }
 
             is Event.ForBidden -> {
                 errorText("이메일이 인증되지 않았습니다!")
+                progressState(false)
             }
 
             is Event.NotFound -> {
                 errorText("사용자를 찾을 수 없습니다!")
+                progressState(false)
             }
 
             else -> {
                 errorText("알 수 없는 에러가 발생했습니다!")
+                progressState(false)
             }
         }
     }
