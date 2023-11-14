@@ -33,6 +33,7 @@ import com.example.miso.viewmodel.InquiryViewModel
 import com.example.miso.viewmodel.RecyclablesViewModel
 import com.example.miso.viewmodel.UserViewModel
 import com.example.miso.viewmodel.util.Event
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -55,7 +56,6 @@ class MainActivity : BaseActivity() {
     private val cameraViewModel by viewModels<CameraViewModel>()
 
     private lateinit var navController: NavController
-
     override fun init() {
         userViewModel.getRole()
         lifecycleScope.launch {
