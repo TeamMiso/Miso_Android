@@ -3,12 +3,10 @@ package com.example.miso.viewmodel
 
 import android.graphics.Bitmap
 import android.util.Log
-import android.widget.Toast
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.miso.ui.camera.state.CameraState
-import com.example.miso.ui.camera.state.UploadFirebaseState
+import com.example.miso.ui.camera.state.UploadedBitmapState
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -25,7 +23,7 @@ class CameraViewModel @Inject constructor(
     private val _capturedImgBitmapState = MutableStateFlow(CameraState())
     val captureImgBitmapState = _capturedImgBitmapState.asStateFlow()
 
-    private val _uploadFirebaseState = MutableStateFlow(false)
+    private val _uploadFirebaseState = MutableStateFlow(UploadedBitmapState())
     val uploadFirebaseState = _uploadFirebaseState.asStateFlow()
 
     private val imgNum = MutableStateFlow(0)
@@ -59,14 +57,15 @@ class CameraViewModel @Inject constructor(
         uploadImg
             .addOnSuccessListener {
                 Log.d("testt","success")
-                _uploadFirebaseState.value = true
+                _uploadFirebaseState.value = _uploadFirebaseState.value.copy(true)
+
+                databaseRef
+                    .child("img${imgNum.value}")
+                    .setValue(imgNum.value)
+
             }.addOnFailureListener {
                 Log.d("testt","failure")
-                _uploadFirebaseState.value = false
+                _uploadFirebaseState.value = _uploadFirebaseState.value.copy(false)
             }
-
-        databaseRef
-            .child("img${imgNum.value}")
-            .setValue(imgNum.value)
     }
 }
