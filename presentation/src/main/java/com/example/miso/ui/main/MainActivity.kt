@@ -5,9 +5,11 @@ import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.mutableStateOf
@@ -30,6 +32,7 @@ import com.example.domain.model.recyclables.response.SearchResponseModel
 import com.example.miso.ui.base.BaseActivity
 import com.example.miso.ui.camera.screen.CameraResultScreen
 import com.example.miso.ui.camera.screen.CameraScreen
+import com.example.miso.ui.component.progressbar.MisoProgressbar
 import com.example.miso.ui.inquiry.screen.InquiryScreen
 import com.example.miso.ui.list.screen.DetailScreen
 import com.example.miso.ui.list.screen.ListScreen
@@ -76,13 +79,6 @@ class MainActivity : BaseActivity() {
                 if (it is Event.Success) {
                     pageLogIn()
                     finish()
-                }
-            }
-        }
-        lifecycleScope.launch {
-            inquiryViewModel.requestInquiryResponse.collect {
-                if (it is Event.Success) {
-                    navController.navigate(MainPage.Main.value)
                 }
             }
         }
@@ -173,6 +169,9 @@ class MainActivity : BaseActivity() {
                             composable(MainPage.Inquiry.name) {
                                 InquiryScreen(
                                     context = this@MainActivity,
+                                    lifecycleScope = lifecycleScope,
+                                    viewModel = viewModel(LocalContext.current as MainActivity),
+                                    navController = navController,
                                     onBackClick = { navController.popBackStack() },
                                     onInquiryClick = { filePart, inquiryPart ->
                                         inquiryViewModel.requestInquiry(
