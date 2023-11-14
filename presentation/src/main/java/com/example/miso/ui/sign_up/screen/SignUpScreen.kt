@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,14 +18,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.domain.model.auth.request.AuthSignUpRequestModel
 import com.example.miso.R
-import com.example.miso.ui.component.snackbar.MisoSnackber
+import com.example.miso.ui.component.progressbar.MisoProgressbar
+import com.example.miso.ui.component.snackbar.MisoSnackbar
 import com.example.miso.ui.sign_up.SignUpPage
 import com.example.miso.ui.util.keyboardAsState
 import com.example.miso.ui.sign_up.component.sign_up.EmailTextField
@@ -59,6 +57,7 @@ fun SignUpScreen(
 
     val snackBarVisibility = remember { mutableStateOf(false) }
     val errorText = remember { mutableStateOf("") }
+    val progressState = remember { mutableStateOf(false) }
 
     val focusManager = LocalFocusManager.current
 
@@ -74,6 +73,7 @@ fun SignUpScreen(
             delay(1.5.seconds)
             snackBarVisibility.value = false
             viewModel.changeSignUp()
+            progressState.value = false
         }
     }
 
@@ -162,6 +162,9 @@ fun SignUpScreen(
                             errorText = { text ->
                                 errorText.value = text
                                 snackBarVisibility.value = true
+                            },
+                            progressState = { state ->
+                                progressState.value = state
                             }
                         )
                     }
@@ -173,7 +176,7 @@ fun SignUpScreen(
                 onLogInClick()
             }
         }
-        MisoSnackber(
+        MisoSnackbar(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .statusBarsPadding(),
@@ -183,32 +186,46 @@ fun SignUpScreen(
         ) {
             snackBarVisibility.value = false
         }
+        if (progressState.value) {
+            MisoProgressbar(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .statusBarsPadding()
+            )
+        }
     }
 }
 
 suspend fun signUp(
     viewModel: AuthViewModel,
     navController: NavController,
-    errorText: (errorText: String) -> Unit
+    errorText: (errorText: String) -> Unit,
+    progressState: (progressState: Boolean) -> Unit
 ) {
     viewModel.authSignUpResponse.collect {
         when (it) {
-            is Event.Loading -> {}
+            is Event.Loading -> {
+                progressState(true)
+            }
 
             is Event.Success -> {
                 navController.navigate(SignUpPage.Email.name)
+                progressState(false)
             }
 
             is Event.BadRequest -> {
                 errorText("비밀번호가 재확인 비밀번호와 일치하지 않습니다!")
+                progressState(false)
             }
 
             is Event.Conflict -> {
                 errorText("이미 사용중인 이메일입니다!")
+                progressState(false)
             }
 
             else -> {
                 errorText("알 수 없는 에러가 발생했습니다!")
+                progressState(false)
             }
         }
     }
