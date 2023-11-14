@@ -71,6 +71,7 @@ dependencies {
     implementation(platform(Dependency.Google.FIREBASE_BOM))
     implementation(Dependency.Google.FIREBASE_ANALYTICS)
     implementation(Dependency.Google.FIREBASE_DATABASE)
+    implementation(Dependency.Google.FIREBASE_STORAGE)
 
     //coil
     implementation(Dependency.Image.COIL)
