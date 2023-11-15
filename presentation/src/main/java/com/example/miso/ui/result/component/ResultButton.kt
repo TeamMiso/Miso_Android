@@ -30,7 +30,7 @@ fun ResultButton(onClick: () -> Unit) {
                 onClick = { onClick() }
             ) {
                 Text(
-                    text = "+10 POINT",
+                    text = "+100 POINT",
                     color = colors.M3,
                     style = typography.title3,
                     fontWeight = FontWeight.ExtraLight

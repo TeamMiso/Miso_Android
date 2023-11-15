@@ -18,35 +18,35 @@ import com.example.miso.ui.result.component.ResultRecyclablesTypeText
 import com.example.miso.ui.result.component.ResultRecycleMarkText
 import com.example.miso.ui.result.component.ResultSubTitleText
 import com.example.miso.ui.result.component.ResultTitleText
+import com.example.miso.viewmodel.RecyclablesViewModel
 
 @Composable
 fun ResultScreen(
-    context: Context
+    context: Context,
+    viewModel: RecyclablesViewModel,
+    onResultClick: () -> Unit
 ) {
+    val result = viewModel.result.value
+
     LazyColumn {
         item {
+            Spacer(modifier = Modifier.height(55.dp))
             Column(modifier = Modifier.padding(start = 30.dp, end = 30.dp)) {
-                ResultImage(url = "")
+                ResultImage(url = result.imageUrl)
                 Spacer(modifier = Modifier.height(24.dp))
-                ResultTitleText(text = "페트병")
+                ResultTitleText(text = result.title)
                 Spacer(modifier = Modifier.height(12.dp))
-                ResultSubTitleText(text = "#생수병 #맥주병 #음료수병")
+                ResultSubTitleText(text = result.subTitle)
                 Spacer(modifier = Modifier.height(12.dp))
-                ResultRecyclablesTypeText(text = "")
+                ResultRecyclablesTypeText(text = result.recyclablesType)
                 Spacer(modifier = Modifier.height(12.dp))
-                ResultRecycleMarkText(url = "")
+                ResultRecycleMarkText(url = result.recycleMark)
                 Spacer(modifier = Modifier.height(30.dp))
-                ResultContentText(text = "- 투명 페트병(생수병, 콜라, 사이다, 쥬스 등의 음료수병)과\n" +
-                        "  유색 페트병(갈색 맥주병, 녹색 소주병, 녹색 사이다병 등)은 분리 배출 방법이 달라요.\n" +
-                        " 투명 페트병 (생수, 콜라, 사이다, 쥬스 등)\n" +
-                        "- 내용물을 비우고, 물로 내부를 깨끗이 세척해요.\n" +
-                        "- 페트병 겉면에 붙어있는 상표 등의 비닐 라벨을 깨끗이 떼어내서 비닐류로\n" +
-                        "   분리배출해요.\n" +
-                        "- 페트병은 최대한 압축해서 뚜껑을 닫은 후 페트로 분리배출해요.")
+                ResultContentText(text = result.content)
             }
             Spacer(modifier = Modifier.height(24.dp))
             ResultButton {
-
+                onResultClick()
             }
         }
     }
@@ -55,5 +55,5 @@ fun ResultScreen(
 @Composable
 @Preview(showBackground = true)
 fun ResultScreenPreview() {
-    ResultScreen(LocalContext.current)
+    // ResultScreen(LocalContext.current)
 }

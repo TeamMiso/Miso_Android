@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.model.inquiry.request.InquiryRequestModel
 import com.example.domain.model.inquiry.response.InquiryListDetailResponseModel
 import com.example.domain.model.inquiry.response.InquiryListModel
 import com.example.domain.model.inquiry.response.InquiryListResponseModel
@@ -86,6 +85,10 @@ class InquiryViewModel @Inject constructor(
                 _requestInquiryResponse.value = it.errorHandling()
             }
         }
+
+    fun changeRequestInquiry() {
+        _requestInquiryResponse.value = Event.Loading
+    }
 
     fun getInquiryList() = viewModelScope.launch {
         getInquiryListUseCase()

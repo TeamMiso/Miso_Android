@@ -7,6 +7,7 @@ import com.example.domain.model.auth.response.AuthLogInResponseModel
 import com.example.domain.model.user.response.UserInfoResponseModel
 import com.example.domain.usecase.user.GetRoleUseCase
 import com.example.domain.usecase.user.GetUserInfoUseCase
+import com.example.domain.usecase.user.GivePointUseCase
 import com.example.domain.usecase.user.SaveUserInfoUseCase
 import com.example.miso.viewmodel.util.Event
 import com.example.miso.viewmodel.util.errorHandling
@@ -21,7 +22,8 @@ import javax.inject.Inject
 class UserViewModel @Inject constructor(
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val saveUserInfoUseCase: SaveUserInfoUseCase,
-    private val getRoleUseCase: GetRoleUseCase
+    private val getRoleUseCase: GetRoleUseCase,
+    private val givePointUseCase: GivePointUseCase
 ) : ViewModel() {
 
     private val _getUserInfoResponse = MutableStateFlow<Event<UserInfoResponseModel>>(Event.Loading)
@@ -32,6 +34,9 @@ class UserViewModel @Inject constructor(
 
     private val _getRoleResponse = MutableStateFlow<Event<String>>(Event.Loading)
     val getRoleResponse = _getRoleResponse.asStateFlow()
+
+    private val _givePointResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
+    val givePointResponse = _givePointResponse.asStateFlow()
 
     fun getUserInfo() = viewModelScope.launch {
         getUserInfoUseCase()
@@ -66,6 +71,19 @@ class UserViewModel @Inject constructor(
                 }
             }.onFailure { error ->
                 _getRoleResponse.value = error.errorHandling()
+            }
+    }
+
+    fun givePoint() = viewModelScope.launch {
+        givePointUseCase()
+            .onSuccess {
+                it.catch { remoteError ->
+                    _givePointResponse.value = remoteError.errorHandling()
+                }.collect { response ->
+                    _givePointResponse.value = Event.Success(data = response)
+                }
+            }.onFailure { error ->
+                _givePointResponse.value = error.errorHandling()
             }
     }
 }
