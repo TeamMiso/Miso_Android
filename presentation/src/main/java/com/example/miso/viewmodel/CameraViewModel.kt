@@ -5,11 +5,16 @@ import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.miso.ui.camera.state.AiAnswerState
 import com.example.miso.ui.camera.state.CameraState
 import com.example.miso.ui.camera.state.BitmapState
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.Query
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
@@ -29,7 +34,7 @@ class CameraViewModel @Inject constructor(
     private val _uploadFirebaseState = MutableStateFlow(BitmapState(uploadedBitmap = null))
     val uploadFirebaseState = _uploadFirebaseState.asStateFlow()
 
-    private val _aiAnswer = MutableStateFlow("")
+    private val _aiAnswer = MutableStateFlow(AiAnswerState(aiAnswerData = null, aiAnswerUploaded = null))
     val aiAnswer = _aiAnswer.asStateFlow()
 
     private val imgNum = MutableStateFlow(0)
@@ -57,6 +62,8 @@ class CameraViewModel @Inject constructor(
                     .child("img${imgNum.value}")
                     .setValue(imgNum.value)
 
+                getAiAnswer()
+
             }.addOnFailureListener {
                 Log.d("testt","failure")
                 _uploadFirebaseState.value = _uploadFirebaseState.value.copy(uploadedBitmap = false)
@@ -81,6 +88,27 @@ class CameraViewModel @Inject constructor(
 
         return Triple(databaseRef, storageRef, bitmapData)
     }
+    private fun getAiAnswer() {
+        val query: Query = getMessageQuery()
+        val valueEventListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.value != null) {
+                    _aiAnswer.value = _aiAnswer.value.copy(
+                        aiAnswerData = snapshot.value.toString(),
+                        aiAnswerUploaded = true
+                    )
+                    Log.d("testt", snapshot.value.toString())
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {}
+        }
+        query.addValueEventListener(valueEventListener)
+    }
 
+    private fun getMessageQuery(): Query {
+        return FirebaseDatabase.getInstance().getReference()
+            .child("ai")
+            .child("answer${imgNum.value}")
+    }
 
 }
