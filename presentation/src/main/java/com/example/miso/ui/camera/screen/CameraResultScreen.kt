@@ -1,6 +1,6 @@
 package com.example.miso.ui.camera.screen
 
-import android.graphics.Bitmap
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,28 +23,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import com.example.miso.R
-import com.example.miso.ui.camera.component.CameraBackBtn
 import com.example.miso.ui.camera.component.CameraBackground
 import com.example.miso.ui.camera.component.CameraConfirmBtn
-import com.example.miso.ui.camera.component.CameraFlashBtn
 import com.example.miso.ui.camera.component.CameraReCaptureBtn
-import com.example.miso.ui.camera.state.CameraState
-import com.example.miso.ui.component.button.MisoButton
+import com.example.miso.ui.camera.state.BitmapState
+import com.example.miso.ui.main.MainPage
 import com.example.miso.ui.theme.MisoTheme
 import com.example.miso.viewmodel.CameraViewModel
+import org.w3c.dom.Text
 
 @Composable
-fun CameraResultScreen(navController: NavController,viewModel: CameraViewModel) {
-    var callSerBitmap by remember { mutableStateOf(false) }
+fun CameraResultScreen(context: Context,navController: NavController,viewModel: CameraViewModel) {
+    var callSendBitmap by remember { mutableStateOf(BitmapState(callSendBitmap = null)) }
     getBitmap(viewModel = viewModel)
     MisoTheme { colors, typography ->
         CameraBackground()
@@ -59,13 +54,14 @@ fun CameraResultScreen(navController: NavController,viewModel: CameraViewModel) 
                 Spacer(modifier = Modifier.fillMaxWidth(0.07f))
                 CameraReCaptureBtn {navController.popBackStack()}
                 Spacer(modifier = Modifier.fillMaxWidth(0.06f))
-                CameraConfirmBtn{ callSerBitmap = true }
+                CameraConfirmBtn{ callSendBitmap = BitmapState(callSendBitmap = true) }
             }
 
         }
     }
-    if(callSerBitmap){
-        sendBitmap(viewModel = viewModel)
+    if(callSendBitmap.callSendBitmap == true){
+        sendBitmap(context = context, viewModel = viewModel,navController = navController)
+        callSendBitmap = BitmapState(callSendBitmap = false)
     }
 }
 @Composable
@@ -83,15 +79,28 @@ private fun getBitmap(viewModel: CameraViewModel){
 }
 
 @Composable
-private fun sendBitmap(viewModel: CameraViewModel){
+private fun sendBitmap(context: Context,viewModel: CameraViewModel,navController: NavController){
     val uploadFirebaseState by viewModel.uploadFirebaseState.collectAsState()
-
     viewModel.sendImgBitmap()
 
-    when(uploadFirebaseState.uploadedBitmap){
-        true -> Toast.makeText(LocalContext.current,"업로드 성공",Toast.LENGTH_SHORT).show()
-        false -> Toast.makeText(LocalContext.current,"업로드 실패",Toast.LENGTH_SHORT).show()
-        else -> Toast.makeText(LocalContext.current,"업로드 중..",Toast.LENGTH_LONG).show()
+    if (uploadFirebaseState.uploadedBitmap == true) {
+        toastMsg(context, "업로드 성공")
+    }
+    getAiResult(viewModel = viewModel, navController = navController)
+}
+fun toastMsg(context: Context,text: String){
+    Toast.makeText(context,text,Toast.LENGTH_SHORT).show()
+}
+
+@Composable
+private fun getAiResult(viewModel: CameraViewModel,navController: NavController){
+    val aiAnswer by viewModel.aiAnswer.collectAsState()
+    LaunchedEffect(aiAnswer.aiAnswerUploaded){
+        when(aiAnswer.aiAnswerUploaded){
+            true -> Log.d("testt-Ai",aiAnswer.aiAnswerData.toString())
+            false -> Log.d("testt-Ai","fail")
+            else -> {Log.d("testt-Ai","error")}
+        }
     }
 }
 @Composable

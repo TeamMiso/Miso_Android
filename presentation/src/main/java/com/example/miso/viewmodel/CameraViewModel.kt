@@ -44,18 +44,18 @@ class CameraViewModel @Inject constructor(
         viewModelScope.launch {
             _capturedImgBitmapState.value.capturedImage?.recycle()
             _capturedImgBitmapState.value = _capturedImgBitmapState.value.copy(capturedImage = bitmap)
-            Log.d("testt",bitmap.toString())
+            Log.d("testt-vm",bitmap.toString())
         }
     }
     fun sendImgBitmap(){
         val (databaseRef, storageRef, bitmapData) = setReference()
 
         val uploadImg = storageRef.putBytes(bitmapData)
-        Log.d("testt",uploadImg.toString())
+        Log.d("testt-vm",uploadImg.toString())
 
         uploadImg
             .addOnSuccessListener {
-                Log.d("testt","success")
+                Log.d("testt-vm","success")
                 _uploadFirebaseState.value = _uploadFirebaseState.value.copy(uploadedBitmap = true)
 
                 databaseRef
@@ -65,7 +65,7 @@ class CameraViewModel @Inject constructor(
                 getAiAnswer()
 
             }.addOnFailureListener {
-                Log.d("testt","failure")
+                Log.d("testt-vm","failure")
                 _uploadFirebaseState.value = _uploadFirebaseState.value.copy(uploadedBitmap = false)
             }
     }
@@ -84,7 +84,7 @@ class CameraViewModel @Inject constructor(
         swapBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
 
         val bitmapData = byteArrayOutputStream.toByteArray()
-        Log.d("testt", bitmapData.toString())
+        Log.d("testt-vm", bitmapData.toString())
 
         return Triple(databaseRef, storageRef, bitmapData)
     }
@@ -97,7 +97,7 @@ class CameraViewModel @Inject constructor(
                         aiAnswerData = snapshot.value.toString(),
                         aiAnswerUploaded = true
                     )
-                    Log.d("testt", snapshot.value.toString())
+                    Log.d("testt-vm", snapshot.value.toString())
                 }
             }
             override fun onCancelled(error: DatabaseError) {}
