@@ -31,10 +31,10 @@ class CameraViewModel @Inject constructor(
     private val _capturedImgBitmapState = MutableStateFlow(CameraState())
     val captureImgBitmapState = _capturedImgBitmapState.asStateFlow()
 
-    private val _uploadFirebaseState = MutableStateFlow(BitmapState(uploadedBitmap = null))
+    private val _uploadFirebaseState = MutableStateFlow(BitmapState())
     val uploadFirebaseState = _uploadFirebaseState.asStateFlow()
 
-    private val _aiAnswer = MutableStateFlow(AiAnswerState(aiAnswerData = null, aiAnswerUploaded = null))
+    private val _aiAnswer = MutableStateFlow(AiAnswerState(aiAnswerData = null))
     val aiAnswer = _aiAnswer.asStateFlow()
 
     private val imgNum = MutableStateFlow(0)
@@ -42,6 +42,7 @@ class CameraViewModel @Inject constructor(
 
     fun loadImgBitmap(bitmap: Bitmap){
         viewModelScope.launch {
+            _aiAnswer.value = _aiAnswer.value.copy(aiAnswerUploaded = null)
             _capturedImgBitmapState.value.capturedImage?.recycle()
             _capturedImgBitmapState.value = _capturedImgBitmapState.value.copy(capturedImage = bitmap)
             Log.d("testt-vm",bitmap.toString())
@@ -61,8 +62,8 @@ class CameraViewModel @Inject constructor(
                 databaseRef
                     .child("img${imgNum.value}")
                     .setValue(imgNum.value)
-
                 getAiAnswer()
+                _uploadFirebaseState.value = _uploadFirebaseState.value.copy(uploadedBitmap = null)
 
             }.addOnFailureListener {
                 Log.d("testt-vm","failure")
@@ -94,13 +95,17 @@ class CameraViewModel @Inject constructor(
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.value != null) {
                     _aiAnswer.value = _aiAnswer.value.copy(
-                        aiAnswerData = snapshot.value.toString(),
-                        aiAnswerUploaded = true
+                        aiAnswerUploaded = true,
+                        aiAnswerData = snapshot.value.toString().uppercase()
                     )
                     Log.d("testt-vm", snapshot.value.toString())
                 }
             }
-            override fun onCancelled(error: DatabaseError) {}
+            override fun onCancelled(error: DatabaseError) {
+                _aiAnswer.value = _aiAnswer.value.copy(
+                    aiAnswerUploaded = false
+                )
+            }
         }
         query.addValueEventListener(valueEventListener)
     }

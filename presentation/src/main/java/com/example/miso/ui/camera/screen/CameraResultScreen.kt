@@ -30,6 +30,7 @@ import androidx.navigation.NavController
 import com.example.miso.ui.camera.component.CameraBackground
 import com.example.miso.ui.camera.component.CameraConfirmBtn
 import com.example.miso.ui.camera.component.CameraReCaptureBtn
+import com.example.miso.ui.camera.state.AiAnswerState
 import com.example.miso.ui.camera.state.BitmapState
 import com.example.miso.ui.main.MainPage
 import com.example.miso.ui.theme.MisoTheme
@@ -38,7 +39,26 @@ import org.w3c.dom.Text
 
 @Composable
 fun CameraResultScreen(context: Context,navController: NavController,viewModel: CameraViewModel) {
+    val uploadFirebaseState by viewModel.uploadFirebaseState.collectAsState()
+    val aiAnswer by viewModel.aiAnswer.collectAsState()
     var callSendBitmap by remember { mutableStateOf(BitmapState(callSendBitmap = null)) }
+
+    LaunchedEffect(uploadFirebaseState.uploadedBitmap){
+        when(uploadFirebaseState.uploadedBitmap){
+            true -> toastMsg(context,"업로드 성공")
+            false -> toastMsg(context,"네트워크 상태를 확인해 주세요.")
+            else -> {}
+        }
+    }
+
+    LaunchedEffect(aiAnswer.aiAnswerUploaded){
+        when(aiAnswer.aiAnswerUploaded){
+            true -> Log.d("testt-Ai",aiAnswer.aiAnswerData.toString())
+            false -> Log.d("testt-Ai","fail")
+            else -> {Log.d("testt-Ai","error")}
+        }
+    }
+
     getBitmap(viewModel = viewModel)
     MisoTheme { colors, typography ->
         CameraBackground()
@@ -60,7 +80,7 @@ fun CameraResultScreen(context: Context,navController: NavController,viewModel: 
         }
     }
     if(callSendBitmap.callSendBitmap == true){
-        sendBitmap(context = context, viewModel = viewModel,navController = navController)
+        sendBitmap(context = context, viewModel = viewModel,navController = navController,uploadFirebaseState)
         callSendBitmap = BitmapState(callSendBitmap = false)
     }
 }
@@ -79,29 +99,11 @@ private fun getBitmap(viewModel: CameraViewModel){
 }
 
 @Composable
-private fun sendBitmap(context: Context,viewModel: CameraViewModel,navController: NavController){
-    val uploadFirebaseState by viewModel.uploadFirebaseState.collectAsState()
+private fun sendBitmap(context: Context,viewModel: CameraViewModel,navController: NavController,uploadFirebaseState: BitmapState){
     viewModel.sendImgBitmap()
-
-    if (uploadFirebaseState.uploadedBitmap == true) {
-        toastMsg(context, "업로드 성공")
-    }
-    getAiResult(viewModel = viewModel, navController = navController)
 }
 fun toastMsg(context: Context,text: String){
     Toast.makeText(context,text,Toast.LENGTH_SHORT).show()
-}
-
-@Composable
-private fun getAiResult(viewModel: CameraViewModel,navController: NavController){
-    val aiAnswer by viewModel.aiAnswer.collectAsState()
-    LaunchedEffect(aiAnswer.aiAnswerUploaded){
-        when(aiAnswer.aiAnswerUploaded){
-            true -> Log.d("testt-Ai",aiAnswer.aiAnswerData.toString())
-            false -> Log.d("testt-Ai","fail")
-            else -> {Log.d("testt-Ai","error")}
-        }
-    }
 }
 @Composable
 @Preview(showBackground = true)
