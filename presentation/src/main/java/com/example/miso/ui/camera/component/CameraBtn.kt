@@ -22,7 +22,7 @@ import com.example.miso.R
 @Composable
 fun CameraCaptureBtn(onClick: () -> Unit){
     IconButton(
-        onClick = { /*TODO*/ }
+        onClick = {}
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_camera_btn),

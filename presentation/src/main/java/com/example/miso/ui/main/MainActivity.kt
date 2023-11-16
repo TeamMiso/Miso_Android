@@ -47,6 +47,7 @@ import com.example.miso.viewmodel.InquiryViewModel
 import com.example.miso.viewmodel.RecyclablesViewModel
 import com.example.miso.viewmodel.UserViewModel
 import com.example.miso.viewmodel.util.Event
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -71,7 +72,6 @@ class MainActivity : BaseActivity() {
     private val recyclablesViewModel by viewModels<RecyclablesViewModel>()
 
     private lateinit var navController: NavController
-
     override fun init() {
         userViewModel.getRole()
         lifecycleScope.launch {
@@ -152,8 +152,10 @@ class MainActivity : BaseActivity() {
                             }
                             composable(MainPage.CameraResult.value) {
                                 CameraResultScreen(
+                                    context = this@MainActivity,
                                     navController = navController,
-                                    viewModel = viewModel(LocalContext.current as MainActivity)
+                                    viewModel = viewModel(LocalContext.current as MainActivity),
+                                    viewModelResult = viewModel(LocalContext.current as MainActivity)
                                 )
                             }
                             composable(MainPage.Search.name) {

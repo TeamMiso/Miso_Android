@@ -43,6 +43,9 @@ fun CameraReCaptureBtn(onClick: () -> Unit){
 }
 @Composable
 fun CameraConfirmBtn(onClick: () -> Unit){
+    val buttonClick: () -> Unit = {
+        onClick() // 전달된 클릭 이벤트 실행
+    }
     MisoTheme { colors, typography ->
         Row() {
             Button(
@@ -51,7 +54,7 @@ fun CameraConfirmBtn(onClick: () -> Unit){
                     .height(48.dp),
                 shape = RoundedCornerShape(5.dp),
                 colors = ButtonDefaults.buttonColors(colors.M1),
-                onClick = { onClick() }
+                onClick = buttonClick
             ) {
                 Text(
                     text = "확인",
