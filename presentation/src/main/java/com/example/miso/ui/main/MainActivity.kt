@@ -40,11 +40,13 @@ import com.example.miso.ui.log_in.LogInActivity
 import com.example.miso.ui.main.screen.MainScreen
 import com.example.miso.ui.main.screen.SearchScreen
 import com.example.miso.ui.result.screen.ResultScreen
+import com.example.miso.ui.shop.screen.ShopScreen
 import com.example.miso.ui.sign_up.SignUpPage
 import com.example.miso.viewmodel.AuthViewModel
 import com.example.miso.viewmodel.CameraViewModel
 import com.example.miso.viewmodel.InquiryViewModel
 import com.example.miso.viewmodel.RecyclablesViewModel
+import com.example.miso.viewmodel.ShopViewModel
 import com.example.miso.viewmodel.UserViewModel
 import com.example.miso.viewmodel.util.Event
 import com.google.firebase.ktx.Firebase
@@ -57,6 +59,7 @@ enum class MainPage(val value: String) {
     Camera("Camera"),
     CameraResult("CameraResult"),
     Search("Search"),
+    Shop("Shop"),
     Inquiry("Inquiry"),
     List("List"),
     Detail("Detail"),
@@ -70,10 +73,18 @@ class MainActivity : BaseActivity() {
     private val inquiryViewModel by viewModels<InquiryViewModel>()
     private val cameraViewModel by viewModels<CameraViewModel>()
     private val recyclablesViewModel by viewModels<RecyclablesViewModel>()
+    private val shopViewModel by viewModels<ShopViewModel>()
 
     private lateinit var navController: NavController
     override fun init() {
         userViewModel.getRole()
+        lifecycleScope.launch {
+            shopViewModel.getShopListResponse.collect {
+                if(it is Event.Success) {
+
+                }
+            }
+        }
         lifecycleScope.launch {
             authViewModel.logoutResponse.collect {
                 if (it is Event.Success) {
@@ -137,6 +148,7 @@ class MainActivity : BaseActivity() {
                                     lifecycleScope = lifecycleScope,
                                     viewModel = viewModel(LocalContext.current as MainActivity),
                                     onCameraClick = { navController.navigate(MainPage.Camera.value) },
+                                    onShopClick = {navController.navigate(MainPage.Shop.value)},
                                     onInquiryClick = { navController.navigate(MainPage.Inquiry.value) },
                                     onListClick = { navController.navigate(MainPage.List.value) },
                                     onSearchClick = { navController.navigate(MainPage.Search.value) },
@@ -150,7 +162,7 @@ class MainActivity : BaseActivity() {
                                     viewModel = viewModel(LocalContext.current as MainActivity)
                                 )
                             }
-                            composable(MainPage.CameraResult.value) {
+                            composable(MainPage.CameraResult.name) {
                                 CameraResultScreen(
                                     context = this@MainActivity,
                                     navController = navController,
@@ -167,6 +179,11 @@ class MainActivity : BaseActivity() {
                                     onResultClick = { navController.navigate(MainPage.Result.value) },
                                     onInquiryClick = { navController.navigate(MainPage.Inquiry.value) }
                                 )
+                            }
+                            composable(MainPage.Shop.name){
+                                ShopScreen(
+                                    context = this@MainActivity,
+                                    )
                             }
                             composable(MainPage.Inquiry.name) {
                                 InquiryScreen(

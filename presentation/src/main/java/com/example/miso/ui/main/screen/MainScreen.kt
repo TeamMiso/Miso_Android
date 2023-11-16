@@ -43,6 +43,7 @@ fun MainScreen(
     lifecycleScope: CoroutineScope,
     viewModel: InquiryViewModel,
     onCameraClick: () -> Unit,
+    onShopClick: () -> Unit,
     onInquiryClick: () -> Unit,
     onListClick: () -> Unit,
     onSearchClick: () -> Unit,
@@ -102,9 +103,10 @@ fun MainScreen(
         Column {
             Spacer(modifier = Modifier.fillMaxHeight(0.25f))
             MainContentPager(
+                onCameraClick = { onCameraClick() },
+                onShopClick = { onShopClick() },
                 onInquiryClick = { onInquiryClick() },
-                onListClick = { onListClick() },
-                onCameraClick = { onCameraClick() }
+                onListClick = { onListClick() }
             )
         }
         MisoSnackbar(
