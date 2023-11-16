@@ -35,10 +35,11 @@ import com.example.miso.ui.camera.state.BitmapState
 import com.example.miso.ui.main.MainPage
 import com.example.miso.ui.theme.MisoTheme
 import com.example.miso.viewmodel.CameraViewModel
+import com.example.miso.viewmodel.RecyclablesViewModel
 import org.w3c.dom.Text
 
 @Composable
-fun CameraResultScreen(context: Context,navController: NavController,viewModel: CameraViewModel) {
+fun CameraResultScreen(context: Context,navController: NavController,viewModel: CameraViewModel,viewModelResult: RecyclablesViewModel) {
     val uploadFirebaseState by viewModel.uploadFirebaseState.collectAsState()
     val aiAnswer by viewModel.aiAnswer.collectAsState()
     var callSendBitmap by remember { mutableStateOf(BitmapState(callSendBitmap = null)) }
@@ -53,7 +54,11 @@ fun CameraResultScreen(context: Context,navController: NavController,viewModel: 
 
     LaunchedEffect(aiAnswer.aiAnswerUploaded){
         when(aiAnswer.aiAnswerUploaded){
-            true -> Log.d("testt-Ai",aiAnswer.aiAnswerData.toString())
+            true -> {
+                Log.d("testt-Ai",aiAnswer.aiAnswerData.toString())
+                viewModelResult.result(aiAnswer.aiAnswerData.toString())
+                navController.navigate(MainPage.Result.value)
+            }
             false -> Log.d("testt-Ai","fail")
             else -> {Log.d("testt-Ai","error")}
         }

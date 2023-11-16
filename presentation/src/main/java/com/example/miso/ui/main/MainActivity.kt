@@ -154,7 +154,8 @@ class MainActivity : BaseActivity() {
                                 CameraResultScreen(
                                     context = this@MainActivity,
                                     navController = navController,
-                                    viewModel = viewModel(LocalContext.current as MainActivity)
+                                    viewModel = viewModel(LocalContext.current as MainActivity),
+                                    viewModelResult = viewModel(LocalContext.current as MainActivity)
                                 )
                             }
                             composable(MainPage.Search.name) {
