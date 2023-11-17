@@ -183,6 +183,7 @@ class MainActivity : BaseActivity() {
                             composable(MainPage.Shop.name){
                                 ShopScreen(
                                     context = this@MainActivity,
+                                    viewModel = viewModel(LocalContext.current as MainActivity)
                                     )
                             }
                             composable(MainPage.Inquiry.name) {
