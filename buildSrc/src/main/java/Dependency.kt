@@ -86,4 +86,8 @@ object Dependency {
     object DataStore {
         const val PREFERENCES = "androidx.datastore:datastore-preferences:${Versions.PREFERENCES}"
     }
+
+    object Github {
+        const val MARKDOWN = "com.github.jeziellago:compose-markdown:${Versions.MARKDOWN}"
+    }
 }
