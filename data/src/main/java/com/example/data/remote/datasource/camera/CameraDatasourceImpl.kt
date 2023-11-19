@@ -9,8 +9,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
+import javax.inject.Named
 
 class CameraDatasourceImpl @Inject constructor(
+    @Named("AI")
     private val api: CameraAPI
 ): CameraDatasource {
     override suspend fun getAiResponse(body: CameraRequest): Flow<CameraResponse> = flow {

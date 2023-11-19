@@ -1,6 +1,7 @@
 package com.example.di.module
 
 import com.example.data.remote.api.AuthAPI
+import com.example.data.remote.api.CameraAPI
 import com.example.data.remote.api.EmailAPI
 import com.example.data.remote.api.InquiryAPI
 import com.example.data.remote.api.UserAPI
@@ -15,7 +16,9 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -54,18 +57,19 @@ object NetworkModule {
             .addConverterFactory(gsonConverterFactory)
             .build()
     }
-    /*@Provides
+    @Provides
     @Singleton
-    fun provideRetrofitInstance2(
+    @Named("AI")
+    fun provideAiRetrofitInstance(
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory,
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.AI_BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
             .build()
-    }*/
+    }
 
     @Provides
     @Singleton
@@ -89,5 +93,12 @@ object NetworkModule {
     @Singleton
     fun inquiryService(retrofit: Retrofit): InquiryAPI {
         return retrofit.create(InquiryAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @Named("AI")
+    fun aiService(retrofit: Retrofit): CameraAPI {
+        return retrofit.create(CameraAPI::class.java)
     }
 }
