@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.miso.ui.result.component.ResultButton
@@ -42,7 +41,7 @@ fun ResultScreen(
                 Spacer(modifier = Modifier.height(12.dp))
                 ResultRecycleMarkText(url = result.recycleMark)
                 Spacer(modifier = Modifier.height(30.dp))
-                ResultContentText(text = result.content)
+                ResultContentText(markdown = result.content.trimIndent())
             }
             Spacer(modifier = Modifier.height(24.dp))
             ResultButton {

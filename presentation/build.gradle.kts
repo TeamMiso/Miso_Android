@@ -102,4 +102,6 @@ dependencies {
 
     implementation(Dependency.Google.GSON)
 
+    implementation(Dependency.Github.MARKDOWN)
+
 }

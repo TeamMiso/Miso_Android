@@ -58,4 +58,6 @@ object Versions {
 
     const val GSON = "2.9.0"
 
+    const val MARKDOWN = "0.3.6"
+
 }
