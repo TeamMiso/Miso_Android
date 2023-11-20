@@ -61,7 +61,7 @@ class CameraViewModel @Inject constructor(
 
                 databaseRef
                     .child("img${imgNum.value}")
-                    .setValue(imgNum.value)
+                    .setValue(imgNum.value.toString())
                 getAiAnswer()
                 _uploadFirebaseState.value = _uploadFirebaseState.value.copy(uploadedBitmap = null)
 
@@ -113,7 +113,7 @@ class CameraViewModel @Inject constructor(
     private fun getMessageQuery(): Query {
         return FirebaseDatabase.getInstance().getReference()
             .child("ai")
-            .child("answer${imgNum.value}")
+            .child("response${imgNum.value}")
     }
 
 }

@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "718385662111",
-    "project_id": "miso-android",
-    "storage_bucket": "miso-android.appspot.com"
+    "project_number": "594091615310",
+    "project_id": "miso-android-app-2",
+    "storage_bucket": "miso-android-app-2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:718385662111:android:7ea0ea811361bd6973baaa",
+        "mobilesdk_app_id": "1:594091615310:android:dcf28f5decf819a0158f1f",
         "android_client_info": {
           "package_name": "com.example.miso"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAgoAVJvJoOq58gX0hkLZLqK0pVNODd110"
+          "current_key": "AIzaSyDbVOoVfmJOyUnj5vuu5KW4htx2_Q4OFQQ"
         }
       ],
       "services": {
