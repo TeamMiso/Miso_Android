@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -41,14 +42,13 @@ fun CameraScreen(
 ){
     CheckPermission(context = context, navController = navController,viewModel = viewModel)
     Box(){
-        CameraBackground()
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().navigationBarsPadding(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.fillMaxHeight(0.05f))
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row(modifier = Modifier.fillMaxWidth().navigationBarsPadding()) {
                 Spacer(modifier = Modifier.fillMaxWidth(0.03f))
                 CameraBackBtn{ navController.popBackStack() }
                 Spacer(modifier = Modifier.fillMaxWidth(0.35f))
@@ -56,7 +56,7 @@ fun CameraScreen(
                     onClick = { }
                 )
             }
-            Spacer(modifier = Modifier.fillMaxHeight(0.87f))
+            CameraBackground()
         }
     }
 }
