@@ -58,7 +58,7 @@ fun CameraPreview(
                 PreviewView(context).apply {
                     setBackgroundColor(Color.LightGray.toArgb())
                     layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
-                    scaleType = PreviewView.ScaleType.FILL_START
+                    scaleType = PreviewView.ScaleType.FILL_CENTER
                     implementationMode = PreviewView.ImplementationMode.COMPATIBLE
                 }.also { previewView ->
                     previewView.controller = cameraController
