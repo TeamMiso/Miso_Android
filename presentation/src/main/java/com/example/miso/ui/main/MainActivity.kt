@@ -155,7 +155,6 @@ class MainActivity : BaseActivity() {
                                     context = this@MainActivity,
                                     navController = navController,
                                     viewModel = viewModel(LocalContext.current as MainActivity),
-                                    permissionBlock = { navController.popBackStack() }
                                 )
                             }
                             composable(MainPage.CameraResult.name) {
