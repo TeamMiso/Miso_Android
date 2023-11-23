@@ -36,4 +36,8 @@ class UserRepositoryImpl @Inject constructor(
         localUserDataSource.removePoint()
         localUserDataSource.removeRole()
     }
+
+    override suspend fun givePoint(): Flow<Unit> {
+        return remoteUserDatasource.givePoint()
+    }
 }

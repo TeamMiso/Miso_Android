@@ -2,6 +2,8 @@ package com.example.di.module
 
 import com.example.data.local.datasource.auth.LocalAuthDataSource
 import com.example.data.local.datasource.auth.LocalAuthDataSourceImpl
+import com.example.data.local.datasource.recyclables.LocalRecyclablesDataSource
+import com.example.data.local.datasource.recyclables.LocalRecyclablesDataSourceImpl
 import com.example.data.local.datasource.user.LocalUserDataSource
 import com.example.data.local.datasource.user.LocalUserDataSourceImpl
 import dagger.Binds
@@ -21,4 +23,9 @@ abstract class LocalDataSourceModule {
     abstract fun provideLocalUserDataSource(
         localUserDataSourceImpl: LocalUserDataSourceImpl
     ): LocalUserDataSource
+
+    @Binds
+    abstract fun provideLocalRecyclables(
+        localRecyclablesDataSourceImpl: LocalRecyclablesDataSourceImpl
+    ): LocalRecyclablesDataSource
 }

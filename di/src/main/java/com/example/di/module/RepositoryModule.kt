@@ -3,10 +3,14 @@ package com.example.di.module
 import com.example.data.repository.AuthRepositoryImpl
 import com.example.data.repository.EmailRepositoryImpl
 import com.example.data.repository.InquiryRepositoryImpl
+import com.example.data.repository.RecyclablesRepositoryImpl
+import com.example.data.repository.ShopRepositoryImpl
 import com.example.data.repository.UserRepositoryImpl
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.EmailRepository
 import com.example.domain.repository.InquiryRepository
+import com.example.domain.repository.RecyclablesRepository
+import com.example.domain.repository.ShopRepository
 import com.example.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -36,4 +40,14 @@ abstract class RepositoryModule {
     abstract fun provideInquiryRepository(
         inquiryRepositoryImpl: InquiryRepositoryImpl
     ): InquiryRepository
+
+    @Binds
+    abstract fun provideRecyclablesRepository(
+        recyclablesRepositoryImpl: RecyclablesRepositoryImpl
+    ): RecyclablesRepository
+
+    @Binds
+    abstract fun  provideShopRepository(
+        shopRepositoryImpl: ShopRepositoryImpl
+    ): ShopRepository
 }

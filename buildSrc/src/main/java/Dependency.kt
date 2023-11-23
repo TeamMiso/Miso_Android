@@ -53,7 +53,8 @@ object Dependency {
             "com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}"
     }
     object Google {
-        const val FIREBASE = "com.google.firebase:firebase-auth-ktx:${Versions.FIREBASE}"
+        const val FIREBASE_STORAGE = "com.google.firebase:firebase-storage"
+        const val FIREBASE_DATABASE = "com.google.firebase:firebase-database-ktx:${Versions.FIREBASE_DATABASE}"
         const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
         const val FIREBASE_BOM = "com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"
 
@@ -61,6 +62,8 @@ object Dependency {
             "com.google.android.gms:play-services-auth:${Versions.GMS_PLAY_SERVICE_AUTH}"
         const val GMS_GOOGLE_SERVICE =
             "com.google.gms:google-services:${Versions.GMS_GOOGLE_SERVICE}"
+        const val GMS_GOOGLE_SERVICE_PLUGIN =
+            "com.google.gms.google-services"
 
         const val HILT_ANDROID = "com.google.dagger:hilt-android:${Versions.HILT}"
         const val HILT_ANDROID_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
@@ -82,5 +85,9 @@ object Dependency {
 
     object DataStore {
         const val PREFERENCES = "androidx.datastore:datastore-preferences:${Versions.PREFERENCES}"
+    }
+
+    object Github {
+        const val MARKDOWN = "com.github.jeziellago:compose-markdown:${Versions.MARKDOWN}"
     }
 }

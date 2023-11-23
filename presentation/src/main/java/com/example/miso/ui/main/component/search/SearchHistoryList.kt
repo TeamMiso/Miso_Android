@@ -11,17 +11,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.miso.ui.theme.MisoTheme
+import com.example.miso.viewmodel.RecyclablesViewModel
 
 @Composable
-fun SearchList(items: Int) {
+fun SearchHistoryList(
+    searchHistory: List<String>,
+    onSearchHistoryClick: (String) -> Unit,
+    onRemoveClick: (index: Int) -> Unit
+) {
     MisoTheme { colors, _ ->
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {
-            items(items) { index ->
-                SearchListItem(text = "text") {
+            items(searchHistory.size) { index ->
+                val reversedIndex = searchHistory.size - 1 - index
+                val historyItem = searchHistory[reversedIndex]
 
-                }
+                SearchHistoryListItem(
+                    text = historyItem,
+                    onSearchClick = { onSearchHistoryClick(historyItem) },
+                    onRemoveClick = { onRemoveClick(reversedIndex) }
+                )
+
                 Divider(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -35,6 +46,6 @@ fun SearchList(items: Int) {
 
 @Composable
 @Preview(showBackground = true)
-fun SearchListPreView() {
-    SearchList(3)
+fun SearchHistoryListPreView() {
+    // SearchHistoryList()
 }

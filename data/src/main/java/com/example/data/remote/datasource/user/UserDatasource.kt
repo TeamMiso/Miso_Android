@@ -5,4 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserDatasource {
     suspend fun getUserInfo(): Flow<UserInfoResponse>
+
+    suspend fun givePoint(): Flow<Unit>
 }

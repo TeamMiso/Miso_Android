@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id ("kotlin-kapt")
     id ("dagger.hilt.android.plugin")
+    id (Dependency.Google.GMS_GOOGLE_SERVICE_PLUGIN)
 }
 
 android {
@@ -66,6 +67,12 @@ dependencies {
     implementation(Dependency.AndroidX.CAMERA_VIEW)
     implementation(Dependency.AndroidX.CAMERA_EXTENSIONS)
 
+    //fireBase
+    implementation(platform(Dependency.Google.FIREBASE_BOM))
+    implementation(Dependency.Google.FIREBASE_ANALYTICS)
+    implementation(Dependency.Google.FIREBASE_DATABASE)
+    implementation(Dependency.Google.FIREBASE_STORAGE)
+
     //coil
     implementation(Dependency.Image.COIL)
     // 수정 요망
@@ -94,5 +101,7 @@ dependencies {
     implementation(Dependency.Image.COIL)
 
     implementation(Dependency.Google.GSON)
+
+    implementation(Dependency.Github.MARKDOWN)
 
 }

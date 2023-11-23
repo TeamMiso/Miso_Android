@@ -23,6 +23,12 @@ android {
             "BASE_URL",
             getApiKey("BASE_URL")
         )
+        buildConfigField(
+            "String",
+            "AI_BASE_URL",
+            getApiKey("AI_BASE_URL")
+        )
+
     }
 
     buildTypes {

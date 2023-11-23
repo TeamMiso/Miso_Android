@@ -6,8 +6,13 @@ import com.example.data.remote.datasource.email.EmailDatasource
 import com.example.data.remote.datasource.email.EmailDatasourceImpl
 import com.example.data.remote.datasource.inquiry.InquiryDatasource
 import com.example.data.remote.datasource.inquiry.InquiryDatasourceImpl
+import com.example.data.remote.datasource.recyclables.RecyclablesDatasource
+import com.example.data.remote.datasource.recyclables.RecyclablesDatasourceImpl
+import com.example.data.remote.datasource.shop.ShopDatasource
+import com.example.data.remote.datasource.shop.ShopDatasourceImpl
 import com.example.data.remote.datasource.user.UserDatasource
 import com.example.data.remote.datasource.user.UserDatasourceImpl
+import com.example.data.repository.ShopRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -36,4 +41,14 @@ abstract class RemoteDatasourceModule {
     abstract fun provideInquiryDatasource(
         inquiryDatasourceImpl: InquiryDatasourceImpl
     ): InquiryDatasource
+
+    @Binds
+    abstract fun provideRecyclablesDatasource(
+        recyclablesDatasourceImpl: RecyclablesDatasourceImpl
+    ): RecyclablesDatasource
+
+    @Binds
+    abstract fun provideShopDatasource(
+        shopDatasourceImpl: ShopDatasourceImpl
+    ): ShopDatasource
 }

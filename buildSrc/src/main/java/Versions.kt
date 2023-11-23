@@ -32,10 +32,10 @@ object Versions {
     const val MATERIAL = "1.9.0"
 
     const val GMS_PLAY_SERVICE_AUTH = "19.0.0"
-    const val GMS_GOOGLE_SERVICE = "4.3.10"
+    const val GMS_GOOGLE_SERVICE = "4.3.15"
 
-    const val FIREBASE = "21.0.3"
-    const val FIREBASE_BOM = "30.0.1"
+    const val FIREBASE_DATABASE = "20.3.0"
+    const val FIREBASE_BOM = "32.5.0"
 
     const val MOSHI = "1.13.0"
 
@@ -57,5 +57,7 @@ object Versions {
     const val PREFERENCES = "1.0.0"
 
     const val GSON = "2.9.0"
+
+    const val MARKDOWN = "0.3.6"
 
 }
