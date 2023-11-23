@@ -40,6 +40,7 @@ fun CameraFlashBtn(onClick: () -> Unit){
     var flashOn by remember { mutableStateOf(false) }
     IconButton(
         onClick = {
+            onClick()
             flashOn = !flashOn
         },
     ) {

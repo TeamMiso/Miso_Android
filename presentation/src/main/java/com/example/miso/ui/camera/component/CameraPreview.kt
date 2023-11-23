@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,11 +30,13 @@ import com.example.miso.ui.camera.util.capturePhoto
 @Composable
 fun CameraPreview(
     onPhotoCapturedData: (Bitmap) -> Unit,
-    onPhotoCaptured: (Boolean) -> Unit
+    onPhotoCaptured: (Boolean) -> Unit,
+    getFlashOn: Boolean
     ) {
     val context = LocalContext.current
     val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
     val cameraController: LifecycleCameraController = remember { LifecycleCameraController(context) }
+    val flashOn = remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -50,6 +53,8 @@ fun CameraPreview(
         },
         floatingActionButtonPosition = FabPosition.Center
     ) { innerPadding: PaddingValues ->
+        flashOn.value = getFlashOn
+        cameraController.enableTorch(flashOn.value)
         AndroidView(
             modifier = Modifier
                 .fillMaxSize()
