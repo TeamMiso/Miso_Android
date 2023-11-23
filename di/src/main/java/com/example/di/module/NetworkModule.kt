@@ -1,6 +1,7 @@
 package com.example.di.module
 
 import com.example.data.remote.api.AuthAPI
+import com.example.data.remote.api.CameraAPI
 import com.example.data.remote.api.EmailAPI
 import com.example.data.remote.api.InquiryAPI
 import com.example.data.remote.api.RecyclablesAPI
@@ -8,7 +9,6 @@ import com.example.data.remote.api.ShopAPI
 import com.example.data.remote.api.UserAPI
 import com.example.data.util.AuthInterceptor
 import com.example.di.BuildConfig
-import com.example.domain.repository.ShopRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,6 +20,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -49,6 +50,19 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofitInstance(
+        okHttpClient: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory,
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(gsonConverterFactory)
+            .build()
+    }
+    @Provides
+    @Singleton
+    @Named("AI")
+    fun provideAiRetrofitInstance(
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory,
     ): Retrofit {
@@ -93,5 +107,12 @@ object NetworkModule {
     @Singleton
     fun shopService(retrofit: Retrofit): ShopAPI {
         return retrofit.create(ShopAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @Named("AI")
+    fun aiService(retrofit: Retrofit): CameraAPI {
+        return retrofit.create(CameraAPI::class.java)
     }
 }

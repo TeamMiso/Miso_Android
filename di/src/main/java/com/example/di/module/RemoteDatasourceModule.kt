@@ -2,6 +2,8 @@ package com.example.di.module
 
 import com.example.data.remote.datasource.auth.AuthDatasource
 import com.example.data.remote.datasource.auth.AuthDatasourceImpl
+import com.example.data.remote.datasource.camera.CameraDatasource
+import com.example.data.remote.datasource.camera.CameraDatasourceImpl
 import com.example.data.remote.datasource.email.EmailDatasource
 import com.example.data.remote.datasource.email.EmailDatasourceImpl
 import com.example.data.remote.datasource.inquiry.InquiryDatasource
@@ -51,4 +53,9 @@ abstract class RemoteDatasourceModule {
     abstract fun provideShopDatasource(
         shopDatasourceImpl: ShopDatasourceImpl
     ): ShopDatasource
+
+    @Binds
+    abstract fun provideCameraDatasource(
+        cameraDatasourceImpl: CameraDatasourceImpl
+    ): CameraDatasource
 }

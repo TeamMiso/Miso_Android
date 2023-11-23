@@ -1,6 +1,7 @@
 package com.example.miso.ui.camera.screen
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,20 +41,35 @@ fun CameraScreen(
     navController: NavController,
     viewModel: CameraViewModel
 ){
+    val flashOn = remember { mutableStateOf(false) }
+    LaunchedEffect(flashOn){
+        Log.d("testt_flash",flashOn.value.toString())
+    }
     CheckPermission(context = context, navController = navController,viewModel = viewModel)
+    CameraPreview(
+        onPhotoCapturedData = viewModel::loadImgBitmap,
+        onPhotoCaptured = {captured ->
+            if(captured) navController.navigate(MainPage.CameraResult.value)
+        },
+        getFlashOn = flashOn.value
+    )
     Box(){
         Column(
-            modifier = Modifier.fillMaxSize().navigationBarsPadding(),
+            modifier = Modifier
+                .fillMaxSize()
+                .navigationBarsPadding(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.fillMaxHeight(0.05f))
-            Row(modifier = Modifier.fillMaxWidth().navigationBarsPadding()) {
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .navigationBarsPadding()) {
                 Spacer(modifier = Modifier.fillMaxWidth(0.03f))
                 CameraBackBtn{ navController.popBackStack() }
                 Spacer(modifier = Modifier.fillMaxWidth(0.35f))
                 CameraFlashBtn(
-                    onClick = { }
+                    onClick = { flashOn.value = !flashOn.value}
                 )
             }
             CameraBackground()
@@ -75,19 +91,7 @@ fun CheckPermission(
         }
     }
 
-    if (cameraPermissionState.status.isGranted) {
-        LunchCameraScreen(navController = navController,viewModel = viewModel)
-    } else {
+    if (!cameraPermissionState.status.isGranted) {
         navController.popBackStack()
     }
-}
-@Composable
-fun LunchCameraScreen(navController: NavController,viewModel: CameraViewModel) {
-    CameraPreview(
-        onPhotoCapturedData = viewModel::loadImgBitmap,
-        onPhotoCaptured = {captured ->
-            if(captured) navController.navigate(MainPage.CameraResult.value)
-        }
-    )
-
 }
