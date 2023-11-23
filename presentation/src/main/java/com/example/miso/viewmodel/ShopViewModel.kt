@@ -74,6 +74,9 @@ class ShopViewModel @Inject constructor(
                 _getShopListDetailResponse.value = it.errorHandling()
             }
     }
+    fun changeDetailList() {
+        _getShopListDetailResponse.value = Event.Loading
+    }
     fun addShopList(list: List<ShopListModel>) {
         shopList.clear()
         shopList.addAll(list)

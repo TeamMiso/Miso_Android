@@ -50,18 +50,21 @@ fun ShopScreen(
         Log.d("testt", "작동")
     }
     LaunchedEffect(launchDetail.value){
+        Log.d("lsd","작동함")
         if(launchDetail.value){
-            Log.d("testt-lsd","작동")
+            Log.d("lsd","작동")
             getShopDetailList(
                 viewModel = viewModel,
                 progressState = { progressState.value = it },
                 onSuccess = {list ->
+                    Log.d("lsd","nav작동")
                     viewModel.addShopDetailList(list)
                     navController.navigate(MainPage.ShopDetail.value)
+                    viewModel.changeDetailList()
+                    launchDetail.value = false
                 }
             )
         }
-        launchDetail.value = false
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -72,9 +75,8 @@ fun ShopScreen(
             items(viewModel.shopList.size){index ->
                 Log.d("testt-item",viewModel.shopList[index].toString())
                 ShopProductListItem(
-                    onClick = {
-                        launchDetail.value = true  },
-                    launchDetail = { viewModel.getShopDetail(viewModel.shopList[index].id)},
+                    launchDetail = { viewModel.getShopDetail(viewModel.shopList[index].id) },
+                    onClick = { launchDetail.value = true },
                     productName = viewModel.shopList[index].name,
                     price = viewModel.shopList[index].price,
                     productImg = viewModel.shopList[index].imageUrl
@@ -118,7 +120,7 @@ suspend fun getShopDetailList(
         Log.d("testt", "작동")
         when (response) {
             is Event.Success -> {
-                Log.d("testt","이벤트 성공${response.data!!}")
+                Log.d("lsd","이벤트 성공${response.data!!}")
                 progressState(false)
                 onSuccess(response.data!!)
             }
