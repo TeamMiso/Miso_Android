@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,6 +34,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.example.miso.R
 
@@ -56,14 +58,14 @@ fun ShopProductListImg(productImg: String) {
             )
         } else if (productImg.isNotBlank()) {
             Log.d("testt-blank", productImg)
-            Image(
-                painter = rememberAsyncImagePainter(model = productImg),
-                contentDescription = null,
+            AsyncImage(
+                model = productImg,
                 modifier = Modifier
                     .fillMaxSize()
                     .clip(shape = RoundedCornerShape(5.dp)),
                 contentScale = ContentScale.Crop,
-            )
+                contentDescription = null,
+                )
         } else {
             Image(
                 painter = painterResource(id = R.drawable.ic_no_image),
@@ -89,7 +91,7 @@ fun ShopProductListItem(onClick: () -> Unit,launchDetail: () -> Unit,productName
             ) {
                 launchDetail()
                 onClick()
-              }
+            }
         ,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center

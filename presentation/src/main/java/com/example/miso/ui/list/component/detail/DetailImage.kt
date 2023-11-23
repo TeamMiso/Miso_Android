@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
 import com.example.miso.R
 import com.example.miso.ui.inquiry.component.MoveGalleryButton
@@ -53,8 +54,8 @@ fun DetailImage(
                     )
                 }
                 else {
-                    Image(
-                        painter = rememberImagePainter(data = selectedImageUri),
+                    AsyncImage(
+                        model = selectedImageUri,
                         contentDescription = null,
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop
