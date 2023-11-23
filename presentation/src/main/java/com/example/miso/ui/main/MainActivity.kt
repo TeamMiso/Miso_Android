@@ -40,6 +40,7 @@ import com.example.miso.ui.log_in.LogInActivity
 import com.example.miso.ui.main.screen.MainScreen
 import com.example.miso.ui.main.screen.SearchScreen
 import com.example.miso.ui.result.screen.ResultScreen
+import com.example.miso.ui.shop.screen.ShopDetailScreen
 import com.example.miso.ui.shop.screen.ShopScreen
 import com.example.miso.ui.sign_up.SignUpPage
 import com.example.miso.viewmodel.AuthViewModel
@@ -60,6 +61,7 @@ enum class MainPage(val value: String) {
     CameraResult("CameraResult"),
     Search("Search"),
     Shop("Shop"),
+    ShopDetail("ShopDetail"),
     Inquiry("Inquiry"),
     List("List"),
     Detail("Detail"),
@@ -78,13 +80,6 @@ class MainActivity : BaseActivity() {
     private lateinit var navController: NavController
     override fun init() {
         userViewModel.getRole()
-        lifecycleScope.launch {
-            shopViewModel.getShopListResponse.collect {
-                if(it is Event.Success) {
-
-                }
-            }
-        }
         lifecycleScope.launch {
             authViewModel.logoutResponse.collect {
                 if (it is Event.Success) {
@@ -159,7 +154,8 @@ class MainActivity : BaseActivity() {
                                 CameraScreen(
                                     context = this@MainActivity,
                                     navController = navController,
-                                    viewModel = viewModel(LocalContext.current as MainActivity)
+                                    viewModel = viewModel(LocalContext.current as MainActivity),
+                                    permissionBlock = { navController.popBackStack() }
                                 )
                             }
                             composable(MainPage.CameraResult.name) {
@@ -183,8 +179,15 @@ class MainActivity : BaseActivity() {
                             composable(MainPage.Shop.name){
                                 ShopScreen(
                                     context = this@MainActivity,
-                                    viewModel = viewModel(LocalContext.current as MainActivity)
+                                    viewModel = viewModel(LocalContext.current as MainActivity),
+                                    navController = navController,
                                     )
+                            }
+                            composable(MainPage.ShopDetail.name){
+                                ShopDetailScreen(
+                                    viewModel = viewModel(LocalContext.current as MainActivity),
+                                    navController = navController
+                                )
                             }
                             composable(MainPage.Inquiry.name) {
                                 InquiryScreen(
