@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.usecase.camera.AiResponseUseCase
 import com.example.miso.ui.camera.state.AiAnswerState
 import com.example.miso.ui.camera.state.CameraState
 import com.example.miso.ui.camera.state.BitmapState
@@ -27,6 +28,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CameraViewModel @Inject constructor(
+    aiResponseUseCase: AiResponseUseCase
 ) : ViewModel() {
     private val _capturedImgBitmapState = MutableStateFlow(CameraState())
     val captureImgBitmapState = _capturedImgBitmapState.asStateFlow()
@@ -48,37 +50,12 @@ class CameraViewModel @Inject constructor(
             Log.d("testt-vm",bitmap.toString())
         }
     }
-    fun sendImgBitmap(){
-        val (databaseRef, storageRef, bitmapData) = setReference()
+    fun getAiAnswer() {
+        val imageData = swapBitmapFormat()
 
-        val uploadImg = storageRef.putBytes(bitmapData)
-        Log.d("testt-vm",uploadImg.toString())
-
-        uploadImg
-            .addOnSuccessListener {
-                Log.d("testt-vm","success")
-                _uploadFirebaseState.value = _uploadFirebaseState.value.copy(uploadedBitmap = true)
-
-                databaseRef
-                    .child("img${imgNum.value}")
-                    .setValue(imgNum.value.toString())
-                getAiAnswer()
-                _uploadFirebaseState.value = _uploadFirebaseState.value.copy(uploadedBitmap = null)
-
-            }.addOnFailureListener {
-                Log.d("testt-vm","failure")
-                _uploadFirebaseState.value = _uploadFirebaseState.value.copy(uploadedBitmap = false)
-            }
     }
-    private fun setReference(): Triple<DatabaseReference, StorageReference, ByteArray> {
-        imgNum.value++
 
-        val databaseRef = FirebaseDatabase.getInstance().reference
-            .child("user")
-
-        val storageRef = Firebase.storage.reference
-            .child(imgNum.value.toString() + ".jpeg")
-
+    private fun swapBitmapFormat(): ByteArray{
         val byteArrayOutputStream = ByteArrayOutputStream()
 
         val swapBitmap = _capturedImgBitmapState.value.capturedImage
@@ -87,33 +64,7 @@ class CameraViewModel @Inject constructor(
         val bitmapData = byteArrayOutputStream.toByteArray()
         Log.d("testt-vm", bitmapData.toString())
 
-        return Triple(databaseRef, storageRef, bitmapData)
-    }
-    private fun getAiAnswer() {
-        val query: Query = getMessageQuery()
-        val valueEventListener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.value != null) {
-                    _aiAnswer.value = _aiAnswer.value.copy(
-                        aiAnswerUploaded = true,
-                        aiAnswerData = snapshot.value.toString().uppercase()
-                    )
-                    Log.d("testt-vm", snapshot.value.toString())
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-                _aiAnswer.value = _aiAnswer.value.copy(
-                    aiAnswerUploaded = false
-                )
-            }
-        }
-        query.addValueEventListener(valueEventListener)
-    }
-
-    private fun getMessageQuery(): Query {
-        return FirebaseDatabase.getInstance().getReference()
-            .child("ai")
-            .child("response${imgNum.value}")
+        return bitmapData
     }
 
 }
