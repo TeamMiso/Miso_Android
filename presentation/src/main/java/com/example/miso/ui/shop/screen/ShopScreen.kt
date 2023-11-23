@@ -15,9 +15,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import com.example.domain.model.inquiry.response.InquiryListModel
+import com.example.domain.model.shop.response.ShopListDetailResponseModel
 import com.example.domain.model.shop.response.ShopListModel
 import com.example.miso.ui.list.screen.getInquiryList
+import com.example.miso.ui.main.MainPage
 import com.example.miso.ui.shop.component.ShopProductListItem
 import com.example.miso.ui.shop.component.ShopTopBar
 import com.example.miso.viewmodel.InquiryViewModel
@@ -26,8 +29,13 @@ import com.example.miso.viewmodel.util.Event
 
 
 @Composable
-fun ShopScreen(context: Context,viewModel: ShopViewModel){
+fun ShopScreen(
+    context: Context,
+    viewModel: ShopViewModel,
+    navController: NavController,
+){
     val progressState = remember { mutableStateOf(false) }
+    val launchDetail = remember { mutableStateOf(false) }
 
     LaunchedEffect("GetShopList") {
         Log.d("testt","lunched getshop")
@@ -41,17 +49,36 @@ fun ShopScreen(context: Context,viewModel: ShopViewModel){
         )
         Log.d("testt", "작동")
     }
+    LaunchedEffect(launchDetail.value){
+        if(launchDetail.value){
+            Log.d("testt-lsd","작동")
+            getShopDetailList(
+                viewModel = viewModel,
+                progressState = { progressState.value = it },
+                onSuccess = {list ->
+                    viewModel.addShopDetailList(list)
+                    navController.navigate(MainPage.ShopDetail.value)
+                }
+            )
+        }
+        launchDetail.value = false
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        ShopTopBar()
+        ShopTopBar(navController = navController)
         LazyVerticalGrid(
             columns = GridCells.Fixed(2)
         ){
             items(viewModel.shopList.size){index ->
+                Log.d("testt-item",viewModel.shopList[index].toString())
                 ShopProductListItem(
+                    onClick = {
+                        launchDetail.value = true  },
+                    launchDetail = { viewModel.getShopDetail(viewModel.shopList[index].id)},
                     productName = viewModel.shopList[index].name,
                     price = viewModel.shopList[index].price,
-                    productImg = viewModel.shopList[index].imageUrl)
+                    productImg = viewModel.shopList[index].imageUrl
+                )
             }
         }
     }
@@ -68,6 +95,32 @@ suspend fun getShopList(
                 Log.d("testt","이벤트 성공${response.data!!.itemList}")
                 progressState(false)
                 onSuccess(response.data!!.itemList)
+            }
+
+            is Event.Loading -> {
+                Log.d("testt","이벤트 중")
+                progressState(true)
+            }
+
+            else -> {
+                Log.d("testt","이벤트 실패")
+                progressState(false)
+            }
+        }
+    }
+}
+suspend fun getShopDetailList(
+    viewModel: ShopViewModel,
+    progressState: (Boolean) -> Unit,
+    onSuccess: (shopDetailList: ShopListDetailResponseModel) -> Unit,
+) {
+    viewModel.getShopListDetailResponse.collect { response ->
+        Log.d("testt", "작동")
+        when (response) {
+            is Event.Success -> {
+                Log.d("testt","이벤트 성공${response.data!!}")
+                progressState(false)
+                onSuccess(response.data!!)
             }
 
             is Event.Loading -> {
