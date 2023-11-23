@@ -28,12 +28,13 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import com.example.miso.R
 
 @Composable
-fun ShopBackBtn(onClick: () -> Unit, context: Context){
+fun ShopBackBtn(navController: NavController){
     IconButton(
-        onClick = { /*TODO*/ }
+        onClick = { navController.popBackStack() }
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_camera_backbutton),
@@ -62,14 +63,14 @@ fun ShopPurchaseHistory(onClick: () -> Unit, context: Context){
     }
 }
 @Composable
-fun ShopTopBar(){
+fun ShopTopBar(navController: NavController){
     Spacer(modifier = Modifier.fillMaxHeight(0.02f))
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(modifier = Modifier.fillMaxWidth(0.03f))
-        ShopBackBtn(onClick = { /*TODO*/ }, context = LocalContext.current)
+        ShopBackBtn(navController)
         Spacer(modifier = Modifier.fillMaxWidth(0.5f))
         ShopPointState(onClick = { /*TODO*/ }, context = LocalContext.current)
         Spacer(modifier = Modifier.fillMaxWidth(0.1f))
@@ -82,6 +83,6 @@ fun ShopTopBar(){
 @Preview(showBackground = true)
 fun CameraBtnPreView() {
     Box(modifier = Modifier.fillMaxSize()){
-        ShopTopBar()
+       // ShopTopBar()
     }
 }

@@ -4,9 +4,11 @@ import com.example.data.remote.api.AuthAPI
 import com.example.data.remote.api.EmailAPI
 import com.example.data.remote.api.InquiryAPI
 import com.example.data.remote.api.RecyclablesAPI
+import com.example.data.remote.api.ShopAPI
 import com.example.data.remote.api.UserAPI
 import com.example.data.util.AuthInterceptor
 import com.example.di.BuildConfig
+import com.example.domain.repository.ShopRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -85,5 +87,11 @@ object NetworkModule {
     @Singleton
     fun recyclablesService(retrofit: Retrofit): RecyclablesAPI {
         return retrofit.create(RecyclablesAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun shopService(retrofit: Retrofit): ShopAPI {
+        return retrofit.create(ShopAPI::class.java)
     }
 }
