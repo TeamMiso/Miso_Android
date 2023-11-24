@@ -15,4 +15,8 @@ class PurchaseRepositoryImpl @Inject constructor(
         return purchaseDatasource.getPurchaseList().map { it.toPurchaseModel() }
     }
 
+    override suspend fun buyItem(id: Long): Flow<Unit> {
+        return purchaseDatasource.buyItem(id = id)
+    }
+
 }
