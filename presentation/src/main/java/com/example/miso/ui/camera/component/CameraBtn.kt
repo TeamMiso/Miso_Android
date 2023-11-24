@@ -1,7 +1,5 @@
 package com.example.miso.ui.camera.component
 
-import android.content.Context
-import android.hardware.camera2.CameraManager
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -14,10 +12,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.miso.R
+import com.example.miso.ui.component.button.MisoBackWhiteButton
 
 @Composable
 fun CameraCaptureBtn(onClick: () -> Unit){
@@ -60,18 +58,8 @@ fun CameraFlashBtn(onClick: () -> Unit){
 }
 @Composable
 fun CameraBackBtn(onClick: () -> Unit){
-    IconButton(
-        onClick = { /*TODO*/ }
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_camera_backbutton),
-            contentDescription = "backBtn",
-            modifier = Modifier
-                .clickable(
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() }
-                ) { onClick() }
-        )
+    MisoBackWhiteButton {
+        onClick()
     }
 }
 
