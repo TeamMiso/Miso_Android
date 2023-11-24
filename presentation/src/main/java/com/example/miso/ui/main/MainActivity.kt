@@ -154,8 +154,7 @@ class MainActivity : BaseActivity() {
                                 CameraScreen(
                                     context = this@MainActivity,
                                     navController = navController,
-                                    viewModel = viewModel(LocalContext.current as MainActivity),
-                                    permissionBlock = { navController.popBackStack() }
+                                    viewModel = viewModel(LocalContext.current as MainActivity)
                                 )
                             }
                             composable(MainPage.CameraResult.name) {
