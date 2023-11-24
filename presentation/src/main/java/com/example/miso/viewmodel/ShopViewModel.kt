@@ -53,14 +53,14 @@ class ShopViewModel @Inject constructor(
         getShopListUseCase()
             .onSuccess {
                 it.catch {remoteError ->
-                    Log.d("testt-vm",remoteError.toString())
+                    Log.d("shopList-vm",remoteError.toString())
                     _getShopListResponse.value = remoteError.errorHandling()
                 }.collect { response ->
-                    Log.d("testt-vm",response.toString())
+                    Log.d("shopList-vm",response.toString())
                     _getShopListResponse.value = Event.Success(data = response)
                 }
             }.onFailure {
-                Log.d("testt-vm","fail")
+                Log.d("shopList-vm","fail")
                 _getShopListResponse.value = it.errorHandling()
             }
     }
@@ -68,14 +68,14 @@ class ShopViewModel @Inject constructor(
         getShopListDetailUseCase(id = id)
             .onSuccess {
                 it.catch {remoteError ->
-                    Log.d("testt-vm",remoteError.toString())
+                    Log.d("shopDetail-vm",remoteError.toString())
                     _getShopListDetailResponse.value = remoteError.errorHandling()
                 }.collect { response ->
-                    Log.d("testt-vm",response.toString())
+                    Log.d("shopDetail-vm",response.toString())
                     _getShopListDetailResponse.value = Event.Success(data = response)
                 }
             }.onFailure {
-                Log.d("testt-vm","fail")
+                Log.d("shopDetail-vm","fail")
                 _getShopListDetailResponse.value = it.errorHandling()
             }
     }
@@ -83,14 +83,14 @@ class ShopViewModel @Inject constructor(
         buyItemUseCase(id = id)
             .onSuccess {
                 it.catch { remoteError ->
-                    Log.d("testt-vm",remoteError.toString())
+                    Log.d("buyItem-vm",remoteError.toString())
                     _buyItemResponse.value = remoteError.errorHandling()
                 }.collect { response ->
-                    Log.d("testt-vm",response.toString())
+                    Log.d("buyItem-vm",response.toString())
                     _buyItemResponse.value = Event.Success()
                 }
             }.onFailure {
-                Log.d("testt-vm","fail")
+                Log.d("buyItem-vm","fail")
                 _buyItemResponse.value = it.errorHandling()
             }
     }
