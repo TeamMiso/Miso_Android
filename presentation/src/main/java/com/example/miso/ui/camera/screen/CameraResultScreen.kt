@@ -49,39 +49,6 @@ fun CameraResultScreen(
     viewModel: CameraViewModel,
     viewModelResult: RecyclablesViewModel
 ) {
-    val uploadFirebaseState by viewModel.uploadFirebaseState.collectAsState()
-    val aiAnswer by viewModel.aiAnswer.collectAsState()
-    var callSendBitmap by remember { mutableStateOf(BitmapState(callSendBitmap = null)) }
-    var progressState by remember { mutableStateOf(false) }
-
-    LaunchedEffect(uploadFirebaseState.uploadedBitmap) {
-        when (uploadFirebaseState.uploadedBitmap) {
-            true -> {}
-            false -> {
-                toastMsg(context, "네트워크 상태를 확인해 주세요.")
-                progressState = false
-            }
-
-            else -> {}
-        }
-    }
-
-    LaunchedEffect(aiAnswer.aiAnswerUploaded) {
-        when (aiAnswer.aiAnswerUploaded) {
-            true -> {
-                progressState = false
-                Log.d("testt-Ai", aiAnswer.aiAnswerData.toString())
-                viewModelResult.result(aiAnswer.aiAnswerData.toString())
-                navController.navigate(MainPage.Result.value)
-            }
-
-            false -> Log.d("testt-Ai", "fail")
-            else -> {
-                Log.d("testt-Ai", "error")
-            }
-            
-fun CameraResultScreen(context: Context,navController: NavController,viewModel: CameraViewModel,viewModelResult: RecyclablesViewModel) {
-
     val launchAi = remember { mutableStateOf(false) }
     var progressState = remember { mutableStateOf(false) }
 
@@ -99,7 +66,6 @@ fun CameraResultScreen(context: Context,navController: NavController,viewModel: 
             )
         }
     }
-
     getBitmap(viewModel = viewModel)
     MisoTheme { colors, typography ->
         Box(
@@ -121,11 +87,10 @@ fun CameraResultScreen(context: Context,navController: NavController,viewModel: 
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .navigationBarsPadding()
+                        .navigationBarsPadding(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Spacer(modifier = Modifier.fillMaxWidth(0.07f))
                     CameraReCaptureBtn { navController.popBackStack() }
-                    Spacer(modifier = Modifier.fillMaxWidth(0.06f))
                     CameraConfirmBtn { launchAi.value = true }
                 }
             }
@@ -137,16 +102,6 @@ fun CameraResultScreen(context: Context,navController: NavController,viewModel: 
                 )
             }
         }
-    }
-    if (callSendBitmap.callSendBitmap == true) {
-        sendBitmap(
-            context = context,
-            viewModel = viewModel,
-            navController = navController,
-            uploadFirebaseState
-        )
-        callSendBitmap = BitmapState(callSendBitmap = false)
-        progressState = true
     }
 }
 
@@ -165,19 +120,6 @@ private fun getBitmap(viewModel: CameraViewModel) {
         }
     }
 }
-
-@Composable
-private fun sendBitmap(
-    context: Context,
-    viewModel: CameraViewModel,
-    navController: NavController,
-    uploadFirebaseState: BitmapState
-) {
-    viewModel.sendImgBitmap()
-}
-
-fun toastMsg(context: Context, text: String) {
-    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
 
 suspend fun getAiResponse(
     viewModel: CameraViewModel,

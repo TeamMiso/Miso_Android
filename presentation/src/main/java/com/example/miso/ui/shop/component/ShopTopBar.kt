@@ -34,7 +34,19 @@ import com.example.miso.ui.component.button.MisoBackBlackButton
 import com.example.miso.ui.theme.MisoTheme
 
 @Composable
-fun ShopPointState(onClick: () -> Unit, context: Context) {
+fun ShopBackBtn(navController: NavController){
+    IconButton(
+        onClick = { navController.popBackStack() }
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_back_white),
+            colorFilter = ColorFilter.tint(Color.Black),
+            contentDescription = "Shop bak btn",
+        )
+    }
+}
+@Composable
+fun ShopPointState(onClick: () -> Unit, context: Context){
     var point by remember { mutableStateOf(99999) }
     MisoTheme { colors, typography ->
         Text(
@@ -44,11 +56,10 @@ fun ShopPointState(onClick: () -> Unit, context: Context) {
         )
     }
 }
-
 @Composable
-fun ShopPurchaseHistory(onClick: () -> Unit, context: Context) {
+fun ShopPurchaseHistory(onClick: () -> Unit, context: Context){
     IconButton(
-        onClick = {}
+        onClick = {  }
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_shop_purchase_history_btn),
@@ -89,7 +100,7 @@ fun ShopTopBar(navController: NavController) {
 @Composable
 @Preview(showBackground = true)
 fun CameraBtnPreView() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        // ShopTopBar()
+    Box(modifier = Modifier.fillMaxSize()){
+       // ShopTopBar()
     }
 }

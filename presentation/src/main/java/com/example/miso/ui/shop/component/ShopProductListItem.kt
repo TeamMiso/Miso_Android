@@ -70,7 +70,7 @@ fun ShopProductListImg(productImg: String) {
                     .clip(shape = RoundedCornerShape(5.dp)),
                 contentScale = ContentScale.Crop,
                 contentDescription = null,
-            )
+                )
         } else {
             Image(
                 painter = painterResource(id = R.drawable.ic_no_image),
@@ -115,7 +115,7 @@ fun ShopProductListItem(
             Column(
                 horizontalAlignment = Alignment.Start,
                 modifier = Modifier.padding(start = 8.dp, top = 8.dp)
-            ) {  
+            ) {
                 Text(
                     text = productName,
                     style = typography.content1,
@@ -139,12 +139,6 @@ fun ShopProductListItem(
 @Preview(showBackground = true)
 fun ShopProductListItemPreview() {
     Box(modifier = Modifier.fillMaxSize()) {
-        ShopProductListItem(
-            onClick = {},
-            launchDetail = {},
-            productName = "막대사탕",
-            price = 150,
-            productImg = "https://project-miso.s3.ap-northeast-2.amazonaws.com/file/Rectangle+2083.png"
-        )
+        ShopProductListItem(onClick = {}, launchDetail = {}, productName = "막대사탕", price = 150, productImg = "https://project-miso.s3.ap-northeast-2.amazonaws.com/file/Rectangle+2083.png")
     }
 }
