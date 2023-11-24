@@ -20,4 +20,12 @@ class PurchaseDatasourceImpl @Inject constructor(
         )
     }.flowOn(Dispatchers.IO)
 
+    override suspend fun buyItem(id: Long): Flow<Unit> = flow {
+        emit(
+            MisoApiHandler<Unit>()
+                .httpRequest { api.buyItem(id = id) }
+                .sendRequest()
+        )
+    }.flowOn(Dispatchers.IO)
+
 }

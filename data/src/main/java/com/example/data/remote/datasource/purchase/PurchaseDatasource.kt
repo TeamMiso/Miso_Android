@@ -5,4 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface PurchaseDatasource {
     suspend fun getPurchaseList(): Flow<PurchaseListResponse>
+
+    suspend fun buyItem(id: Long): Flow<Unit>
 }
