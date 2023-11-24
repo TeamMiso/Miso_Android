@@ -43,41 +43,52 @@ import com.example.miso.viewmodel.RecyclablesViewModel
 import org.w3c.dom.Text
 
 @Composable
-fun CameraResultScreen(context: Context,navController: NavController,viewModel: CameraViewModel,viewModelResult: RecyclablesViewModel) {
+fun CameraResultScreen(
+    context: Context,
+    navController: NavController,
+    viewModel: CameraViewModel,
+    viewModelResult: RecyclablesViewModel
+) {
     val uploadFirebaseState by viewModel.uploadFirebaseState.collectAsState()
     val aiAnswer by viewModel.aiAnswer.collectAsState()
     var callSendBitmap by remember { mutableStateOf(BitmapState(callSendBitmap = null)) }
     var progressState by remember { mutableStateOf(false) }
 
-    LaunchedEffect(uploadFirebaseState.uploadedBitmap){
-        when(uploadFirebaseState.uploadedBitmap){
+    LaunchedEffect(uploadFirebaseState.uploadedBitmap) {
+        when (uploadFirebaseState.uploadedBitmap) {
             true -> {}
             false -> {
-                toastMsg(context,"네트워크 상태를 확인해 주세요.")
+                toastMsg(context, "네트워크 상태를 확인해 주세요.")
                 progressState = false
             }
+
             else -> {}
         }
     }
 
-    LaunchedEffect(aiAnswer.aiAnswerUploaded){
-        when(aiAnswer.aiAnswerUploaded){
+    LaunchedEffect(aiAnswer.aiAnswerUploaded) {
+        when (aiAnswer.aiAnswerUploaded) {
             true -> {
                 progressState = false
-                Log.d("testt-Ai",aiAnswer.aiAnswerData.toString())
+                Log.d("testt-Ai", aiAnswer.aiAnswerData.toString())
                 viewModelResult.result(aiAnswer.aiAnswerData.toString())
                 navController.navigate(MainPage.Result.value)
             }
-            false -> Log.d("testt-Ai","fail")
-            else -> {Log.d("testt-Ai","error")}
+
+            false -> Log.d("testt-Ai", "fail")
+            else -> {
+                Log.d("testt-Ai", "error")
+            }
         }
     }
 
     getBitmap(viewModel = viewModel)
     MisoTheme { colors, typography ->
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .navigationBarsPadding()) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .navigationBarsPadding()
+        ) {
             CameraBackground()
             Column(
                 modifier = Modifier
@@ -109,34 +120,48 @@ fun CameraResultScreen(context: Context,navController: NavController,viewModel: 
             }
         }
     }
-    if(callSendBitmap.callSendBitmap == true){
-        sendBitmap(context = context, viewModel = viewModel,navController = navController,uploadFirebaseState)
+    if (callSendBitmap.callSendBitmap == true) {
+        sendBitmap(
+            context = context,
+            viewModel = viewModel,
+            navController = navController,
+            uploadFirebaseState
+        )
         callSendBitmap = BitmapState(callSendBitmap = false)
         progressState = true
     }
 }
+
 @Composable
-private fun getBitmap(viewModel: CameraViewModel){
+private fun getBitmap(viewModel: CameraViewModel) {
     val captureImgBitmapState by viewModel.captureImgBitmapState.collectAsState()
-    LaunchedEffect(captureImgBitmapState){ Log.d("testt",captureImgBitmapState.toString()) }
-    Box(modifier = Modifier.fillMaxSize()){
+    LaunchedEffect(captureImgBitmapState) { Log.d("testt", captureImgBitmapState.toString()) }
+    Box(modifier = Modifier.fillMaxSize()) {
         (captureImgBitmapState.capturedImage?.asImageBitmap() ?: null)?.let {
             Image(
                 bitmap = it,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop,
-                contentDescription = "camera result preview")
+                contentDescription = "camera result preview"
+            )
         }
     }
 }
 
 @Composable
-private fun sendBitmap(context: Context,viewModel: CameraViewModel,navController: NavController,uploadFirebaseState: BitmapState){
+private fun sendBitmap(
+    context: Context,
+    viewModel: CameraViewModel,
+    navController: NavController,
+    uploadFirebaseState: BitmapState
+) {
     viewModel.sendImgBitmap()
 }
-fun toastMsg(context: Context,text: String){
-    Toast.makeText(context,text,Toast.LENGTH_SHORT).show()
+
+fun toastMsg(context: Context, text: String) {
+    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
 }
+
 @Composable
 @Preview(showBackground = true)
 fun CameraResultScreenPreView() {
