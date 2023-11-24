@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -33,15 +31,12 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.example.miso.R
-import com.example.miso.ui.theme.MisoTheme
 
 
 @Composable
@@ -70,7 +65,7 @@ fun ShopProductListImg(productImg: String) {
                     .clip(shape = RoundedCornerShape(5.dp)),
                 contentScale = ContentScale.Crop,
                 contentDescription = null,
-            )
+                )
         } else {
             Image(
                 painter = painterResource(id = R.drawable.ic_no_image),
@@ -85,53 +80,26 @@ fun ShopProductListImg(productImg: String) {
 }
 
 @Composable
-fun ShopProductListItem(
-    onClick: () -> Unit,
-    launchDetail: () -> Unit,
-    productName: String,
-    price: Int,
-    productImg: String
-) {
-    MisoTheme { colors, typography ->
-        Column(
-            modifier = Modifier
-                .fillMaxHeight(0.3f)
-                .fillMaxWidth(0.5f)
-                .clickable(
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() },
-                    onClick = {
-                        launchDetail()
-                        onClick()
-                    }
-                )
-        ) {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
+fun ShopProductListItem(onClick: () -> Unit,launchDetail: () -> Unit,productName: String, price: Int, productImg: String) {
+    Column(
+        modifier = Modifier
+            .fillMaxHeight(0.3f)
+            .fillMaxWidth(0.5f)
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
             ) {
-                ShopProductListImg(productImg = productImg)
+                launchDetail()
+                onClick()
             }
-            Column(
-                horizontalAlignment = Alignment.Start,
-                modifier = Modifier.padding(start = 8.dp, top = 8.dp)
-            ) {  
-                Text(
-                    text = productName,
-                    style = typography.content1,
-                    fontWeight = FontWeight.ExtraLight,
-                    textAlign = TextAlign.Start
-                )
-                Text(
-                    text = "$price point",
-                    style = typography.content3,
-                    color = colors.GRAY6,
-                    fontWeight = FontWeight.ExtraLight,
-                    textAlign = TextAlign.Start
-                )
-                Spacer(modifier = Modifier.height(30.dp))
-            }
-        }
+        ,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        ShopProductListImg(productImg = productImg)
+        Spacer(modifier = Modifier.fillMaxHeight(0.1f))
+        Text(text = "${productName}", fontSize = 15.sp)
+        Text(text = "${price} point", fontSize = 12.sp)
     }
 }
 
@@ -139,12 +107,6 @@ fun ShopProductListItem(
 @Preview(showBackground = true)
 fun ShopProductListItemPreview() {
     Box(modifier = Modifier.fillMaxSize()) {
-        ShopProductListItem(
-            onClick = {},
-            launchDetail = {},
-            productName = "막대사탕",
-            price = 150,
-            productImg = "https://project-miso.s3.ap-northeast-2.amazonaws.com/file/Rectangle+2083.png"
-        )
+        ShopProductListItem(onClick = {}, launchDetail = {}, productName = "막대사탕", price = 150, productImg = "https://project-miso.s3.ap-northeast-2.amazonaws.com/file/Rectangle+2083.png")
     }
 }

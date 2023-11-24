@@ -40,9 +40,6 @@ fun CameraScreen(
     context: Context,
     navController: NavController,
     viewModel: CameraViewModel
-) {
-    CheckPermission(context = context, navController = navController, viewModel = viewModel)
-    Box() {
 ){
     val flashOn = remember { mutableStateOf(false) }
     LaunchedEffect(flashOn){
@@ -65,15 +62,6 @@ fun CameraScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.fillMaxHeight(0.05f))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .navigationBarsPadding(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Spacer(modifier = Modifier.fillMaxWidth(0.05f))
-                CameraBackBtn { navController.popBackStack() }
-                Spacer(modifier = Modifier.fillMaxWidth(0.38f))
             Row(modifier = Modifier
                 .fillMaxWidth()
                 .navigationBarsPadding()) {
@@ -88,38 +76,20 @@ fun CameraScreen(
         }
     }
 }
-
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CheckPermission(
     context: Context,
     navController: NavController,
     viewModel: CameraViewModel
-) {
-    val cameraPermissionState: PermissionState =
-        rememberPermissionState(android.Manifest.permission.CAMERA)
+){
+    val cameraPermissionState: PermissionState = rememberPermissionState(android.Manifest.permission.CAMERA)
 
     LaunchedEffect(key1 = Unit) {
         if (!cameraPermissionState.status.isGranted && !cameraPermissionState.status.shouldShowRationale) run {
             cameraPermissionState.launchPermissionRequest()
         }
     }
-
-    if (cameraPermissionState.status.isGranted) {
-        LunchCameraScreen(navController = navController, viewModel = viewModel)
-    } else {
-        navController.popBackStack()
-    }
-}
-
-@Composable
-fun LunchCameraScreen(navController: NavController, viewModel: CameraViewModel) {
-    CameraPreview(
-        onPhotoCapturedData = viewModel::loadImgBitmap,
-        onPhotoCaptured = { captured ->
-            if (captured) navController.navigate(MainPage.CameraResult.value)
-        }
-    )
 
     if (!cameraPermissionState.status.isGranted) {
         navController.popBackStack()
