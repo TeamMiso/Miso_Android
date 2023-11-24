@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,20 +26,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import com.example.domain.model.camera.response.CameraResponseModel
+import com.example.domain.model.shop.response.ShopListModel
 import com.example.miso.ui.camera.component.CameraBackground
 import com.example.miso.ui.camera.component.CameraConfirmBtn
 import com.example.miso.ui.camera.component.CameraReCaptureBtn
-import com.example.miso.ui.camera.state.AiAnswerState
-import com.example.miso.ui.camera.state.BitmapState
 import com.example.miso.ui.component.progressbar.MisoProgressbar
 import com.example.miso.ui.main.MainPage
+import com.example.miso.ui.shop.screen.getShopDetailList
 import com.example.miso.ui.theme.MisoTheme
 import com.example.miso.viewmodel.CameraViewModel
 import com.example.miso.viewmodel.RecyclablesViewModel
-import org.w3c.dom.Text
+import com.example.miso.viewmodel.ShopViewModel
+import com.example.miso.viewmodel.util.Event
 
 @Composable
 fun CameraResultScreen(
@@ -79,6 +79,24 @@ fun CameraResultScreen(
             else -> {
                 Log.d("testt-Ai", "error")
             }
+            
+fun CameraResultScreen(context: Context,navController: NavController,viewModel: CameraViewModel,viewModelResult: RecyclablesViewModel) {
+
+    val launchAi = remember { mutableStateOf(false) }
+    var progressState = remember { mutableStateOf(false) }
+
+    LaunchedEffect(launchAi.value){
+        if(launchAi.value){
+            viewModel.getAiAnswer()
+            getAiResponse(
+                viewModel = viewModel,
+                progressState = { progressState.value = it },
+                onSuccess = { response ->
+                    viewModelResult.result(response.best_class)
+                    navController.navigate(MainPage.Result.value)
+                }
+
+            )
         }
     }
 
@@ -108,10 +126,10 @@ fun CameraResultScreen(
                     Spacer(modifier = Modifier.fillMaxWidth(0.07f))
                     CameraReCaptureBtn { navController.popBackStack() }
                     Spacer(modifier = Modifier.fillMaxWidth(0.06f))
-                    CameraConfirmBtn { callSendBitmap = BitmapState(callSendBitmap = true) }
+                    CameraConfirmBtn { launchAi.value = true }
                 }
             }
-            if (progressState) {
+            if (progressState.value) {
                 MisoProgressbar(
                     modifier = Modifier
                         .align(Alignment.Center)
@@ -160,6 +178,32 @@ private fun sendBitmap(
 
 fun toastMsg(context: Context, text: String) {
     Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+
+suspend fun getAiResponse(
+    viewModel: CameraViewModel,
+    progressState: (Boolean) -> Unit,
+    onSuccess: (aiAnswer: CameraResponseModel) -> Unit,
+) {
+    viewModel.getAiAnswer.collect { response ->
+        Log.d("testt", "작동")
+        when (response) {
+            is Event.Success -> {
+                Log.d("testt","이벤트 성공${response.data!!}")
+                progressState(false)
+                onSuccess(response.data!!)
+            }
+
+            is Event.Loading -> {
+                Log.d("testt","이벤트 중")
+                progressState(true)
+            }
+
+            else -> {
+                Log.d("testt","이벤트 실패")
+                progressState(false)
+            }
+        }
+    }
 }
 
 @Composable

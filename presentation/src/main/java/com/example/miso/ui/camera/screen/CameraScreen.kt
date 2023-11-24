@@ -1,6 +1,7 @@
 package com.example.miso.ui.camera.screen
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,6 +43,20 @@ fun CameraScreen(
 ) {
     CheckPermission(context = context, navController = navController, viewModel = viewModel)
     Box() {
+){
+    val flashOn = remember { mutableStateOf(false) }
+    LaunchedEffect(flashOn){
+        Log.d("testt_flash",flashOn.value.toString())
+    }
+    CheckPermission(context = context, navController = navController,viewModel = viewModel)
+    CameraPreview(
+        onPhotoCapturedData = viewModel::loadImgBitmap,
+        onPhotoCaptured = {captured ->
+            if(captured) navController.navigate(MainPage.CameraResult.value)
+        },
+        getFlashOn = flashOn.value
+    )
+    Box(){
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -59,8 +74,14 @@ fun CameraScreen(
                 Spacer(modifier = Modifier.fillMaxWidth(0.05f))
                 CameraBackBtn { navController.popBackStack() }
                 Spacer(modifier = Modifier.fillMaxWidth(0.38f))
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .navigationBarsPadding()) {
+                Spacer(modifier = Modifier.fillMaxWidth(0.03f))
+                CameraBackBtn{ navController.popBackStack() }
+                Spacer(modifier = Modifier.fillMaxWidth(0.35f))
                 CameraFlashBtn(
-                    onClick = { }
+                    onClick = { flashOn.value = !flashOn.value}
                 )
             }
             CameraBackground()
@@ -100,4 +121,7 @@ fun LunchCameraScreen(navController: NavController, viewModel: CameraViewModel) 
         }
     )
 
+    if (!cameraPermissionState.status.isGranted) {
+        navController.popBackStack()
+    }
 }
