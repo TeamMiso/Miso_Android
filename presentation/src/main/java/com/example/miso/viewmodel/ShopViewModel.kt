@@ -94,6 +94,9 @@ class ShopViewModel @Inject constructor(
                 _buyItemResponse.value = it.errorHandling()
             }
     }
+    fun repurchaseItem() {
+        _buyItemResponse.value = Event.Loading
+    }
     fun changeDetailList() {
         _getShopListDetailResponse.value = Event.Loading
     }

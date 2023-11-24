@@ -35,11 +35,28 @@ import com.example.miso.viewmodel.util.Event
 
 @Composable
 fun ShopDetailScreen(viewModel: ShopViewModel,navController: NavController){
+    val buyItemState = remember { mutableStateOf(false) }
+    val progressState = remember { mutableStateOf(false) }
 
+    var id by remember { mutableStateOf(viewModel.id.value) }
     var price by remember { mutableStateOf(viewModel.price.value) }
     var content by remember { mutableStateOf(viewModel.content.value) }
     var name by remember { mutableStateOf(viewModel.name.value) }
     var imageUrl by remember { mutableStateOf(viewModel.imageUrl.value) }
+
+    LaunchedEffect(buyItemState.value){
+        if(buyItemState.value){
+            viewModel.buyItem(id = id!!)
+            buyItem(
+                viewModel = viewModel,
+                progressState ={ progressState.value = it },
+                onSuccess = {
+                    Log.d("buyItem-popBackStack","launched")
+                    navController.popBackStack()
+                }
+            )
+        }
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         ShopTopBar(navController = navController)
@@ -69,11 +86,36 @@ fun ShopDetailScreen(viewModel: ShopViewModel,navController: NavController){
                     .fillMaxWidth()
             )
             Spacer(modifier = Modifier.fillMaxHeight(0.45f))
-            ShopDetailButton(onClick = {})
+            ShopDetailButton(onClick = { buyItemState.value = true})
         }
     }
 }
+suspend fun buyItem(
+    viewModel: ShopViewModel,
+    progressState: (Boolean) -> Unit,
+    onSuccess: () -> Unit,
+) {
+    viewModel.buyItemResponse.collect { response ->
+        Log.d("buyItem", "작동")
+        when (response) {
+            is Event.Success -> {
+                Log.d("buyItem","이벤트 성공")
+                onSuccess()
+                progressState(false)
+            }
 
+            is Event.Loading -> {
+                Log.d("buyItem","이벤트 중")
+                progressState(true)
+            }
+
+            else -> {
+                Log.d("buyItem","이벤트 실패")
+                progressState(false)
+            }
+        }
+    }
+}
 /*
 @Composable
 @Preview(showBackground = true)
