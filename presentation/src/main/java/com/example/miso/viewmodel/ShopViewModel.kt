@@ -9,6 +9,7 @@ import com.example.domain.model.inquiry.response.InquiryListModel
 import com.example.domain.model.shop.response.ShopListDetailResponseModel
 import com.example.domain.model.shop.response.ShopListModel
 import com.example.domain.model.shop.response.ShopListResponseModel
+import com.example.domain.usecase.purchase.BuyItemUseCase
 import com.example.domain.usecase.shop.GetShopListDetailUseCase
 import com.example.domain.usecase.shop.GetShopListUseCase
 import com.example.miso.viewmodel.util.Event
@@ -24,7 +25,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ShopViewModel @Inject constructor(
     private val getShopListUseCase: GetShopListUseCase,
-    private val getShopListDetailUseCase: GetShopListDetailUseCase
+    private val getShopListDetailUseCase: GetShopListDetailUseCase,
+    private val buyItemUseCase: BuyItemUseCase
 ): ViewModel() {
 
     private val _getShopListResponse = MutableStateFlow<Event<ShopListResponseModel>>(Event.Loading)
@@ -32,6 +34,9 @@ class ShopViewModel @Inject constructor(
 
     private val _getShopListDetailResponse = MutableStateFlow<Event<ShopListDetailResponseModel>>(Event.Loading)
     val getShopListDetailResponse = _getShopListDetailResponse.asStateFlow()
+
+    private val _buyItemResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
+    val buyItemResponse = _buyItemResponse.asStateFlow()
     var shopList = mutableStateListOf<ShopListModel>()
         private set
     var id = mutableStateOf<Long?>(null)
@@ -72,6 +77,21 @@ class ShopViewModel @Inject constructor(
             }.onFailure {
                 Log.d("testt-vm","fail")
                 _getShopListDetailResponse.value = it.errorHandling()
+            }
+    }
+    fun buyItem(id: Long) = viewModelScope.launch {
+        buyItemUseCase(id = id)
+            .onSuccess {
+                it.catch { remoteError ->
+                    Log.d("testt-vm",remoteError.toString())
+                    _buyItemResponse.value = remoteError.errorHandling()
+                }.collect { response ->
+                    Log.d("testt-vm",response.toString())
+                    _buyItemResponse.value = Event.Success()
+                }
+            }.onFailure {
+                Log.d("testt-vm","fail")
+                _buyItemResponse.value = it.errorHandling()
             }
     }
     fun changeDetailList() {
