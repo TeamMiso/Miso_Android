@@ -8,6 +8,8 @@ import com.example.data.remote.datasource.email.EmailDatasource
 import com.example.data.remote.datasource.email.EmailDatasourceImpl
 import com.example.data.remote.datasource.inquiry.InquiryDatasource
 import com.example.data.remote.datasource.inquiry.InquiryDatasourceImpl
+import com.example.data.remote.datasource.purchase.PurchaseDatasource
+import com.example.data.remote.datasource.purchase.PurchaseDatasourceImpl
 import com.example.data.remote.datasource.recyclables.RecyclablesDatasource
 import com.example.data.remote.datasource.recyclables.RecyclablesDatasourceImpl
 import com.example.data.remote.datasource.shop.ShopDatasource
@@ -53,6 +55,11 @@ abstract class RemoteDatasourceModule {
     abstract fun provideShopDatasource(
         shopDatasourceImpl: ShopDatasourceImpl
     ): ShopDatasource
+
+    @Binds
+    abstract fun providePurchaseDatasource(
+        purchaseDatasourceImpl: PurchaseDatasourceImpl
+    ): PurchaseDatasource
 
     @Binds
     abstract fun provideCameraDatasource(

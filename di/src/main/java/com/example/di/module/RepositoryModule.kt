@@ -4,6 +4,7 @@ import com.example.data.repository.AuthRepositoryImpl
 import com.example.data.repository.CameraRepositoryImpl
 import com.example.data.repository.EmailRepositoryImpl
 import com.example.data.repository.InquiryRepositoryImpl
+import com.example.data.repository.PurchaseRepositoryImpl
 import com.example.data.repository.RecyclablesRepositoryImpl
 import com.example.data.repository.ShopRepositoryImpl
 import com.example.data.repository.UserRepositoryImpl
@@ -11,6 +12,7 @@ import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.CameraRepository
 import com.example.domain.repository.EmailRepository
 import com.example.domain.repository.InquiryRepository
+import com.example.domain.repository.PurchaseRepository
 import com.example.domain.repository.RecyclablesRepository
 import com.example.domain.repository.ShopRepository
 import com.example.domain.repository.UserRepository
@@ -52,6 +54,11 @@ abstract class RepositoryModule {
     abstract fun provideShopRepository(
         shopRepositoryImpl: ShopRepositoryImpl
     ): ShopRepository
+
+    @Binds
+    abstract fun  providePurchaseRepository(
+        purchaseRepositoryImpl: PurchaseRepositoryImpl
+    ): PurchaseRepository
 
     @Binds
     abstract fun provideCameraRepository(

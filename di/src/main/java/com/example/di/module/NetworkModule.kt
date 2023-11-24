@@ -4,6 +4,7 @@ import com.example.data.remote.api.AuthAPI
 import com.example.data.remote.api.CameraAPI
 import com.example.data.remote.api.EmailAPI
 import com.example.data.remote.api.InquiryAPI
+import com.example.data.remote.api.PurchaseAPI
 import com.example.data.remote.api.RecyclablesAPI
 import com.example.data.remote.api.ShopAPI
 import com.example.data.remote.api.UserAPI
@@ -107,6 +108,12 @@ object NetworkModule {
     @Singleton
     fun shopService(retrofit: Retrofit): ShopAPI {
         return retrofit.create(ShopAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun purchaseService(retrofit: Retrofit): PurchaseAPI{
+        return retrofit.create(PurchaseAPI::class.java)
     }
 
     @Provides
