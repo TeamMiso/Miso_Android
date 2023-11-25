@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.example.miso.ui.theme.MisoTheme
 
 @Composable
-fun InquiryListItem(
+fun PurchaseListItem(
     date: String,
     title: String,
     price: String,
@@ -72,6 +72,6 @@ fun InquiryListItem(
 
 @Composable
 @Preview(showBackground = true)
-fun InquiryListItemPreView() {
-    InquiryListItem("23.01.23", "츄파츕스", "100")
+fun PurchaseListItemPreView() {
+    PurchaseListItem("23.01.23", "츄파츕스", "100")
 }
