@@ -43,8 +43,12 @@ import com.example.miso.viewmodel.ShopViewModel
 import com.example.miso.viewmodel.util.Event
 
 @Composable
-fun CameraResultScreen(context: Context,navController: NavController,viewModel: CameraViewModel,viewModelResult: RecyclablesViewModel) {
-
+fun CameraResultScreen(
+    context: Context,
+    navController: NavController,
+    viewModel: CameraViewModel,
+    viewModelResult: RecyclablesViewModel
+) {
     val launchAi = remember { mutableStateOf(false) }
     var progressState = remember { mutableStateOf(false) }
 
@@ -62,12 +66,13 @@ fun CameraResultScreen(context: Context,navController: NavController,viewModel: 
             )
         }
     }
-
     getBitmap(viewModel = viewModel)
     MisoTheme { colors, typography ->
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .navigationBarsPadding()) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .navigationBarsPadding()
+        ) {
             CameraBackground()
             Column(
                 modifier = Modifier
@@ -82,11 +87,10 @@ fun CameraResultScreen(context: Context,navController: NavController,viewModel: 
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .navigationBarsPadding()
+                        .navigationBarsPadding(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Spacer(modifier = Modifier.fillMaxWidth(0.07f))
                     CameraReCaptureBtn { navController.popBackStack() }
-                    Spacer(modifier = Modifier.fillMaxWidth(0.06f))
                     CameraConfirmBtn { launchAi.value = true }
                 }
             }
@@ -100,17 +104,19 @@ fun CameraResultScreen(context: Context,navController: NavController,viewModel: 
         }
     }
 }
+
 @Composable
-private fun getBitmap(viewModel: CameraViewModel){
+private fun getBitmap(viewModel: CameraViewModel) {
     val captureImgBitmapState by viewModel.captureImgBitmapState.collectAsState()
-    LaunchedEffect(captureImgBitmapState){ Log.d("testt",captureImgBitmapState.toString()) }
-    Box(modifier = Modifier.fillMaxSize()){
+    LaunchedEffect(captureImgBitmapState) { Log.d("testt", captureImgBitmapState.toString()) }
+    Box(modifier = Modifier.fillMaxSize()) {
         (captureImgBitmapState.capturedImage?.asImageBitmap() ?: null)?.let {
             Image(
                 bitmap = it,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop,
-                contentDescription = "camera result preview")
+                contentDescription = "camera result preview"
+            )
         }
     }
 }
@@ -141,6 +147,7 @@ suspend fun getAiResponse(
         }
     }
 }
+
 @Composable
 @Preview(showBackground = true)
 fun CameraResultScreenPreView() {

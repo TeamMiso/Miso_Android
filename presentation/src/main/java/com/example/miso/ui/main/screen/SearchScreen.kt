@@ -1,8 +1,6 @@
 package com.example.miso.ui.main.screen
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +16,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -28,19 +25,13 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
-import com.example.domain.model.inquiry.response.InquiryListModel
 import com.example.domain.model.recyclables.response.SearchResponseModel
 import com.example.miso.ui.component.button.MisoBackBlackButton
-import com.example.miso.ui.list.screen.getInquiryListAll
-import com.example.miso.ui.main.MainPage
 import com.example.miso.ui.util.keyboardAsState
 import com.example.miso.ui.main.component.search.SearchHistoryText
 import com.example.miso.ui.main.component.search.SearchItem
 import com.example.miso.ui.main.component.search.SearchHistoryList
 import com.example.miso.ui.main.component.search.SearchTextField
-import com.example.miso.viewmodel.InquiryViewModel
 import com.example.miso.viewmodel.RecyclablesViewModel
 import com.example.miso.viewmodel.util.Event
 import kotlinx.coroutines.CoroutineScope
@@ -139,7 +130,9 @@ fun SearchScreen(
                     },
                     onSearchTextChange = {
                         lifecycleScope.launch {
-                            viewModel.search(it)
+                            if (it.isNotBlank()) {
+                                viewModel.search(it)
+                            }
                         }
                     },
                     modifier = Modifier.focusRequester(focusRequester)

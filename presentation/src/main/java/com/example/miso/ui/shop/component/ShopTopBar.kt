@@ -37,7 +37,7 @@ fun ShopBackBtn(navController: NavController){
         onClick = { navController.popBackStack() }
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_camera_backbutton),
+            painter = painterResource(id = R.drawable.ic_back_white),
             colorFilter = ColorFilter.tint(Color.Black),
             contentDescription = "Shop bak btn",
         )

@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -56,13 +57,29 @@ fun MisoBackBlackButton(
     modifier: Modifier = Modifier.size(9.dp, 16.dp),
     onClick: () -> Unit
 ) {
-    Image(
-        painter = painterResource(id = R.drawable.ic_back_black),
-        contentDescription = "Back Black Icon",
+    IconButton(
+        onClick = { onClick() },
         modifier = modifier
-            .clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }
-            ) { onClick() },
-    )
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_back_black),
+            contentDescription = "Back Black Icon",
+        )
+    }
+}
+
+@Composable
+fun MisoBackWhiteButton(
+    modifier: Modifier = Modifier.size(14.dp, 26.dp),
+    onClick: () -> Unit
+) {
+    IconButton(
+        onClick = { onClick() },
+        modifier = modifier
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_back_white),
+            contentDescription = "Back White Icon"
+        )
+    }
 }

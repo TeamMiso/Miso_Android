@@ -40,20 +40,20 @@ fun CameraScreen(
     context: Context,
     navController: NavController,
     viewModel: CameraViewModel
-){
+) {
     val flashOn = remember { mutableStateOf(false) }
-    LaunchedEffect(flashOn){
-        Log.d("testt_flash",flashOn.value.toString())
+    LaunchedEffect(flashOn) {
+        Log.d("testt_flash", flashOn.value.toString())
     }
-    CheckPermission(context = context, navController = navController,viewModel = viewModel)
+    CheckPermission(context = context, navController = navController, viewModel = viewModel)
     CameraPreview(
         onPhotoCapturedData = viewModel::loadImgBitmap,
-        onPhotoCaptured = {captured ->
-            if(captured) navController.navigate(MainPage.CameraResult.value)
+        onPhotoCaptured = { captured ->
+            if (captured) navController.navigate(MainPage.CameraResult.value)
         },
         getFlashOn = flashOn.value
     )
-    Box(){
+    Box() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -62,28 +62,33 @@ fun CameraScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.fillMaxHeight(0.05f))
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .navigationBarsPadding()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .navigationBarsPadding(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Spacer(modifier = Modifier.fillMaxWidth(0.03f))
-                CameraBackBtn{ navController.popBackStack() }
-                Spacer(modifier = Modifier.fillMaxWidth(0.35f))
+                CameraBackBtn { navController.popBackStack() }
+                Spacer(modifier = Modifier.fillMaxWidth(0.38f))
                 CameraFlashBtn(
-                    onClick = { flashOn.value = !flashOn.value}
+                    onClick = { flashOn.value = !flashOn.value }
                 )
             }
             CameraBackground()
         }
     }
 }
+
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CheckPermission(
     context: Context,
     navController: NavController,
     viewModel: CameraViewModel
-){
-    val cameraPermissionState: PermissionState = rememberPermissionState(android.Manifest.permission.CAMERA)
+) {
+    val cameraPermissionState: PermissionState =
+        rememberPermissionState(android.Manifest.permission.CAMERA)
 
     LaunchedEffect(key1 = Unit) {
         if (!cameraPermissionState.status.isGranted && !cameraPermissionState.status.shouldShowRationale) run {
