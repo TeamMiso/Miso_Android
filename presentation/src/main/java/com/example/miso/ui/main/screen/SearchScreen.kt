@@ -139,7 +139,9 @@ fun SearchScreen(
                     },
                     onSearchTextChange = {
                         lifecycleScope.launch {
-                            viewModel.search(it)
+                            if (it.isNotBlank()) {
+                                viewModel.search(it)
+                            }
                         }
                     },
                     modifier = Modifier.focusRequester(focusRequester)
