@@ -35,6 +35,7 @@ class ShopViewModel @Inject constructor(
 
     private val _buyItemResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
     val buyItemResponse = _buyItemResponse.asStateFlow()
+
     var shopList = mutableStateListOf<ShopListModel>()
         private set
     var point = mutableStateOf<Int>(0)
@@ -109,5 +110,8 @@ class ShopViewModel @Inject constructor(
         name.value = list.name
         content.value = list.content
         imageUrl.value = list.imageUrl
+    }
+    fun changePointState(){
+
     }
 }

@@ -35,7 +35,7 @@ import com.example.miso.viewmodel.ShopViewModel
 import com.example.miso.viewmodel.util.Event
 
 @Composable
-fun ShopDetailScreen(viewModel: ShopViewModel,navController: NavController){
+fun ShopDetailScreen(viewModel: ShopViewModel,navController: NavController) {
     val buyItemState = remember { mutableStateOf(false) }
     val progressState = remember { mutableStateOf(false) }
 
@@ -48,12 +48,14 @@ fun ShopDetailScreen(viewModel: ShopViewModel,navController: NavController){
 
     LaunchedEffect(buyItemState.value){
         if(buyItemState.value){
+            viewModel.repurchaseItem()
             viewModel.buyItem(id = id!!)
             buyItem(
                 viewModel = viewModel,
                 progressState ={ progressState.value = it },
                 onSuccess = {
                     Log.d("buyItem-popBackStack","launched")
+                    viewModel.changePointState()
                     navController.popBackStack()
                 }
             )
