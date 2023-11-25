@@ -1,5 +1,6 @@
 package com.example.data.repository
 
+import android.util.Log
 import com.example.data.remote.datasource.purchase.PurchaseDatasource
 import com.example.data.remote.dto.purchase.response.toPurchaseModel
 import com.example.domain.model.purchase.response.PurchaseListResponseModel

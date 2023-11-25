@@ -88,9 +88,9 @@ suspend fun getPurchaseList(
         Log.d("purchase", "작동")
         when (response) {
             is Event.Success -> {
-                Log.d("purchase", "성공${response.data!!.itemList}")
+                Log.d("purchase", "성공${response.data!!.purchaseList}")
                 progressState(false)
-                onSuccess(response.data!!.itemList)
+                onSuccess(response.data!!.purchaseList)
             }
 
             is Event.Loading -> {
