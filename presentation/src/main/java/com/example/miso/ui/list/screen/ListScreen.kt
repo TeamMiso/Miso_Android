@@ -20,7 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.domain.model.inquiry.response.PurchaseListModel
+import com.example.domain.model.inquiry.response.InquiryListModel
 import com.example.miso.ui.list.component.list.InquiryList
 import com.example.miso.ui.list.component.list.ListTitleText
 import com.example.miso.viewmodel.InquiryViewModel
@@ -112,7 +112,7 @@ fun ListScreen(
 suspend fun getInquiryList(
     viewModel: InquiryViewModel,
     progressState: (Boolean) -> Unit,
-    onSuccess: (inquiryList: List<PurchaseListModel>) -> Unit,
+    onSuccess: (inquiryList: List<InquiryListModel>) -> Unit,
 ) {
     viewModel.getInquiryListResponse.collect { response ->
         Log.d("LaunchedEffect:GetInquiryList", "작동")
@@ -136,7 +136,7 @@ suspend fun getInquiryList(
 suspend fun getInquiryListAll(
     viewModel: InquiryViewModel,
     progressState: (Boolean) -> Unit,
-    onSuccess: (inquiryList: List<PurchaseListModel>) -> Unit
+    onSuccess: (inquiryList: List<InquiryListModel>) -> Unit
 ) {
     viewModel.getInquiryListAllResponse.collect { response ->
         when (response) {
