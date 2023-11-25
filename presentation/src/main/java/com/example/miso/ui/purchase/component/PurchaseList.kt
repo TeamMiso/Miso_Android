@@ -30,7 +30,7 @@ fun PurchaseList(
     MisoTheme { colors, _ ->
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             stickyHeader {
-                InquiryStickyHeader()
+                PurchaseStickyHeader()
             }
 
             items(purchaseList.size) { index ->
