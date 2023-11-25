@@ -3,7 +3,6 @@ package com.example.miso.ui.list.screen
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.navigation.NavController
 import com.example.miso.ui.component.button.MisoBackBlackButton
 import android.content.Context
 import android.util.Log
@@ -19,11 +18,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.domain.model.inquiry.response.InquiryListModel
 import com.example.miso.ui.list.component.list.InquiryList
 import com.example.miso.ui.list.component.list.ListTitleText

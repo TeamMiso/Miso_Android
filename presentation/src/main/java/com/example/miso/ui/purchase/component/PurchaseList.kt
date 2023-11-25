@@ -1,4 +1,4 @@
-package com.example.miso.ui.list.component.list
+package com.example.miso.ui.purchase.component
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -16,36 +16,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.domain.model.inquiry.response.InquiryListModel
+import com.example.domain.model.purchase.response.PurchaseListModel
+import com.example.miso.ui.list.component.list.InquiryStickyHeader
 import com.example.miso.ui.theme.MisoTheme
 import com.example.miso.ui.util.toDateString
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun InquiryList(
-    inquiryList: List<InquiryListModel>,
+fun PurchaseList(
+    purchaseList: List<PurchaseListModel>,
     progressState: Boolean,
-    onClick: (id: Long) -> Unit
 ) {
     MisoTheme { colors, _ ->
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             stickyHeader {
-                InquiryStickyHeader()
+                PurchaseStickyHeader()
             }
 
-            items(inquiryList.size) { index ->
-                InquiryListItem(
-                    inquiryList[index].inquiryDate.toDateString(),
-                    inquiryList[index].title,
-                    when (inquiryList[index].inquiryStatus) {
-                        "WAIT" -> "-"
-                        "ADOPT" -> "채택"
-                        "UNADOPT" -> "비채택"
-                        else -> ""
-                    }
-                ) {
-                    onClick(inquiryList[index].id)
-                }
+            items(purchaseList.size) { index ->
+                PurchaseListItem(
+                    purchaseList[index].createdDate.toDateString(),
+                    purchaseList[index].name,
+                    purchaseList[index].price.toString()
+                )
                 Divider(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -76,6 +69,5 @@ fun InquiryList(
 
 @Composable
 @Preview(showBackground = true)
-fun SearchListPreView() {
-    // InquiryList(, false, NavController(LocalContext.current))
+fun PurchaseListPreView() {
 }
