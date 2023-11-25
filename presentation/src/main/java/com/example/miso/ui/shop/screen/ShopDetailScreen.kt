@@ -55,7 +55,6 @@ fun ShopDetailScreen(viewModel: ShopViewModel,navController: NavController) {
                 progressState ={ progressState.value = it },
                 onSuccess = {
                     Log.d("buyItem-popBackStack","launched")
-                    viewModel.changePointState()
                     navController.popBackStack()
                 }
             )

@@ -111,7 +111,4 @@ class ShopViewModel @Inject constructor(
         content.value = list.content
         imageUrl.value = list.imageUrl
     }
-    fun changePointState(){
-
-    }
 }
