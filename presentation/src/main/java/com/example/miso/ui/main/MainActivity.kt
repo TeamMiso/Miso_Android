@@ -190,7 +190,7 @@ class MainActivity : BaseActivity() {
                             composable(MainPage.ShopDetail.name){
                                 ShopDetailScreen(
                                     viewModel = viewModel(LocalContext.current as MainActivity),
-                                    navController = navController
+                                    navController = navController,
                                 )
                             }
                             composable(MainPage.PurChase.name){

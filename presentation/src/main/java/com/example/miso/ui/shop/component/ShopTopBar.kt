@@ -89,7 +89,7 @@ fun ShopTopBar(navController: NavController,userPoint: Int,onClick: () -> Unit){
                 Spacer(modifier = Modifier.fillMaxWidth(0.5f))
                 ShopPointState(userPoint = userPoint)
                 Spacer(modifier = Modifier.fillMaxWidth(0.1f))
-                ShopPurchaseHistory(onClick = {}, context = LocalContext.current)
+                ShopPurchaseHistory(onClick = { onClick() }, context = LocalContext.current)
             }
             Divider(
                 modifier = Modifier
