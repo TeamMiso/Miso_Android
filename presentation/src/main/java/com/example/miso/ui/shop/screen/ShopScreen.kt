@@ -19,6 +19,7 @@ import com.example.miso.ui.main.MainPage
 import com.example.miso.ui.shop.component.ShopProductListItem
 import com.example.miso.ui.shop.component.ShopTopBar
 import com.example.miso.viewmodel.ShopViewModel
+import com.example.miso.viewmodel.UserViewModel
 import com.example.miso.viewmodel.util.Event
 
 
@@ -26,6 +27,7 @@ import com.example.miso.viewmodel.util.Event
 fun ShopScreen(
     context: Context,
     viewModel: ShopViewModel,
+    pointViewModel: UserViewModel,
     navController: NavController,
 ){
     val progressState = remember { mutableStateOf(false) }
@@ -43,6 +45,14 @@ fun ShopScreen(
             }
         )
         Log.d("testt", "작동")
+    }
+    LaunchedEffect("GetPoint"){
+        pointViewModel.getPoint()
+        getPoint(
+            viewModel = pointViewModel,
+            progressState = { progressState.value = it },
+            onSuccess = { point -> viewModel.point.value = point }
+        )
     }
     LaunchedEffect(launchDetail.value){
         Log.d("lsd","작동함")
@@ -63,7 +73,11 @@ fun ShopScreen(
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        ShopTopBar(navController = navController, userPoint = 123, onClick = { navController.navigate(MainPage.PurChase.value)})
+        ShopTopBar(
+            navController = navController,
+            userPoint = viewModel.point.value,
+            onClick = { navController.navigate(MainPage.PurChase.value) }
+        )
         LazyVerticalGrid(
             columns = GridCells.Fixed(2)
         ){
@@ -89,7 +103,7 @@ suspend fun getShopList(
         Log.d("testt", "작동")
         when (response) {
             is Event.Success -> {
-                Log.d("testt","이벤트 성공${response.data!!.itemList}")
+                Log.d("testt","이벤트 성공${ response.data!!.itemList }")
                 progressState(false)
                 onSuccess(response.data!!.itemList)
             }
@@ -127,6 +141,32 @@ suspend fun getShopDetailList(
 
             else -> {
                 Log.d("testt","이벤트 실패")
+                progressState(false)
+            }
+        }
+    }
+}
+suspend fun getPoint(
+    viewModel: UserViewModel,
+    progressState: (Boolean) -> Unit,
+    onSuccess: (point: Int) -> Unit,
+) {
+    viewModel.getPointResponse.collect { response ->
+        Log.d("point", "작동")
+        when (response) {
+            is Event.Success -> {
+                Log.d("point","이벤트 성공${response.data!!}")
+                progressState(false)
+                onSuccess(response.data!!)
+            }
+
+            is Event.Loading -> {
+                Log.d("point","이벤트 중")
+                progressState(true)
+            }
+
+            else -> {
+                Log.d("point","이벤트 실패")
                 progressState(false)
             }
         }

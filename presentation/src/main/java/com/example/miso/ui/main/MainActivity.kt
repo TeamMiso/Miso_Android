@@ -183,6 +183,7 @@ class MainActivity : BaseActivity() {
                                 ShopScreen(
                                     context = this@MainActivity,
                                     viewModel = viewModel(LocalContext.current as MainActivity),
+                                    pointViewModel = viewModel(LocalContext.current as MainActivity),
                                     navController = navController,
                                     )
                             }

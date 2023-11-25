@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.model.inquiry.response.InquiryListModel
 import com.example.domain.model.shop.response.ShopListDetailResponseModel
 import com.example.domain.model.shop.response.ShopListModel
 import com.example.domain.model.shop.response.ShopListResponseModel
@@ -18,7 +17,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -39,6 +37,7 @@ class ShopViewModel @Inject constructor(
     val buyItemResponse = _buyItemResponse.asStateFlow()
     var shopList = mutableStateListOf<ShopListModel>()
         private set
+    var point = mutableStateOf<Int>(0)
     var id = mutableStateOf<Long?>(null)
         private set
     var price = mutableStateOf<Int?>(null)

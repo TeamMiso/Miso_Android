@@ -39,6 +39,7 @@ fun ShopDetailScreen(viewModel: ShopViewModel,navController: NavController){
     val buyItemState = remember { mutableStateOf(false) }
     val progressState = remember { mutableStateOf(false) }
 
+    var point by remember { mutableStateOf(viewModel.point.value) }
     var id by remember { mutableStateOf(viewModel.id.value) }
     var price by remember { mutableStateOf(viewModel.price.value) }
     var content by remember { mutableStateOf(viewModel.content.value) }
@@ -60,7 +61,7 @@ fun ShopDetailScreen(viewModel: ShopViewModel,navController: NavController){
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        ShopTopBar(navController = navController, userPoint = 123, onClick = { navController.navigate(MainPage.PurChase.value)})
+        ShopTopBar(navController = navController, userPoint = point, onClick = { navController.navigate(MainPage.PurChase.value)})
         Spacer(modifier = Modifier.fillMaxHeight(0.03f))
         Image(
             painter = rememberAsyncImagePainter(model = imageUrl),
