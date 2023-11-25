@@ -26,7 +26,7 @@ class PurchaseViewModel @Inject constructor(
     val getPurchaseListResponse = _getPurchaseListResponse.asStateFlow()
 
     var purchaseList = mutableStateListOf<PurchaseListModel>()
-    fun getShopList() = viewModelScope.launch {
+    fun getPurchaseList() = viewModelScope.launch {
         getPurchaseListUseCase()
             .onSuccess {
                 it.catch {remoteError ->
