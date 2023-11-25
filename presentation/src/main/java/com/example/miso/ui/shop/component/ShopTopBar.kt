@@ -44,8 +44,9 @@ fun ShopBackBtn(navController: NavController){
     }
 }
 @Composable
-fun ShopPointState(onClick: () -> Unit, context: Context){
-    var point by remember { mutableStateOf(99999) }
+fun ShopPointState(userPoint: Int){
+    var point by remember { mutableStateOf(0) }
+    point = userPoint
     Text(
         text = "MY POINT : ${point.toString()}",
         fontWeight = FontWeight.Bold
@@ -54,7 +55,7 @@ fun ShopPointState(onClick: () -> Unit, context: Context){
 @Composable
 fun ShopPurchaseHistory(onClick: () -> Unit, context: Context){
     IconButton(
-        onClick = { /*TODO*/ }
+        onClick = { onClick() }
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_shop_purchase_history_btn),
@@ -63,7 +64,7 @@ fun ShopPurchaseHistory(onClick: () -> Unit, context: Context){
     }
 }
 @Composable
-fun ShopTopBar(navController: NavController){
+fun ShopTopBar(navController: NavController,userPoint: Int,onClick: () -> Unit){
     Spacer(modifier = Modifier.fillMaxHeight(0.02f))
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -72,9 +73,9 @@ fun ShopTopBar(navController: NavController){
         Spacer(modifier = Modifier.fillMaxWidth(0.03f))
         ShopBackBtn(navController)
         Spacer(modifier = Modifier.fillMaxWidth(0.5f))
-        ShopPointState(onClick = { /*TODO*/ }, context = LocalContext.current)
+        ShopPointState(userPoint = userPoint)
         Spacer(modifier = Modifier.fillMaxWidth(0.1f))
-        ShopPurchaseHistory(onClick = { /*TODO*/ }, context = LocalContext.current)
+        ShopPurchaseHistory(onClick = { onClick() }, context = LocalContext.current)
     }
 
 }

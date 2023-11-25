@@ -28,6 +28,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.domain.model.shop.response.ShopListDetailResponseModel
 import com.example.domain.model.shop.response.ShopListModel
 import com.example.miso.R
+import com.example.miso.ui.main.MainPage
 import com.example.miso.ui.shop.component.ShopDetailButton
 import com.example.miso.ui.shop.component.ShopTopBar
 import com.example.miso.viewmodel.ShopViewModel
@@ -59,7 +60,7 @@ fun ShopDetailScreen(viewModel: ShopViewModel,navController: NavController){
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        ShopTopBar(navController = navController)
+        ShopTopBar(navController = navController, userPoint = 123, onClick = { navController.navigate(MainPage.PurChase.value)})
         Spacer(modifier = Modifier.fillMaxHeight(0.03f))
         Image(
             painter = rememberAsyncImagePainter(model = imageUrl),

@@ -6,24 +6,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import com.example.domain.model.inquiry.response.InquiryListModel
 import com.example.domain.model.shop.response.ShopListDetailResponseModel
 import com.example.domain.model.shop.response.ShopListModel
-import com.example.miso.ui.list.screen.getInquiryList
 import com.example.miso.ui.main.MainPage
 import com.example.miso.ui.shop.component.ShopProductListItem
 import com.example.miso.ui.shop.component.ShopTopBar
-import com.example.miso.viewmodel.InquiryViewModel
 import com.example.miso.viewmodel.ShopViewModel
 import com.example.miso.viewmodel.util.Event
 
@@ -36,6 +30,7 @@ fun ShopScreen(
 ){
     val progressState = remember { mutableStateOf(false) }
     val launchDetail = remember { mutableStateOf(false) }
+
 
     LaunchedEffect("GetShopList") {
         Log.d("testt","lunched getshop")
@@ -68,7 +63,7 @@ fun ShopScreen(
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        ShopTopBar(navController = navController)
+        ShopTopBar(navController = navController, userPoint = 123, onClick = { navController.navigate(MainPage.PurChase.value)})
         LazyVerticalGrid(
             columns = GridCells.Fixed(2)
         ){
