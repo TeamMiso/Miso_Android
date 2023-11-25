@@ -30,14 +30,14 @@ class PurchaseViewModel @Inject constructor(
         getPurchaseListUseCase()
             .onSuccess {
                 it.catch {remoteError ->
-                    Log.d("shopList-vm",remoteError.toString())
+                    Log.d("purchase-vm-remoteFail",remoteError.toString())
                     _getPurchaseListResponse.value = remoteError.errorHandling()
                 }.collect { response ->
-                    Log.d("shopList-vm",response.toString())
+                    Log.d("purchase-vm",response.toString())
                     _getPurchaseListResponse.value = Event.Success(data = response)
                 }
             }.onFailure {
-                Log.d("shopList-vm","fail")
+                Log.d("purchase-vm-faill","fail")
                 _getPurchaseListResponse.value = it.errorHandling()
             }
     }
