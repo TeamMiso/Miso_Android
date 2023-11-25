@@ -13,4 +13,6 @@ interface UserRepository {
     suspend fun deleteUserInfo()
 
     suspend fun givePoint(): Flow<Unit>
+
+    suspend fun getPoint(): Flow<Int>
 }
