@@ -39,6 +39,7 @@ import com.example.miso.ui.list.screen.ListScreen
 import com.example.miso.ui.log_in.LogInActivity
 import com.example.miso.ui.main.screen.MainScreen
 import com.example.miso.ui.main.screen.SearchScreen
+import com.example.miso.ui.purchase.ui.PurchaseScreen
 import com.example.miso.ui.result.screen.ResultScreen
 import com.example.miso.ui.shop.screen.ShopDetailScreen
 import com.example.miso.ui.shop.screen.ShopScreen
@@ -46,6 +47,7 @@ import com.example.miso.ui.sign_up.SignUpPage
 import com.example.miso.viewmodel.AuthViewModel
 import com.example.miso.viewmodel.CameraViewModel
 import com.example.miso.viewmodel.InquiryViewModel
+import com.example.miso.viewmodel.PurchaseViewModel
 import com.example.miso.viewmodel.RecyclablesViewModel
 import com.example.miso.viewmodel.ShopViewModel
 import com.example.miso.viewmodel.UserViewModel
@@ -62,6 +64,7 @@ enum class MainPage(val value: String) {
     Search("Search"),
     Shop("Shop"),
     ShopDetail("ShopDetail"),
+    PurChase("Purchase"),
     Inquiry("Inquiry"),
     List("List"),
     Detail("Detail"),
@@ -76,6 +79,7 @@ class MainActivity : BaseActivity() {
     private val cameraViewModel by viewModels<CameraViewModel>()
     private val recyclablesViewModel by viewModels<RecyclablesViewModel>()
     private val shopViewModel by viewModels<ShopViewModel>()
+    private val purchaseViewModel by viewModels<PurchaseViewModel>()
 
     private lateinit var navController: NavController
     override fun init() {
@@ -186,6 +190,12 @@ class MainActivity : BaseActivity() {
                                 ShopDetailScreen(
                                     viewModel = viewModel(LocalContext.current as MainActivity),
                                     navController = navController
+                                )
+                            }
+                            composable(MainPage.PurChase.name){
+                                PurchaseScreen(
+                                    viewModel = viewModel(LocalContext.current as MainActivity),
+                                    onBackClick = { navController.popBackStack() }
                                 )
                             }
                             composable(MainPage.Inquiry.name) {
