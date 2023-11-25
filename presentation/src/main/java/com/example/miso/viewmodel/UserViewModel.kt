@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.model.auth.request.AuthLogInRequestModel
 import com.example.domain.model.auth.response.AuthLogInResponseModel
 import com.example.domain.model.user.response.UserInfoResponseModel
+import com.example.domain.usecase.user.GetPointUseCase
 import com.example.domain.usecase.user.GetRoleUseCase
 import com.example.domain.usecase.user.GetUserInfoUseCase
 import com.example.domain.usecase.user.GivePointUseCase
@@ -15,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,7 +25,8 @@ class UserViewModel @Inject constructor(
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val saveUserInfoUseCase: SaveUserInfoUseCase,
     private val getRoleUseCase: GetRoleUseCase,
-    private val givePointUseCase: GivePointUseCase
+    private val givePointUseCase: GivePointUseCase,
+    private val getPointUseCase: GetPointUseCase
 ) : ViewModel() {
 
     private val _getUserInfoResponse = MutableStateFlow<Event<UserInfoResponseModel>>(Event.Loading)
@@ -38,6 +41,8 @@ class UserViewModel @Inject constructor(
     private val _givePointResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
     val givePointResponse = _givePointResponse.asStateFlow()
 
+    private val _getPointResponse = MutableStateFlow<Event<Int>>(Event.Loading)
+    val getPointResponse = _getPointResponse.asStateFlow()
     fun getUserInfo() = viewModelScope.launch {
         getUserInfoUseCase()
             .onSuccess {
@@ -84,6 +89,19 @@ class UserViewModel @Inject constructor(
                 }
             }.onFailure { error ->
                 _givePointResponse.value = error.errorHandling()
+            }
+    }
+
+    fun getPoint() = viewModelScope.launch {
+        getPointUseCase()
+            .onSuccess {
+                it.catch { remoteError ->
+                    _getPointResponse.value = remoteError.errorHandling()
+                }.collect{response ->
+                    _getPointResponse.value = Event.Success(data = response)
+                }
+            }.onFailure { error ->
+                _getPointResponse.value = error.errorHandling()
             }
     }
 }
