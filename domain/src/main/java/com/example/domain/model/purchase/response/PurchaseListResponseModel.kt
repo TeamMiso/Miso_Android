@@ -1,7 +1,7 @@
 package com.example.domain.model.purchase.response
 
 data class PurchaseListResponseModel(
-    val itemList: List<PurchaseListModel>
+    val purchaseList: List<PurchaseListModel>
 )
 
 data class PurchaseListModel(

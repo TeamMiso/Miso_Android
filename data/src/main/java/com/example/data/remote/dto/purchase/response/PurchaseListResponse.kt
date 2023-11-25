@@ -4,7 +4,7 @@ import com.example.domain.model.purchase.response.PurchaseListModel
 import com.example.domain.model.purchase.response.PurchaseListResponseModel
 
 data class PurchaseListResponse(
-    val itemList: List<PurchaseList>
+    val purchaseList: List<PurchaseList>
 )
 
 data class PurchaseList(
@@ -15,7 +15,7 @@ data class PurchaseList(
 )
 fun PurchaseListResponse.toPurchaseModel() =
     PurchaseListResponseModel(
-        itemList = this.itemList.map { it.toPurchaseModel() }
+        purchaseList = this.purchaseList.map { it.toPurchaseModel() }
     )
 fun PurchaseList.toPurchaseModel() =
     PurchaseListModel(
