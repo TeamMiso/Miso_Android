@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.example.domain.model.camera.response.CameraResponseModel
@@ -54,12 +55,14 @@ fun CameraResultScreen(
 
     LaunchedEffect(launchAi.value){
         if(launchAi.value){
+            viewModel.aiAnswerStateToLoading()
             viewModel.getAiAnswer()
             getAiResponse(
                 viewModel = viewModel,
                 progressState = { progressState.value = it },
                 onSuccess = { response ->
-                    viewModelResult.result(response.best_class)
+                    val aiAnswer = response.best_class.uppercase()
+                    viewModelResult.result(aiAnswer)
                     navController.navigate(MainPage.Result.value)
                 }
 
@@ -127,21 +130,21 @@ suspend fun getAiResponse(
     onSuccess: (aiAnswer: CameraResponseModel) -> Unit,
 ) {
     viewModel.getAiAnswer.collect { response ->
-        Log.d("testt", "작동")
+        Log.d("cameraAi", "작동")
         when (response) {
             is Event.Success -> {
-                Log.d("testt","이벤트 성공${response.data!!}")
+                Log.d("cameraAi","이벤트 성공${response.data!!}")
                 progressState(false)
                 onSuccess(response.data!!)
             }
 
             is Event.Loading -> {
-                Log.d("testt","이벤트 중")
+                Log.d("cameraAi","이벤트 중")
                 progressState(true)
             }
 
             else -> {
-                Log.d("testt","이벤트 실패")
+                Log.d("cameraAi","이벤트 실패")
                 progressState(false)
             }
         }
