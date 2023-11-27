@@ -96,7 +96,7 @@ fun ListScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(start = 28.dp, end = 28.dp, bottom = 50.dp)
         ) {
             Spacer(modifier = Modifier.height(144.dp))
             InquiryList(
