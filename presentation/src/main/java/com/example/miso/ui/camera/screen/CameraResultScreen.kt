@@ -55,6 +55,7 @@ fun CameraResultScreen(
 
     LaunchedEffect(launchAi.value){
         if(launchAi.value){
+            viewModel.aiAnswerStateToLoading()
             viewModel.getAiAnswer()
             getAiResponse(
                 viewModel = viewModel,

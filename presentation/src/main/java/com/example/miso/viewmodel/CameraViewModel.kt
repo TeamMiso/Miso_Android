@@ -74,4 +74,7 @@ class CameraViewModel @Inject constructor(
         return base64String
     }
 
+    fun aiAnswerStateToLoading(){
+        _getAiAnswer.value = Event.Loading
+    }
 }
