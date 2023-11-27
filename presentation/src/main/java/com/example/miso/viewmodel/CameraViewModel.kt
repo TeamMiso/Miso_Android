@@ -2,12 +2,13 @@ package com.example.miso.viewmodel
 
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.camera.request.CameraRequestModel
 import com.example.domain.model.camera.response.CameraResponseModel
-import com.example.domain.model.shop.response.ShopListResponseModel
 import com.example.domain.usecase.camera.AiResponseUseCase
 import com.example.miso.ui.camera.state.CameraState
 import com.example.miso.viewmodel.util.Event
@@ -19,6 +20,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 @HiltViewModel
 class CameraViewModel @Inject constructor(
@@ -36,23 +38,23 @@ class CameraViewModel @Inject constructor(
         viewModelScope.launch {
             _capturedImgBitmapState.value.capturedImage?.recycle()
             _capturedImgBitmapState.value = _capturedImgBitmapState.value.copy(capturedImage = bitmap)
-            Log.d("testt-vm",bitmap.toString())
         }
     }
     fun getAiAnswer() = viewModelScope.launch {
         imgData.value = imgData.value.copy(image_url = swapBitmapFormat())
+        Log.d("cameraAi-imgData",imgData.value.toString())
 
         aiResponseUseCase(imgData.value)
             .onSuccess {
                 it.catch {remoteError ->
-                    Log.d("shopList-vm",remoteError.toString())
+                    Log.d("cameraAi-vm",remoteError.toString())
                     _getAiAnswer.value = remoteError.errorHandling()
                 }.collect { response ->
-                    Log.d("shopList-vm",response.toString())
+                    Log.d("cameraAi-vm",response.toString())
                     _getAiAnswer.value = Event.Success(data = response)
                 }
             }.onFailure {
-                Log.d("shopList-vm","fail")
+                Log.d("cameraAi-vm","fail")
                 _getAiAnswer.value = it.errorHandling()
             }
     }
@@ -61,12 +63,15 @@ class CameraViewModel @Inject constructor(
         val byteArrayOutputStream = ByteArrayOutputStream()
 
         val swapBitmap = _capturedImgBitmapState.value.capturedImage
-        swapBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
 
-        val bitmapData = byteArrayOutputStream.toByteArray().toString()
-        Log.d("testt-vm", bitmapData)
+        swapBitmap?.compress(Bitmap.CompressFormat.JPEG, 75, byteArrayOutputStream)
 
-        return bitmapData
+        val swapBitmapData = byteArrayOutputStream.toByteArray()
+
+        val base64String = Base64.encodeToString(swapBitmapData, Base64.NO_WRAP)
+        Log.d("cameraAi-base64", base64String)
+
+        return base64String
     }
 
 }

@@ -127,21 +127,21 @@ suspend fun getAiResponse(
     onSuccess: (aiAnswer: CameraResponseModel) -> Unit,
 ) {
     viewModel.getAiAnswer.collect { response ->
-        Log.d("testt", "작동")
+        Log.d("cameraAi", "작동")
         when (response) {
             is Event.Success -> {
-                Log.d("testt","이벤트 성공${response.data!!}")
+                Log.d("cameraAi","이벤트 성공${response.data!!}")
                 progressState(false)
                 onSuccess(response.data!!)
             }
 
             is Event.Loading -> {
-                Log.d("testt","이벤트 중")
+                Log.d("cameraAi","이벤트 중")
                 progressState(true)
             }
 
             else -> {
-                Log.d("testt","이벤트 실패")
+                Log.d("cameraAi","이벤트 실패")
                 progressState(false)
             }
         }
