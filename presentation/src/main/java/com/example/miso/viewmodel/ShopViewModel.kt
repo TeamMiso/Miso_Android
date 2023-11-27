@@ -43,6 +43,8 @@ class ShopViewModel @Inject constructor(
         private set
     var price = mutableStateOf<Int?>(null)
         private set
+    var amount = mutableStateOf<Int?>(null)
+        private set
     var name = mutableStateOf<String?>(null)
         private set
     var content = mutableStateOf<String?>(null)
@@ -107,6 +109,7 @@ class ShopViewModel @Inject constructor(
     fun addShopDetailList(list: ShopListDetailResponseModel){
         id.value = list.id
         price.value = list.price
+        amount.value = list.amount
         name.value = list.name
         content.value = list.content
         imageUrl.value = list.imageUrl
