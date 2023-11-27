@@ -6,6 +6,7 @@ data class ShopListResponseModel(
 data class ShopListModel(
     val id: Long,
     val price: Int,
+    val amount: Int,
     val name: String,
     val imageUrl: String
 )

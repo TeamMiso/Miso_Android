@@ -1,4 +1,4 @@
-package com.example.miso.ui.purchase.ui
+package com.example.miso.ui.purchase.screen
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
@@ -69,7 +69,7 @@ fun PurchaseScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(start = 28.dp, end = 28.dp, bottom = 50.dp)
         ) {
             Spacer(modifier = Modifier.height(144.dp))
             PurchaseList(

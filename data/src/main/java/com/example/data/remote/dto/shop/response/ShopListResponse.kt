@@ -9,6 +9,7 @@ data class ShopListResponse(
 data class ShopList(
     val id: Long,
     val price: Int,
+    val amount: Int,
     val name: String,
     val imageUrl: String
 )
@@ -20,6 +21,7 @@ fun ShopList.toShopModel() =
     ShopListModel(
         id = this.id,
         price = this.price,
+        amount = this.amount,
         name = this.name,
         imageUrl = this.imageUrl
     )

@@ -37,6 +37,7 @@ import androidx.navigation.NavController
 import com.example.miso.R
 import com.example.miso.ui.component.button.MisoBackBlackButton
 import com.example.miso.ui.theme.MisoTheme
+import com.example.miso.ui.util.formatNumberToCommas
 
 @Composable
 fun ShopBackBtn(navController: NavController){
@@ -56,7 +57,7 @@ fun ShopPointState(userPoint: Int){
     point = userPoint
     MisoTheme { colors, typography ->
         Text(
-            text = "MY POINT : ${point.toString()}",
+            text = "MY POINT : ${formatNumberToCommas(point)}",
             style = typography.content3,
             fontWeight = FontWeight.SemiBold
         )
@@ -80,7 +81,8 @@ fun ShopTopBar(navController: NavController,userPoint: Int,onClick: () -> Unit){
         Column {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Spacer(modifier = Modifier.fillMaxWidth(0.041f))
                 MisoBackBlackButton {

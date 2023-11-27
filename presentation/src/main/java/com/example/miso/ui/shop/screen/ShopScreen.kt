@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
@@ -12,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.domain.model.shop.response.ShopListDetailResponseModel
 import com.example.domain.model.shop.response.ShopListModel
@@ -30,42 +32,43 @@ fun ShopScreen(
     viewModel: ShopViewModel,
     pointViewModel: UserViewModel,
     navController: NavController,
-){
+) {
     val progressState = remember { mutableStateOf(false) }
     val launchDetail = remember { mutableStateOf(false) }
-    val saveUserInfoState = remember{ mutableStateOf(false) }
-    val getPointState = remember{ mutableStateOf(false) }
-
+    val saveUserInfoState = remember { mutableStateOf(false) }
+    val getPointState = remember { mutableStateOf(false) }
 
     LaunchedEffect("GetShopList") {
-        Log.d("testt","lunched getshop")
+        Log.d("testt", "lunched getshop")
         viewModel.getShopList()
         getShopList(
             viewModel = viewModel,
-            progressState = { progressState.value = it},
-            onSuccess = {list ->
+            progressState = { progressState.value = it },
+            onSuccess = { list ->
                 viewModel.addShopList(list)
             }
         )
         Log.d("testt", "작동")
     }
-    LaunchedEffect("GetPoint"){
-        Log.d("getPoint","작동")
+
+    LaunchedEffect("GetPoint") {
+        Log.d("getPoint", "작동")
         pointViewModel.getUserInfo()
         getUserInfo(
             viewModel = pointViewModel,
-            progressState = { progressState.value = it},
+            progressState = { progressState.value = it },
             onSuccess = { userInfo ->
                 pointViewModel.saveUserInfo(userInfo)
                 saveUserInfoState.value = true
             }
         )
     }
-    LaunchedEffect(saveUserInfoState.value){
-        if(saveUserInfoState.value){
+
+    LaunchedEffect(saveUserInfoState.value) {
+        if (saveUserInfoState.value) {
             saveUserInfo(
                 viewModel = pointViewModel,
-                progressState = { progressState.value = it},
+                progressState = { progressState.value = it },
                 onSuccess = {
                     pointViewModel.getPoint()
                     saveUserInfoState.value = false
@@ -74,9 +77,10 @@ fun ShopScreen(
             )
         }
     }
-    LaunchedEffect(getPointState.value){
-        if(getPointState.value){
-            Log.d("getPoint","getPoint 작동")
+
+    LaunchedEffect(getPointState.value) {
+        if (getPointState.value) {
+            Log.d("getPoint", "getPoint 작동")
             getPoint(
                 viewModel = pointViewModel,
                 progressState = { progressState.value = it },
@@ -87,15 +91,16 @@ fun ShopScreen(
             )
         }
     }
-    LaunchedEffect(launchDetail.value){
-        Log.d("","작동함")
-        if(launchDetail.value){
-            Log.d("lsd","작동")
+
+    LaunchedEffect(launchDetail.value) {
+        Log.d("", "작동함")
+        if (launchDetail.value) {
+            Log.d("lsd", "작동")
             getShopDetailList(
                 viewModel = viewModel,
                 progressState = { progressState.value = it },
-                onSuccess = {list ->
-                    Log.d("lsd","nav작동")
+                onSuccess = { list ->
+                    Log.d("lsd", "nav작동")
                     viewModel.addShopDetailList(list)
                     navController.navigate(MainPage.ShopDetail.value)
                     viewModel.changeDetailList()
@@ -105,7 +110,11 @@ fun ShopScreen(
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 18.dp)
+    ) {
         ShopTopBar(
             navController = navController,
             userPoint = viewModel.point.value,
@@ -113,20 +122,22 @@ fun ShopScreen(
         )
         LazyVerticalGrid(
             columns = GridCells.Fixed(2)
-        ){
-            items(viewModel.shopList.size){index ->
-                Log.d("testt-item",viewModel.shopList[index].toString())
+        ) {
+            items(viewModel.shopList.size) { index ->
+                Log.d("testt-item", viewModel.shopList[index].toString())
                 ShopProductListItem(
                     launchDetail = { viewModel.getShopDetail(viewModel.shopList[index].id) },
                     onClick = { launchDetail.value = true },
                     productName = viewModel.shopList[index].name,
                     price = viewModel.shopList[index].price,
+                    amount = viewModel.shopList[index].amount,
                     productImg = viewModel.shopList[index].imageUrl
                 )
             }
         }
     }
 }
+
 suspend fun getShopList(
     viewModel: ShopViewModel,
     progressState: (Boolean) -> Unit,
@@ -136,23 +147,24 @@ suspend fun getShopList(
         Log.d("test-shopList", "작동")
         when (response) {
             is Event.Success -> {
-                Log.d("test-shopList","이벤트 성공${ response.data!!.itemList }")
+                Log.d("test-shopList", "이벤트 성공${response.data!!.itemList}")
                 progressState(false)
                 onSuccess(response.data!!.itemList)
             }
 
             is Event.Loading -> {
-                Log.d("test-shopList","이벤트 중")
+                Log.d("test-shopList", "이벤트 중")
                 progressState(true)
             }
 
             else -> {
-                Log.d("test-shopList","이벤트 실패")
+                Log.d("test-shopList", "이벤트 실패")
                 progressState(false)
             }
         }
     }
 }
+
 suspend fun getShopDetailList(
     viewModel: ShopViewModel,
     progressState: (Boolean) -> Unit,
@@ -162,75 +174,78 @@ suspend fun getShopDetailList(
         Log.d("testt", "작동")
         when (response) {
             is Event.Success -> {
-                Log.d("lsd","이벤트 성공${response.data!!}")
+                Log.d("lsd", "이벤트 성공${response.data!!}")
                 progressState(false)
                 onSuccess(response.data!!)
             }
 
             is Event.Loading -> {
-                Log.d("testt","이벤트 중")
+                Log.d("testt", "이벤트 중")
                 progressState(true)
             }
 
             else -> {
-                Log.d("testt","이벤트 실패")
+                Log.d("testt", "이벤트 실패")
                 progressState(false)
             }
         }
     }
 }
+
 suspend fun getUserInfo(
     viewModel: UserViewModel,
     progressState: (Boolean) -> Unit,
     onSuccess: (userInfo: UserInfoResponseModel) -> Unit
-){
-    viewModel.getUserInfoResponse.collect{response ->
+) {
+    viewModel.getUserInfoResponse.collect { response ->
         Log.d("userInfo", "작동")
         when (response) {
             is Event.Success -> {
-                Log.d("userInfo","이벤트 성공${response.data!!}")
+                Log.d("userInfo", "이벤트 성공${response.data!!}")
                 progressState(false)
                 onSuccess(response.data)
             }
 
             is Event.Loading -> {
-                Log.d("userInfo","이벤트 중")
+                Log.d("userInfo", "이벤트 중")
                 progressState(true)
             }
 
             else -> {
-                Log.d("userInfo","이벤트 실패")
+                Log.d("userInfo", "이벤트 실패")
                 progressState(false)
             }
         }
     }
 }
+
 suspend fun saveUserInfo(
     viewModel: UserViewModel,
     progressState: (Boolean) -> Unit,
     onSuccess: () -> Unit
-){
-    viewModel.saveUserInfoResponse.collect{response ->
+) {
+    viewModel.saveUserInfoResponse.collect { response ->
         Log.d("saveUserInfo", "작동")
         when (response) {
             is Event.Success -> {
-                Log.d("userInfo","이벤트 성공")
+                Log.d("userInfo", "이벤트 성공")
                 progressState(false)
                 onSuccess()
             }
 
             is Event.Loading -> {
-                Log.d("saveUserInfo","이벤트 중")
+                Log.d("saveUserInfo", "이벤트 중")
                 progressState(true)
             }
 
             else -> {
-                Log.d("saveUserInfo","이벤트 실패")
+                Log.d("saveUserInfo", "이벤트 실패")
                 progressState(false)
             }
         }
     }
 }
+
 suspend fun getPoint(
     viewModel: UserViewModel,
     progressState: (Boolean) -> Unit,
@@ -240,18 +255,18 @@ suspend fun getPoint(
         Log.d("point", "작동")
         when (response) {
             is Event.Success -> {
-                Log.d("point","이벤트 성공${response.data!!}")
+                Log.d("point", "이벤트 성공${response.data!!}")
                 progressState(false)
                 onSuccess(response.data!!)
             }
 
             is Event.Loading -> {
-                Log.d("point","이벤트 중")
+                Log.d("point", "이벤트 중")
                 progressState(true)
             }
 
             else -> {
-                Log.d("point","이벤트 실패")
+                Log.d("point", "이벤트 실패")
                 progressState(false)
             }
         }
