@@ -8,9 +8,12 @@ import androidx.compose.ui.unit.dp
 import com.example.miso.ui.component.button.MisoButton
 
 @Composable
-fun ShopDetailButton(onClick: () -> Unit) {
+fun ShopDetailButton(
+    amount: Int,
+    onClick: () -> Unit
+) {
     MisoButton(
-        text = "구매하기",
+        text = if (amount != 0) "구매하기" else "품절",
         modifier = Modifier.padding(6.dp)
     ) {
         onClick()
@@ -20,5 +23,5 @@ fun ShopDetailButton(onClick: () -> Unit) {
 @Composable
 @Preview(showBackground = true)
 fun ShopDetailButtonPreview() {
-    ShopDetailButton(onClick = {})
+    ShopDetailButton(0, onClick = {})
 }
