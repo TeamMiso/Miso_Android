@@ -68,7 +68,7 @@ object NetworkModule {
         gsonConverterFactory: GsonConverterFactory,
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl(BuildConfig.AI_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
             .build()
@@ -119,7 +119,7 @@ object NetworkModule {
     @Provides
     @Singleton
     @Named("AI")
-    fun aiService(retrofit: Retrofit): CameraAPI {
+    fun aiService( @Named("AI") retrofit: Retrofit): CameraAPI {
         return retrofit.create(CameraAPI::class.java)
     }
 }
