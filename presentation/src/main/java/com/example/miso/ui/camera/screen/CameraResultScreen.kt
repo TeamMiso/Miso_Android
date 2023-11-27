@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.example.domain.model.camera.response.CameraResponseModel
@@ -59,7 +60,8 @@ fun CameraResultScreen(
                 viewModel = viewModel,
                 progressState = { progressState.value = it },
                 onSuccess = { response ->
-                    viewModelResult.result(response.best_class)
+                    val aiAnswer = response.best_class.uppercase()
+                    viewModelResult.result(aiAnswer)
                     navController.navigate(MainPage.Result.value)
                 }
 
