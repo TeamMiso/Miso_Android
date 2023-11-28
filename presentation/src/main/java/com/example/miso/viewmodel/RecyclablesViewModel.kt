@@ -42,6 +42,7 @@ class RecyclablesViewModel @Inject constructor(
     private val _deleteSearchHistoryResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
     val deleteSearchHistoryResponse = _deleteSearchHistoryResponse.asStateFlow()
 
+    val isAiResult = mutableStateOf(false)
     var imageUrl = mutableStateOf("")
         private set
     var title = mutableStateOf("")

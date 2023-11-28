@@ -154,7 +154,10 @@ class MainActivity : BaseActivity() {
                                     viewModel = viewModel(LocalContext.current as MainActivity),
                                     lifecycleScope = lifecycleScope,
                                     onBackClick = { navController.popBackStack() },
-                                    onResultClick = { navController.navigate(MainPage.Result.value) },
+                                    onResultClick = {
+                                        recyclablesViewModel.isAiResult.value = false
+                                        navController.navigate(MainPage.Result.value)
+                                    },
                                     onInquiryClick = { navController.navigate(MainPage.Inquiry.value) }
                                 )
                             }
@@ -220,7 +223,11 @@ class MainActivity : BaseActivity() {
                                 ResultScreen(
                                     context = this@MainActivity,
                                     viewModel = viewModel(LocalContext.current as MainActivity),
-                                    onResultClick = { userViewModel.givePoint() }
+                                    onResultClick = {
+                                        if(recyclablesViewModel.isAiResult.value){
+                                            userViewModel.givePoint()
+                                        }
+                                    }
                                 )
                             }
                         }
