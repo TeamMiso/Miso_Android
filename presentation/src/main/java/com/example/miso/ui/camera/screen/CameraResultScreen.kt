@@ -77,6 +77,11 @@ fun CameraResultScreen(
 
                     getResult.value = true
                 },
+                onFailure = {
+                    errorText.value = "알수없는 에러가 발생했습니다."
+                    snackBarVisibility.value = true
+                    launchAi.value = false
+                },
                 onError = {
                     errorText.value = "네트워크 상태를 확인해 주세요."
                     snackBarVisibility.value = true
@@ -202,6 +207,7 @@ suspend fun getAiResponse(
     viewModel: CameraViewModel,
     progressState: (Boolean) -> Unit,
     onSuccess: (aiAnswer: CameraResponseModel) -> Unit,
+    onFailure: () -> Unit,
     onError: () -> Unit
 ) {
     viewModel.getAiAnswer.collect { response ->
@@ -211,6 +217,11 @@ suspend fun getAiResponse(
                 Log.d("cameraAi","이벤트 성공${response.data!!}")
                 progressState(false)
                 onSuccess(response.data!!)
+            }
+
+            is Event.NotFound -> {
+                progressState(false)
+                onFailure()
             }
 
             is Event.Loading -> {
