@@ -11,7 +11,7 @@ fun ResultSubTitleText(text: String) {
         Text(
             text = text,
             color = colors.BLACK,
-            style = typography.content4,
+            style = typography.content2,
             fontWeight = FontWeight.ExtraLight
         )
     }

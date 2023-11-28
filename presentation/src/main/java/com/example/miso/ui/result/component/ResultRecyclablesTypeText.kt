@@ -11,7 +11,7 @@ fun ResultRecyclablesTypeText(text: String) {
         Text(
             text = "분류: $text",
             color = colors.BLACK,
-            style = typography.content4,
+            style = typography.content2,
             fontWeight = FontWeight.ExtraLight
         )
     }
