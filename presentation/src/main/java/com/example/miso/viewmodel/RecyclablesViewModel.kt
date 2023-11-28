@@ -1,5 +1,6 @@
 package com.example.miso.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -69,8 +70,12 @@ class RecyclablesViewModel @Inject constructor(
         resultUseCase(recyclablesType = recyclablesType)
             .onSuccess {
                 it.catch { remoteError ->
+                    Log.d("resultAi-vm-remoteFail",remoteError.toString())
                     _resultResponse.value = remoteError.errorHandling()
+                    _resultResponse.value = Event.NotFound
+                    return@catch
                 }.collect { response ->
+                    Log.d("resultAi-vm",response.toString())
                     _resultResponse.value = Event.Success(data = response)
                 }
             }.onFailure {

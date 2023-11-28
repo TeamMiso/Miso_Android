@@ -34,7 +34,8 @@ import com.example.miso.ui.theme.MisoTheme
 fun ReCaptureDialog(
     openDialog: Boolean,
     onStateChange: (Boolean) -> Unit,
-    onLogoutClick: () -> Unit
+    onReCaptureClick: () -> Unit,
+    onGoHomeClick: () -> Unit,
 ) {
     var openDialog by remember { mutableStateOf(openDialog) }
 
@@ -89,6 +90,7 @@ fun ReCaptureDialog(
                                     .weight(1f),
                                 onClick = {
                                     openDialog = false
+                                    onGoHomeClick()
                                 }
                             ) {
                                 Text(
@@ -110,7 +112,7 @@ fun ReCaptureDialog(
                                     .weight(1f),
                                 onClick = {
                                     openDialog = false
-                                    onLogoutClick()
+                                    onReCaptureClick()
                                 }
                             ) {
                                 Text(
@@ -134,6 +136,6 @@ fun ReCaptureDialog(
 @Preview(showBackground = true)
 @Composable
 fun ReCaptureDialogPreview() {
-    ReCaptureDialog(openDialog = true, {}, {})
+    ReCaptureDialog(openDialog = true, {}, {}, {})
 }
 

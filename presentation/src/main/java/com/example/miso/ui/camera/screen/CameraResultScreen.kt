@@ -2,7 +2,6 @@ package com.example.miso.ui.camera.screen
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,26 +20,22 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.example.domain.model.camera.response.CameraResponseModel
-import com.example.domain.model.shop.response.ShopListModel
 import com.example.miso.ui.camera.component.CameraBackground
 import com.example.miso.ui.camera.component.CameraConfirmBtn
 import com.example.miso.ui.camera.component.CameraReCaptureBtn
+import com.example.miso.ui.camera.component.dialog.ReCaptureDialog
 import com.example.miso.ui.component.progressbar.MisoProgressbar
 import com.example.miso.ui.main.MainPage
-import com.example.miso.ui.shop.screen.getShopDetailList
 import com.example.miso.ui.theme.MisoTheme
 import com.example.miso.viewmodel.CameraViewModel
 import com.example.miso.viewmodel.RecyclablesViewModel
-import com.example.miso.viewmodel.ShopViewModel
 import com.example.miso.viewmodel.util.Event
 
 @Composable
@@ -49,10 +44,13 @@ fun CameraResultScreen(
     navController: NavController,
     viewModel: CameraViewModel,
     viewModelResult: RecyclablesViewModel,
-    onResultCallback: () -> Unit
+    onResultCallback: () -> Unit,
+    onReCaptureClick: () -> Unit,
+    onGoHomeClick: () -> Unit
 ) {
     val launchAi = remember { mutableStateOf(false) }
     val getResult = remember { mutableStateOf(false) }
+    var openDialog = remember { mutableStateOf(false) }
     var progressState = remember { mutableStateOf(false) }
 
     LaunchedEffect(launchAi.value){
@@ -63,10 +61,9 @@ fun CameraResultScreen(
                 viewModel = viewModel,
                 progressState = { progressState.value = it },
                 onSuccess = { response ->
-                    viewModelResult.isAiResult.value = true
                     val aiAnswer = response.best_class.uppercase()
                     viewModelResult.result(aiAnswer)
-                    navController.navigate(MainPage.Result.value)
+                    getResult.value = true
                 }
 
             )
@@ -80,9 +77,28 @@ fun CameraResultScreen(
                 progressState = { progressState.value = it },
                 onSuccess = {
                     onResultCallback()
+                    navController.navigate(MainPage.Result.value)
+                },
+                onFailure = {
+                    openDialog.value = true
                 }
             )
         }
+    }
+
+    if (openDialog.value) {
+        ReCaptureDialog(
+            openDialog = openDialog.value,
+            onStateChange = {
+                openDialog.value = it
+            },
+            onReCaptureClick = {
+                onReCaptureClick()
+            },
+            onGoHomeClick = {
+                onGoHomeClick()
+            }
+        )
     }
 
     getBitmap(viewModel = viewModel)
@@ -109,7 +125,7 @@ fun CameraResultScreen(
                         .navigationBarsPadding(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    CameraReCaptureBtn { navController.popBackStack() }
+                    CameraReCaptureBtn { onReCaptureClick() }
                     CameraConfirmBtn { launchAi.value = true }
                 }
             }
@@ -171,23 +187,28 @@ suspend fun getResult(
     viewModel: RecyclablesViewModel,
     progressState: (Boolean) -> Unit,
     onSuccess: () -> Unit,
+    onFailure: () -> Unit
 ) {
     viewModel.resultResponse.collect { response ->
-        Log.d("cameraAi", "작동")
+        Log.d("resultAi", "작동")
         when (response) {
             is Event.Success -> {
-                Log.d("cameraAi","이벤트 성공${response.data!!}")
+                Log.d("resultAi","이벤트 성공${response.data!!}")
                 progressState(false)
                 onSuccess()
             }
-
+            is Event.NotFound -> {
+                Log.d("resultAi","이벤트 실패")
+                progressState(false)
+                onFailure()
+            }
             is Event.Loading -> {
-                Log.d("cameraAi","이벤트 중")
+                Log.d("resultAi","이벤트 중")
                 progressState(true)
             }
 
             else -> {
-                Log.d("cameraAi","이벤트 실패")
+                Log.d("resultAi","실패")
                 progressState(false)
             }
         }

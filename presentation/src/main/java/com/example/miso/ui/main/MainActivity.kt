@@ -146,7 +146,15 @@ class MainActivity : BaseActivity() {
                                     navController = navController,
                                     viewModel = viewModel(LocalContext.current as MainActivity),
                                     viewModelResult = viewModel(LocalContext.current as MainActivity),
-                                    onResultCallback = { navController.navigate(MainPage.Result.value) }
+                                    onResultCallback = {
+                                        recyclablesViewModel.isAiResult.value = true
+                                        navController.navigate(MainPage.Result.value)
+                                    },
+                                    onReCaptureClick = { navController.popBackStack() },
+                                    onGoHomeClick = {
+                                        navController.popBackStack()
+                                        navController.popBackStack()
+                                    }
                                 )
                             }
                             composable(MainPage.Search.name) {
