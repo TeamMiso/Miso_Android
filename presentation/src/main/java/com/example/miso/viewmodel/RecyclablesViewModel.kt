@@ -82,6 +82,9 @@ class RecyclablesViewModel @Inject constructor(
                 _resultResponse.value = it.errorHandling()
             }
     }
+    fun changeResultStateToLoading(){
+        _resultResponse.value = Event.Loading
+    }
 
     fun addSearch(data: SearchResponseModel) {
         imageUrl.value = data.imageUrl

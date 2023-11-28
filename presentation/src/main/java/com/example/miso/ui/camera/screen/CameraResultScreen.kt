@@ -62,7 +62,10 @@ fun CameraResultScreen(
                 progressState = { progressState.value = it },
                 onSuccess = { response ->
                     val aiAnswer = response.best_class.uppercase()
+
+                    viewModelResult.changeResultStateToLoading()
                     viewModelResult.result(aiAnswer)
+
                     getResult.value = true
                 }
 
