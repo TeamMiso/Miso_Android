@@ -18,7 +18,10 @@ import com.example.miso.ui.inquiry.component.InquiryButton
 import com.example.miso.ui.theme.MisoTheme
 
 @Composable
-fun ResultButton(onClick: () -> Unit) {
+fun ResultButton(
+    onClick: () -> Unit,
+    isAiResult: Boolean
+) {
     MisoTheme { colors, typography ->
         Row(modifier = Modifier.padding(start = 17.dp, end = 17.dp)) {
             Button(
@@ -29,12 +32,21 @@ fun ResultButton(onClick: () -> Unit) {
                 colors = ButtonDefaults.buttonColors(colors.M1),
                 onClick = { onClick() }
             ) {
-                Text(
-                    text = "+100 POINT",
-                    color = colors.M3,
-                    style = typography.title3,
-                    fontWeight = FontWeight.ExtraLight
-                )
+                if(isAiResult){
+                    Text(
+                        text = "+100 POINT",
+                        color = colors.M3,
+                        style = typography.title3,
+                        fontWeight = FontWeight.ExtraLight
+                    )
+                } else {
+                    Text(
+                        text = "확인",
+                        color = colors.M3,
+                        style = typography.title3,
+                        fontWeight = FontWeight.ExtraLight
+                    )
+                }
             }
         }
     }
@@ -43,5 +55,5 @@ fun ResultButton(onClick: () -> Unit) {
 @Composable
 @Preview(showBackground = true)
 fun ResultButtonPreview() {
-    ResultButton(onClick = {})
+    ResultButton(onClick = {},true)
 }
