@@ -11,7 +11,7 @@ import com.example.miso.ui.theme.MisoTheme
 fun PurchaseListTitleText() {
     MisoTheme { colors, typography ->
         Text(
-            text = "구메목록",
+            text = "구매목록",
             color = colors.BLACK,
             style = typography.title3,
             fontWeight = FontWeight.ExtraLight,
