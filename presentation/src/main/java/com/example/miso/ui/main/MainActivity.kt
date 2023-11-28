@@ -145,7 +145,16 @@ class MainActivity : BaseActivity() {
                                     context = this@MainActivity,
                                     navController = navController,
                                     viewModel = viewModel(LocalContext.current as MainActivity),
-                                    viewModelResult = viewModel(LocalContext.current as MainActivity)
+                                    viewModelResult = viewModel(LocalContext.current as MainActivity),
+                                    onResultCallback = {
+                                        recyclablesViewModel.isAiResult.value = true
+                                        navController.navigate(MainPage.Result.value)
+                                    },
+                                    onReCaptureClick = { navController.popBackStack() },
+                                    onGoHomeClick = {
+                                        navController.popBackStack()
+                                        navController.popBackStack()
+                                    }
                                 )
                             }
                             composable(MainPage.Search.name) {
@@ -154,7 +163,10 @@ class MainActivity : BaseActivity() {
                                     viewModel = viewModel(LocalContext.current as MainActivity),
                                     lifecycleScope = lifecycleScope,
                                     onBackClick = { navController.popBackStack() },
-                                    onResultClick = { navController.navigate(MainPage.Result.value) },
+                                    onResultClick = {
+                                        recyclablesViewModel.isAiResult.value = false
+                                        navController.navigate(MainPage.Result.value)
+                                    },
                                     onInquiryClick = { navController.navigate(MainPage.Inquiry.value) }
                                 )
                             }
@@ -220,7 +232,14 @@ class MainActivity : BaseActivity() {
                                 ResultScreen(
                                     context = this@MainActivity,
                                     viewModel = viewModel(LocalContext.current as MainActivity),
-                                    onResultClick = { userViewModel.givePoint() }
+                                    onResultClick = {
+                                        if(recyclablesViewModel.isAiResult.value){
+                                            userViewModel.givePoint()
+                                        }else{
+                                            navController.popBackStack()
+                                            navController.popBackStack()
+                                        }
+                                    }
                                 )
                             }
                         }

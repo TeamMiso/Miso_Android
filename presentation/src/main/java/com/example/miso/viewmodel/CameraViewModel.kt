@@ -49,6 +49,8 @@ class CameraViewModel @Inject constructor(
                 it.catch {remoteError ->
                     Log.d("cameraAi-vm",remoteError.toString())
                     _getAiAnswer.value = remoteError.errorHandling()
+                    _getAiAnswer.value = Event.NotFound
+                    return@catch
                 }.collect { response ->
                     Log.d("cameraAi-vm",response.toString())
                     _getAiAnswer.value = Event.Success(data = response)

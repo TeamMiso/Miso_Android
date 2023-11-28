@@ -23,7 +23,7 @@ import com.example.miso.viewmodel.RecyclablesViewModel
 fun ResultScreen(
     context: Context,
     viewModel: RecyclablesViewModel,
-    onResultClick: () -> Unit
+    onResultClick: () -> Unit,
 ) {
     val result = viewModel.result.value
 
@@ -44,9 +44,7 @@ fun ResultScreen(
                 ResultContentText(markdown = result.content.trimIndent())
             }
             Spacer(modifier = Modifier.height(24.dp))
-            ResultButton {
-                onResultClick()
-            }
+            ResultButton(onClick = { onResultClick() }, isAiResult = viewModel.isAiResult.value)
             Spacer(modifier = Modifier.height(50.dp))
         }
     }
