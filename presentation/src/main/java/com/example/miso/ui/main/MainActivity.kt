@@ -235,6 +235,9 @@ class MainActivity : BaseActivity() {
                                     onResultClick = {
                                         if(recyclablesViewModel.isAiResult.value){
                                             userViewModel.givePoint()
+                                        }else{
+                                            navController.popBackStack()
+                                            navController.popBackStack()
                                         }
                                     }
                                 )
