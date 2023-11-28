@@ -24,7 +24,7 @@ fun ResultRecycleMarkText(url: String) {
                     Text(
                         text = "분류배출 표시: ",
                         color = colors.BLACK,
-                        style = typography.content4,
+                        style = typography.content2,
                         fontWeight = FontWeight.ExtraLight
                     )
                     Spacer(modifier = Modifier.width(3.dp))

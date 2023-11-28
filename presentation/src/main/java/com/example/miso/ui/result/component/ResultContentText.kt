@@ -12,7 +12,7 @@ fun ResultContentText(markdown: String) {
         MarkdownText(
             markdown = markdown,
             fontResource = R.font.suitv1_extralight,
-            fontSize = 10.sp,
+            fontSize = 15.sp,
             color = colors.BLACK
         )
     }
