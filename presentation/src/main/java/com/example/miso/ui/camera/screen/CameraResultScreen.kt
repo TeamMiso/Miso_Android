@@ -48,9 +48,11 @@ fun CameraResultScreen(
     context: Context,
     navController: NavController,
     viewModel: CameraViewModel,
-    viewModelResult: RecyclablesViewModel
+    viewModelResult: RecyclablesViewModel,
+    onResultCallback: () -> Unit
 ) {
     val launchAi = remember { mutableStateOf(false) }
+    val getResult = remember { mutableStateOf(false) }
     var progressState = remember { mutableStateOf(false) }
 
     LaunchedEffect(launchAi.value){
@@ -61,6 +63,7 @@ fun CameraResultScreen(
                 viewModel = viewModel,
                 progressState = { progressState.value = it },
                 onSuccess = { response ->
+                    viewModelResult.isAiResult.value = true
                     val aiAnswer = response.best_class.uppercase()
                     viewModelResult.result(aiAnswer)
                     navController.navigate(MainPage.Result.value)
@@ -69,6 +72,19 @@ fun CameraResultScreen(
             )
         }
     }
+
+    LaunchedEffect(getResult.value){
+        if(getResult.value){
+            getResult(
+                viewModel = viewModelResult,
+                progressState = { progressState.value = it },
+                onSuccess = {
+                    onResultCallback()
+                }
+            )
+        }
+    }
+
     getBitmap(viewModel = viewModel)
     MisoTheme { colors, typography ->
         Box(
@@ -136,6 +152,33 @@ suspend fun getAiResponse(
                 Log.d("cameraAi","이벤트 성공${response.data!!}")
                 progressState(false)
                 onSuccess(response.data!!)
+            }
+
+            is Event.Loading -> {
+                Log.d("cameraAi","이벤트 중")
+                progressState(true)
+            }
+
+            else -> {
+                Log.d("cameraAi","이벤트 실패")
+                progressState(false)
+            }
+        }
+    }
+}
+
+suspend fun getResult(
+    viewModel: RecyclablesViewModel,
+    progressState: (Boolean) -> Unit,
+    onSuccess: () -> Unit,
+) {
+    viewModel.resultResponse.collect { response ->
+        Log.d("cameraAi", "작동")
+        when (response) {
+            is Event.Success -> {
+                Log.d("cameraAi","이벤트 성공${response.data!!}")
+                progressState(false)
+                onSuccess()
             }
 
             is Event.Loading -> {

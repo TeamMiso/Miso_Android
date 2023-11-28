@@ -145,7 +145,8 @@ class MainActivity : BaseActivity() {
                                     context = this@MainActivity,
                                     navController = navController,
                                     viewModel = viewModel(LocalContext.current as MainActivity),
-                                    viewModelResult = viewModel(LocalContext.current as MainActivity)
+                                    viewModelResult = viewModel(LocalContext.current as MainActivity),
+                                    onResultCallback = { navController.navigate(MainPage.Result.value) }
                                 )
                             }
                             composable(MainPage.Search.name) {
