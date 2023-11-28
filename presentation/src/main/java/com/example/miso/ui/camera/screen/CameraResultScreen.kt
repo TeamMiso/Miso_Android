@@ -80,6 +80,7 @@ fun CameraResultScreen(
                 onError = {
                     errorText.value = "네트워크 상태를 확인해 주세요."
                     snackBarVisibility.value = true
+                    launchAi.value = false
                 }
             )
         }
@@ -100,6 +101,7 @@ fun CameraResultScreen(
                 onError = {
                     errorText.value = "네트워크 상태를 확인해 주세요."
                     snackBarVisibility.value = true
+                    getResult.value = false
                 }
             )
         }
