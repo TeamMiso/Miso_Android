@@ -27,16 +27,20 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.example.domain.model.camera.response.CameraResponseModel
+import com.example.miso.R
 import com.example.miso.ui.camera.component.CameraBackground
 import com.example.miso.ui.camera.component.CameraConfirmBtn
 import com.example.miso.ui.camera.component.CameraReCaptureBtn
 import com.example.miso.ui.camera.component.dialog.ReCaptureDialog
 import com.example.miso.ui.component.progressbar.MisoProgressbar
+import com.example.miso.ui.component.snackbar.MisoSnackbar
 import com.example.miso.ui.main.MainPage
 import com.example.miso.ui.theme.MisoTheme
 import com.example.miso.viewmodel.CameraViewModel
 import com.example.miso.viewmodel.RecyclablesViewModel
 import com.example.miso.viewmodel.util.Event
+import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun CameraResultScreen(
@@ -51,6 +55,11 @@ fun CameraResultScreen(
     val launchAi = remember { mutableStateOf(false) }
     val getResult = remember { mutableStateOf(false) }
     var openDialog = remember { mutableStateOf(false) }
+
+    val snackBarVisibility = remember { mutableStateOf(false) }
+    val errorText = remember { mutableStateOf("") }
+    val remoteSuccess = remember { mutableStateOf(false) }
+
     var progressState = remember { mutableStateOf(false) }
 
     LaunchedEffect(launchAi.value){
@@ -67,8 +76,11 @@ fun CameraResultScreen(
                     viewModelResult.result(aiAnswer)
 
                     getResult.value = true
+                },
+                onError = {
+                    errorText.value = "네트워크 상태를 확인해 주세요."
+                    snackBarVisibility.value = true
                 }
-
             )
         }
     }
@@ -84,6 +96,10 @@ fun CameraResultScreen(
                 },
                 onFailure = {
                     openDialog.value = true
+                },
+                onError = {
+                    errorText.value = "네트워크 상태를 확인해 주세요."
+                    snackBarVisibility.value = true
                 }
             )
         }
@@ -102,6 +118,17 @@ fun CameraResultScreen(
                 onGoHomeClick()
             }
         )
+    }
+
+    LaunchedEffect(snackBarVisibility.value) {
+        if (snackBarVisibility.value) {
+            delay(1.5.seconds)
+            if (remoteSuccess.value) navController.popBackStack()
+            snackBarVisibility.value = false
+            progressState.value = false
+            delay(1.seconds)
+            remoteSuccess.value = false
+        }
     }
 
     getBitmap(viewModel = viewModel)
@@ -139,6 +166,16 @@ fun CameraResultScreen(
                         .statusBarsPadding()
                 )
             }
+            MisoSnackbar(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .statusBarsPadding(),
+                text = errorText.value,
+                visible = snackBarVisibility.value,
+                icon = if (remoteSuccess.value) R.drawable.ic_check else R.drawable.ic_cancel
+            ) {
+                snackBarVisibility.value = false
+            }
         }
     }
 }
@@ -163,6 +200,7 @@ suspend fun getAiResponse(
     viewModel: CameraViewModel,
     progressState: (Boolean) -> Unit,
     onSuccess: (aiAnswer: CameraResponseModel) -> Unit,
+    onError: () -> Unit
 ) {
     viewModel.getAiAnswer.collect { response ->
         Log.d("cameraAi", "작동")
@@ -181,6 +219,7 @@ suspend fun getAiResponse(
             else -> {
                 Log.d("cameraAi","이벤트 실패")
                 progressState(false)
+                onError()
             }
         }
     }
@@ -190,7 +229,8 @@ suspend fun getResult(
     viewModel: RecyclablesViewModel,
     progressState: (Boolean) -> Unit,
     onSuccess: () -> Unit,
-    onFailure: () -> Unit
+    onFailure: () -> Unit,
+    onError: () -> Unit
 ) {
     viewModel.resultResponse.collect { response ->
         Log.d("resultAi", "작동")
@@ -213,6 +253,7 @@ suspend fun getResult(
             else -> {
                 Log.d("resultAi","실패")
                 progressState(false)
+                onError()
             }
         }
     }
