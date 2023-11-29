@@ -6,7 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface CameraAPI {
-    @POST("process_image")
+    @POST("android_base64")
     suspend fun getAiResponse(
         @Body body: CameraRequest
     ): CameraResponse
