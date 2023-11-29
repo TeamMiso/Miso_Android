@@ -104,7 +104,11 @@ class MainActivity : BaseActivity() {
             userViewModel.givePointResponse.collect {
                 if (it is Event.Success) {
                     userViewModel.getUserInfo()
-                    navController.navigate(MainPage.Main.value)
+                    navController.navigate(MainPage.Main.value){
+                        popUpTo(MainPage.Main.value){
+                            inclusive = true
+                        }
+                    }
                 }
             }
         }
@@ -236,8 +240,11 @@ class MainActivity : BaseActivity() {
                                         if(recyclablesViewModel.isAiResult.value){
                                             userViewModel.givePoint()
                                         }else{
-                                            navController.popBackStack()
-                                            navController.popBackStack()
+                                            navController.navigate(MainPage.Main.value){
+                                                popUpTo(MainPage.Main.value){
+                                                    inclusive = true
+                                                }
+                                            }
                                         }
                                     }
                                 )
