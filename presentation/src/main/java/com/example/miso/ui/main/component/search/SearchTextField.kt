@@ -42,27 +42,22 @@ import kotlinx.coroutines.job
 @Composable
 fun SearchTextField(
     setChangeText: String,
+    debounceTime: Long = 300L,
     onFocusChange: (Boolean) -> Unit = {},
     onValueChange: (String) -> Unit,
     onSearchTextChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var text by remember { mutableStateOf("") }
-    text = setChangeText
-
-    LaunchedEffect(key1 = text) {
-        delay(300L)
-        onSearchTextChange(text)
+    LaunchedEffect(setChangeText) {
+        delay(debounceTime)
+        onSearchTextChange(setChangeText)
     }
 
     MisoTheme { colors, typography ->
         Row {
             BasicTextField(
-                value = text,
-                onValueChange = {
-                    text = it
-                    onValueChange(it)
-                },
+                value = setChangeText,
+                onValueChange = { onValueChange(it) },
                 modifier = modifier
                     .fillMaxWidth(0.8f)
                     .onFocusEvent { state ->
@@ -107,5 +102,5 @@ fun SearchTextField(
 @Composable
 @Preview(showBackground = true)
 fun SearchTextFieldPreView() {
-    SearchTextField("", {}, {}, {})
+    SearchTextField("", 300L,{}, {}, {})
 }
