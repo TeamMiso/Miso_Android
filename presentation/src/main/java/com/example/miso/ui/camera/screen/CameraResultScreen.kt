@@ -168,11 +168,6 @@ fun CameraResultScreen(
                 }
             }
             if (progressState.value) {
-                /*MisoProgressbar(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .statusBarsPadding()
-                )*/
                 AiProgressbar(
                     modifier = Modifier
                         .align(Alignment.Center)
