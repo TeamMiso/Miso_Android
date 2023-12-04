@@ -32,6 +32,7 @@ import com.example.miso.ui.camera.component.CameraBackground
 import com.example.miso.ui.camera.component.CameraConfirmBtn
 import com.example.miso.ui.camera.component.CameraReCaptureBtn
 import com.example.miso.ui.camera.component.dialog.ReCaptureDialog
+import com.example.miso.ui.camera.progressbar.AiProgressbar
 import com.example.miso.ui.component.progressbar.MisoProgressbar
 import com.example.miso.ui.component.snackbar.MisoSnackbar
 import com.example.miso.ui.main.MainPage
@@ -167,7 +168,12 @@ fun CameraResultScreen(
                 }
             }
             if (progressState.value) {
-                MisoProgressbar(
+                /*MisoProgressbar(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .statusBarsPadding()
+                )*/
+                AiProgressbar(
                     modifier = Modifier
                         .align(Alignment.Center)
                         .statusBarsPadding()
