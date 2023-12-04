@@ -122,6 +122,7 @@ fun SearchScreen(
                 Spacer(modifier = Modifier.width(20.dp))
                 SearchTextField(
                     setChangeText = search,
+                    debounceTime = 300L,
                     onFocusChange = {
                         isClick = it
                     },
