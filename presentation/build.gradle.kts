@@ -1,23 +1,23 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id ("kotlin-kapt")
-    id ("dagger.hilt.android.plugin")
+    id (Dependency.Gradle.APPLICATION)
+    id (Dependency.Gradle.KOTLIN)
+    id (Dependency.Gradle.KAPT)
+    id (Dependency.Google.HILT_PLUGIN)
     id (Dependency.Google.GMS_GOOGLE_SERVICE_PLUGIN)
 }
 
 android {
-    namespace = "com.example.miso"
-    compileSdk = 33
+    namespace = Dependency.Gradle.MISO
+    compileSdk = Dependency.Version.TARGET_SDK
 
     defaultConfig {
-        applicationId = "com.example.miso"
-        minSdk = 24
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = Dependency.Gradle.MISO
+        minSdk = Dependency.Version.MIN_SDK
+        targetSdk = Dependency.Version.TARGET_SDK
+        versionCode = Dependency.Version.VERSION_CODE
+        versionName = Dependency.Version.VERSION_NAME
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = Dependency.TestProperties.TEST_RUNNER
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -27,8 +27,8 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile(Dependency.Files.DEFAULT_PROGUARDFILES),
+                Dependency.Files.PROGUARDFILES
             )
         }
     }
@@ -75,12 +75,14 @@ dependencies {
 
     //coil
     implementation(Dependency.Image.COIL)
-    // 수정 요망
+
+    //aac
     implementation(Dependency.AndroidX.APP_COMPAT)
     implementation(Dependency.AndroidX.CORE_KTX)
     implementation(Dependency.AndroidX.LIFECYCLE_RUNTIME)
     implementation(Dependency.Navigation.NAVIGATION)
 
+    //compose
     implementation(Dependency.Compose.ACTIVITY_COMPOSE)
     implementation(Dependency.Compose.COMPOSE)
     implementation(Dependency.Compose.COMPOSE_TOOLING)
@@ -88,6 +90,7 @@ dependencies {
     implementation(Dependency.Compose.COMPOSE_MATERIAL3)
     implementation(Dependency.Compose.COMPOSE_PREVIEW)
 
+    //junit
     testImplementation(Dependency.Test.JUNIT)
     androidTestImplementation(Dependency.Test.ANDROID_JUNIT)
     androidTestImplementation(Dependency.Test.ESPRESSO_CORE)
@@ -95,13 +98,14 @@ dependencies {
     debugImplementation(Dependency.Compose.COMPOSE_TOOLING)
     debugImplementation(Dependency.Test.COMPOSE_MANIFEST)
 
+    //accompanist
     implementation(Dependency.Google.ACCOMPANIST)
     implementation(Dependency.Google.ACCOMPANIST_PERMISSION)
 
-    implementation(Dependency.Image.COIL)
-
+    //gson
     implementation(Dependency.Google.GSON)
 
+    //markdown
     implementation(Dependency.Github.MARKDOWN)
 
 }

@@ -2,21 +2,21 @@ import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
-    id("com.google.dagger.hilt.android")
+    id (Dependency.Gradle.APPLICATION)
+    id (Dependency.Gradle.KOTLIN)
+    id (Dependency.Gradle.KAPT)
+    id (Dependency.Google.HILT_PLUGIN)
 }
 
 android {
-    namespace = "com.example.di"
+    namespace = Dependency.Gradle.DI
     compileSdk = 33
 
     defaultConfig {
         minSdk = 24
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
+        testInstrumentationRunner = Dependency.TestProperties.TEST_RUNNER
+        consumerProguardFiles(Dependency.Files.CONSUMER_PROGUARDFILES)
 
         buildConfigField(
             "String",
@@ -35,8 +35,8 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile(Dependency.Files.DEFAULT_PROGUARDFILES),
+                Dependency.Files.PROGUARDFILES
             )
         }
     }
@@ -45,7 +45,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
 
@@ -77,6 +77,7 @@ dependencies {
     androidTestImplementation(Dependency.Test.ANDROID_JUNIT)
     androidTestImplementation(Dependency.Test.ESPRESSO_CORE)
 
+    //dataStore
     implementation(Dependency.DataStore.PREFERENCES)
 }
 

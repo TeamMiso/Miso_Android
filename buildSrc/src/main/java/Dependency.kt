@@ -3,7 +3,27 @@ object Dependency {
         const val APPLICATION = "com.android.application"
         const val LIBRARY = "com.android.library"
         const val KOTLIN = "org.jetbrains.kotlin.android"
-        const val KAPT = "kapt"
+        const val KAPT = "kotlin-kapt"
+
+        const val MISO = "com.example.miso"
+        const val DATA = "com.example.data"
+        const val DI = "com.example.di"
+        const val DOMAIN = "com.example.domain"
+    }
+    object Version {
+        const val COMPILE_SDK = 33
+        const val MIN_SDK = 24
+        const val TARGET_SDK = 33
+        const val VERSION_CODE = 1
+        const val VERSION_NAME = "1.0"
+    }
+    object Files {
+        const val CONSUMER_PROGUARDFILES = "consumer-rules.pro"
+        const val DEFAULT_PROGUARDFILES = "proguard-android-optimize.txt"
+        const val PROGUARDFILES = "proguard-rules.pro"
+    }
+    object TestProperties {
+        const val TEST_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
     }
     object AndroidX {
         const val LIFECYCLE_RUNTIME = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE_KTX}"
