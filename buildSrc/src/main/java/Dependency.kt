@@ -4,7 +4,9 @@ object Dependency {
         const val LIBRARY = "com.android.library"
         const val KOTLIN = "org.jetbrains.kotlin.android"
         const val KAPT = "kotlin-kapt"
+
         const val MISO = "com.example.miso"
+        const val DATA = "com.example.data"
     }
     object Version {
         const val COMPILE_SDK = 33
