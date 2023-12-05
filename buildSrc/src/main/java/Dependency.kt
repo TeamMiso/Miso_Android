@@ -7,6 +7,8 @@ object Dependency {
 
         const val MISO = "com.example.miso"
         const val DATA = "com.example.data"
+        const val DI = "com.example.di"
+        const val DOMAIN = "com.example.domain"
     }
     object Version {
         const val COMPILE_SDK = 33
