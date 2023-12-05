@@ -40,9 +40,11 @@ dependencies {
     //androidTest
     androidTestImplementation(Dependency.Test.ANDROID_JUNIT)
     androidTestImplementation(Dependency.Test.ESPRESSO_CORE)
+
     //hilt
     implementation(Dependency.Google.HILT_ANDROID)
     kapt(Dependency.Google.HILT_ANDROID_COMPILER)
 
+    //okhttp
     implementation(Dependency.Libraries.OKHTTP)
 }

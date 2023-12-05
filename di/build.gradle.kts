@@ -77,6 +77,7 @@ dependencies {
     androidTestImplementation(Dependency.Test.ANDROID_JUNIT)
     androidTestImplementation(Dependency.Test.ESPRESSO_CORE)
 
+    //dataStore
     implementation(Dependency.DataStore.PREFERENCES)
 }
 

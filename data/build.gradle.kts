@@ -64,6 +64,7 @@ dependencies {
     implementation(Dependency.Libraries.OKHTTP)
     implementation(Dependency.Libraries.OKHTTP_LOGGING_INTERCEPTOR)
 
+    //preference
     implementation(Dependency.DataStore.PREFERENCES)
 }
 
