@@ -4,9 +4,11 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.model.recyclables.response.RecyclablesListResponseModel
 import com.example.domain.model.recyclables.response.ResultResponseModel
 import com.example.domain.model.recyclables.response.SearchResponseModel
 import com.example.domain.usecase.recyclables.DeleteSearchHistoryUseCase
+import com.example.domain.usecase.recyclables.GetAllRecyclablesListUseCase
 import com.example.domain.usecase.recyclables.GetSearchHistoryUseCase
 import com.example.domain.usecase.recyclables.ResultUseCase
 import com.example.domain.usecase.recyclables.SaveSearchHistoryUseCase
@@ -26,7 +28,8 @@ class RecyclablesViewModel @Inject constructor(
     private val resultUseCase: ResultUseCase,
     private val saveSearchHistoryUseCase: SaveSearchHistoryUseCase,
     private val getSearchHistoryUseCase: GetSearchHistoryUseCase,
-    private val deleteSearchHistoryUseCase: DeleteSearchHistoryUseCase
+    private val deleteSearchHistoryUseCase: DeleteSearchHistoryUseCase,
+    private val getAllRecyclablesListUseCase: GetAllRecyclablesListUseCase
 ) : ViewModel() {
     private val _searchResponse = MutableStateFlow<Event<SearchResponseModel>>(Event.Loading)
     val searchResponse = _searchResponse.asStateFlow()
@@ -42,6 +45,9 @@ class RecyclablesViewModel @Inject constructor(
 
     private val _deleteSearchHistoryResponse = MutableStateFlow<Event<Unit>>(Event.Loading)
     val deleteSearchHistoryResponse = _deleteSearchHistoryResponse.asStateFlow()
+
+    private val _getAllRecyclablesListResponse = MutableStateFlow<Event<RecyclablesListResponseModel>>(Event.Loading)
+    val getAllRecyclablesListResponse = _getAllRecyclablesListResponse
 
     val isAiResult = mutableStateOf(false)
     var imageUrl = mutableStateOf("")
@@ -82,6 +88,7 @@ class RecyclablesViewModel @Inject constructor(
                 _resultResponse.value = it.errorHandling()
             }
     }
+
     fun changeResultStateToLoading(){
         _resultResponse.value = Event.Loading
     }
@@ -121,6 +128,19 @@ class RecyclablesViewModel @Inject constructor(
                 _deleteSearchHistoryResponse.value = Event.Success()
             }.onFailure {
                 _deleteSearchHistoryResponse.value = it.errorHandling()
+            }
+    }
+
+    fun getAllRecyclablesList() = viewModelScope.launch {
+        getAllRecyclablesListUseCase()
+            .onSuccess {
+                it.catch { remoteError ->
+                    _getAllRecyclablesListResponse.value = remoteError.errorHandling()
+                }.collect { response ->
+                    _getAllRecyclablesListResponse.value = Event.Success(data = response)
+                }
+            }.onFailure {
+                _getAllRecyclablesListResponse.value = it.errorHandling()
             }
     }
 }
