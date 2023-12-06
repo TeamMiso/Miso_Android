@@ -1,5 +1,6 @@
 package com.example.data.remote.api
 
+import com.example.data.remote.dto.recyclables.response.RecyclablesListResponse
 import com.example.data.remote.dto.recyclables.response.ResultResponse
 import com.example.data.remote.dto.recyclables.response.SearchResponse
 import retrofit2.http.GET
@@ -16,4 +17,7 @@ interface RecyclablesAPI {
     suspend fun result(
         @Query("recyclablesType") recyclablesType: String
     ): ResultResponse
+
+    @GET("recyclables/all")
+    suspend fun getAllRecyclablesList(): RecyclablesListResponse
 }
