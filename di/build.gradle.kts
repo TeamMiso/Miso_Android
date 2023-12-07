@@ -2,18 +2,18 @@ import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    id (Dependency.Gradle.APPLICATION)
+    id (Dependency.Gradle.LIBRARY)
     id (Dependency.Gradle.KOTLIN)
-    id (Dependency.Gradle.KAPT)
+    kotlin (Dependency.Gradle.KAPT)
     id (Dependency.Google.HILT_PLUGIN)
 }
 
 android {
     namespace = Dependency.Gradle.DI
-    compileSdk = 33
+    compileSdk = Dependency.Version.COMPILE_SDK
 
     defaultConfig {
-        minSdk = 24
+        minSdk = Dependency.Version.MIN_SDK
 
         testInstrumentationRunner = Dependency.TestProperties.TEST_RUNNER
         consumerProguardFiles(Dependency.Files.CONSUMER_PROGUARDFILES)

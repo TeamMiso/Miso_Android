@@ -1,10 +1,3 @@
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
 plugins {
     id(Dependency.Gradle.APPLICATION) version Versions.GRADLE_ANDROID apply false
     id(Dependency.Gradle.LIBRARY) version Versions.GRADLE_ANDROID apply false
