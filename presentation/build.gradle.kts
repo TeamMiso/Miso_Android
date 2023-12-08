@@ -72,6 +72,7 @@ dependencies {
     implementation(Dependency.Google.FIREBASE_ANALYTICS)
     implementation(Dependency.Google.FIREBASE_DATABASE)
     implementation(Dependency.Google.FIREBASE_STORAGE)
+    implementation(Dependency.Google.FIREBASE_MESSAGING)
 
     //coil
     implementation(Dependency.Image.COIL)

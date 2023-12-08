@@ -16,7 +16,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Miso"
 include(":presentation")
-
 include(":di")
 include(":data")
 include(":domain")
