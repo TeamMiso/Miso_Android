@@ -20,7 +20,7 @@ suspend fun <T> Throwable.errorHandling(
             badRequestAction()
             Event.BadRequest
         }
-        is UnauthorizedException -> {
+        is UnauthorizedException, is TokenExpirationException -> {
             errorLog("UnauthorizedException", message)
             unauthorizedAction()
             Event.Unauthorized
