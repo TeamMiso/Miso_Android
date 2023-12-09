@@ -80,7 +80,8 @@ fun LogInScreen(
 
     val body = AuthLogInRequestModel(
         email = email,
-        password = pw
+        password = pw,
+        deviceToken = ""
     )
 
     Box(
