@@ -3,7 +3,7 @@ object Dependency {
         const val APPLICATION = "com.android.application"
         const val LIBRARY = "com.android.library"
         const val KOTLIN = "org.jetbrains.kotlin.android"
-        const val KAPT = "kotlin-kapt"
+        const val KAPT = "kapt"
 
         const val MISO = "com.example.miso"
         const val DATA = "com.example.data"
@@ -12,7 +12,7 @@ object Dependency {
     }
     object Version {
         const val COMPILE_SDK = 33
-        const val MIN_SDK = 24
+        const val MIN_SDK = 26
         const val TARGET_SDK = 33
         const val VERSION_CODE = 1
         const val VERSION_NAME = "1.0"
@@ -77,6 +77,7 @@ object Dependency {
         const val FIREBASE_DATABASE = "com.google.firebase:firebase-database-ktx:${Versions.FIREBASE_DATABASE}"
         const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
         const val FIREBASE_BOM = "com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"
+        const val FIREBASE_MESSAGING = "com.google.firebase:firebase-messaging-ktx:${Versions.FIREBASE_MESSAGING}"
 
         const val GMS_PLAY_SERVICE_AUTH =
             "com.google.android.gms:play-services-auth:${Versions.GMS_PLAY_SERVICE_AUTH}"

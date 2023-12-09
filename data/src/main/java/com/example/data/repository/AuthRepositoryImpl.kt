@@ -31,7 +31,8 @@ class AuthRepositoryImpl @Inject constructor(
         return remoteAuthDatasource.authLogIn(
             body = AuthLogInRequest(
                 email = body.email,
-                password = body.password
+                password = body.password,
+                deviceToken = body.deviceToken
             )
         ).map { it.toLogInModel() }
     }

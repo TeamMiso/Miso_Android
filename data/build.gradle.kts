@@ -2,9 +2,9 @@ import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    id (Dependency.Gradle.APPLICATION)
+    id (Dependency.Gradle.LIBRARY)
     id (Dependency.Gradle.KOTLIN)
-    id (Dependency.Gradle.KAPT)
+    kotlin (Dependency.Gradle.KAPT)
     id (Dependency.Google.HILT_PLUGIN)
 }
 

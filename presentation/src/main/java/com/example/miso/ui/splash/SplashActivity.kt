@@ -1,8 +1,6 @@
 package com.example.miso.ui.splash
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -56,6 +54,7 @@ class SplashActivity : BaseActivity() {
                     is Event.Loading -> {}
 
                     else -> {
+                        pageLogIn()
                         finish()
                     }
                 }

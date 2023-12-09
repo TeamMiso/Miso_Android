@@ -1,14 +1,14 @@
 plugins {
     id (Dependency.Gradle.APPLICATION)
     id (Dependency.Gradle.KOTLIN)
-    id (Dependency.Gradle.KAPT)
+    kotlin (Dependency.Gradle.KAPT)
     id (Dependency.Google.HILT_PLUGIN)
     id (Dependency.Google.GMS_GOOGLE_SERVICE_PLUGIN)
 }
 
 android {
     namespace = Dependency.Gradle.MISO
-    compileSdk = Dependency.Version.TARGET_SDK
+    compileSdk = Dependency.Version.COMPILE_SDK
 
     defaultConfig {
         applicationId = Dependency.Gradle.MISO
@@ -72,6 +72,7 @@ dependencies {
     implementation(Dependency.Google.FIREBASE_ANALYTICS)
     implementation(Dependency.Google.FIREBASE_DATABASE)
     implementation(Dependency.Google.FIREBASE_STORAGE)
+    implementation(Dependency.Google.FIREBASE_MESSAGING)
 
     //coil
     implementation(Dependency.Image.COIL)
