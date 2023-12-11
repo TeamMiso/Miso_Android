@@ -29,3 +29,25 @@ fun MisoLogoWhiteIcon(
         modifier = modifier
     )
 }
+
+@Composable
+fun GalleryIcon(
+    modifier: Modifier = Modifier,
+) {
+    Image(
+        painter = painterResource(id = R.drawable.ic_gallery),
+        contentDescription = "Gallery Icon Button",
+        modifier = modifier
+    )
+}
+
+@Composable
+fun CameraIcon(
+    modifier: Modifier = Modifier,
+) {
+    Image(
+        painter = painterResource(id = R.drawable.ic_camera),
+        contentDescription = "Camera Icon",
+        modifier = modifier
+    )
+}
