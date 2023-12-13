@@ -124,7 +124,10 @@ fun InquiryScreen(
         sheetContent = {
             SelectPhotoPathBottomSheet(
                 bottomSheetState = bottomSheetState,
-                onProfileImageUriChanged = { }
+                onProfileImageUriChanged = {},
+                selectedImageUri = { uri ->
+                    imageUri = uri
+                }
             )
         },
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
@@ -190,9 +193,7 @@ fun InquiryScreen(
                 Spacer(modifier = Modifier.height(8.dp))
                 MoveGalleryButton(
                     modifier = Modifier.weight(1f),
-                    selectedImageUri = { uri ->
-                        imageUri = uri
-                    },
+                    selectedImageUri = imageUri,
                     onClick = { bottomSheetScope.launch { bottomSheetState.show() } }
                 )
                 Spacer(modifier = Modifier.height(50.dp))

@@ -1,6 +1,7 @@
 package com.example.miso.ui.inquiry.component.bottomsheet
 
 import android.Manifest
+import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -12,9 +13,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -32,9 +35,19 @@ import com.example.miso.ui.theme.MisoTheme
 @Composable
 fun SelectPhotoPathBottomSheet(
     bottomSheetState: ModalBottomSheetState,
-    onProfileImageUriChanged: () -> Unit
+    onProfileImageUriChanged: () -> Unit,
+    selectedImageUri: (uri: Uri) -> Unit
 ) {
     val isCamera = remember { mutableStateOf(false) }
+    var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
+
+    val galleryLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            if (uri != null) {
+                selectedImageUri = uri
+                selectedImageUri(uri)
+            }
+        }
 
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -44,7 +57,7 @@ fun SelectPhotoPathBottomSheet(
 
             }
             isGranted && !isCamera.value -> {
-
+                galleryLauncher.launch("image/*")
             }
         }
     }
