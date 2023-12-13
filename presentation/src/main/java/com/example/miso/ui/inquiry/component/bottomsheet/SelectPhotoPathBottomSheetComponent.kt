@@ -19,7 +19,7 @@ import com.example.miso.ui.theme.MisoTheme
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SelectPhotoPathBottomSheet(
+fun SelectPhotoPathBottomSheetComponent(
     bottomSheetState: ModalBottomSheetState,
     onGalleryLaunchButtonClick: () -> Unit,
     onCameraLaunchButtonClick: () -> Unit
