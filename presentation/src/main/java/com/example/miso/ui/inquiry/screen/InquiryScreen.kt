@@ -54,6 +54,7 @@ import com.example.miso.ui.inquiry.component.bottomsheet.SelectPhotoPathBottomSh
 import com.example.miso.ui.main.MainPage
 import com.example.miso.ui.sign_up.SignUpPage
 import com.example.miso.ui.util.toMultipartBody
+import com.example.miso.viewmodel.CameraViewModel
 import com.example.miso.viewmodel.EmailViewModel
 import com.example.miso.viewmodel.InquiryViewModel
 import com.example.miso.viewmodel.util.Event
@@ -73,9 +74,11 @@ fun InquiryScreen(
     context: Context,
     lifecycleScope: CoroutineScope,
     viewModel: InquiryViewModel,
+    cameraViewModel: CameraViewModel,
     navController: NavController,
     onBackClick: () -> Unit,
-    onInquiryClick: (filePart: MultipartBody.Part?, inquiryPart: RequestBody) -> Unit
+    onInquiryClick: (filePart: MultipartBody.Part?, inquiryPart: RequestBody) -> Unit,
+    onCameraClick: () -> Unit
 ) {
     val isKeyboardOpen by keyboardAsState()
     var isManager by remember { mutableStateOf(false) }
@@ -124,9 +127,11 @@ fun InquiryScreen(
         sheetContent = {
             SelectPhotoPathBottomSheet(
                 bottomSheetState = bottomSheetState,
-                onProfileImageUriChanged = {},
                 selectedImageUri = { uri ->
                     imageUri = uri
+                },
+                onCameraClick = {
+                    onCameraClick()
                 }
             )
         },

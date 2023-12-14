@@ -24,19 +24,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.miso.R
 import com.example.miso.ui.component.bottomsheet.BaseBottomSheetComponent
 import com.example.miso.ui.component.icon.CameraIcon
 import com.example.miso.ui.component.icon.GalleryIcon
 import com.example.miso.ui.inquiry.component.InquiryButton
+import com.example.miso.ui.main.MainPage
 import com.example.miso.ui.theme.MisoTheme
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SelectPhotoPathBottomSheet(
     bottomSheetState: ModalBottomSheetState,
-    onProfileImageUriChanged: () -> Unit,
-    selectedImageUri: (uri: Uri) -> Unit
+    selectedImageUri: (uri: Uri) -> Unit,
+    onCameraClick: () -> Unit
 ) {
     val isCamera = remember { mutableStateOf(false) }
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
@@ -54,6 +56,7 @@ fun SelectPhotoPathBottomSheet(
     ) { isGranted ->
         when {
             isGranted && isCamera.value -> {
+                onCameraClick()
 
             }
             isGranted && !isCamera.value -> {
