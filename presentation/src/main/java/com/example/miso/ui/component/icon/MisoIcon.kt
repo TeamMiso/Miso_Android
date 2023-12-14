@@ -35,7 +35,7 @@ fun GalleryIcon(
     modifier: Modifier = Modifier,
 ) {
     Image(
-        painter = painterResource(id = R.drawable.ic_gallery),
+        painter = painterResource(id = R.drawable.ic_gallery_bottom_sheet),
         contentDescription = "Gallery Icon Button",
         modifier = modifier
     )
@@ -46,7 +46,7 @@ fun CameraIcon(
     modifier: Modifier = Modifier,
 ) {
     Image(
-        painter = painterResource(id = R.drawable.ic_camera),
+        painter = painterResource(id = R.drawable.ic_camera_bottm_sheet),
         contentDescription = "Camera Icon",
         modifier = modifier
     )

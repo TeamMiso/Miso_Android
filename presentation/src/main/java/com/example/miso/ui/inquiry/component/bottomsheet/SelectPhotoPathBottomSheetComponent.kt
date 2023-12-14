@@ -2,6 +2,7 @@ package com.example.miso.ui.inquiry.component.bottomsheet
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.ExperimentalMaterialApi
@@ -27,7 +28,9 @@ fun SelectPhotoPathBottomSheetComponent(
     val coroutineScope = rememberCoroutineScope()
 
     MisoTheme { colors, typography ->
-        Column {
+        Column(
+            modifier = Modifier.navigationBarsPadding()
+        ) {
             Spacer(modifier = Modifier.size(24.dp))
             BaseBottomSheetComponent(
                 coroutineScope = coroutineScope,
