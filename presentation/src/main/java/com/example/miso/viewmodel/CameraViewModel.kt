@@ -34,6 +34,8 @@ class CameraViewModel @Inject constructor(
 
     private val imgData = MutableStateFlow(CameraRequestModel(""))
 
+    var isInquiry = MutableStateFlow(false)
+
     fun loadImgBitmap(bitmap: Bitmap){
         viewModelScope.launch {
             _capturedImgBitmapState.value.capturedImage?.recycle()

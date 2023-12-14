@@ -32,10 +32,11 @@ fun CameraPreview(
     onPhotoCapturedData: (Bitmap) -> Unit,
     onPhotoCaptured: (Boolean) -> Unit,
     getFlashOn: Boolean
-    ) {
+) {
     val context = LocalContext.current
     val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
-    val cameraController: LifecycleCameraController = remember { LifecycleCameraController(context) }
+    val cameraController: LifecycleCameraController =
+        remember { LifecycleCameraController(context) }
     val flashOn = remember { mutableStateOf(false) }
 
     Scaffold(
@@ -47,8 +48,17 @@ fun CameraPreview(
                     .padding(12.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom
-            ){
-                CameraCaptureBtn(onClick = { capturePhoto(context,cameraController, onPhotoCapturedData,onPhotoCaptured) })
+            ) {
+                CameraCaptureBtn(
+                    onClick = {
+                        capturePhoto(
+                            context,
+                            cameraController,
+                            onPhotoCapturedData,
+                            onPhotoCaptured
+                        )
+                    }
+                )
             }
         },
         floatingActionButtonPosition = FabPosition.Center

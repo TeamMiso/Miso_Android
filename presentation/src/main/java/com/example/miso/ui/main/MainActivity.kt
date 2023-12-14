@@ -4,6 +4,7 @@ import android.content.Intent
 import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -142,6 +143,10 @@ class MainActivity : BaseActivity() {
                                     context = this@MainActivity,
                                     navController = navController,
                                     viewModel = viewModel(LocalContext.current as MainActivity),
+                                    isInquiry = {
+                                        navController.popBackStack()
+                                    }
+
                                 )
                             }
                             composable(MainPage.CameraResult.name) {
@@ -199,6 +204,7 @@ class MainActivity : BaseActivity() {
                                     context = this@MainActivity,
                                     lifecycleScope = lifecycleScope,
                                     viewModel = viewModel(LocalContext.current as MainActivity),
+                                    cameraViewModel = cameraViewModel,
                                     navController = navController,
                                     onBackClick = { navController.popBackStack() },
                                     onInquiryClick = { filePart, inquiryPart ->
@@ -206,6 +212,11 @@ class MainActivity : BaseActivity() {
                                             filePart = filePart,
                                             inquiryPart = inquiryPart
                                         )
+                                    },
+                                    onCameraClick = {
+                                        cameraViewModel.isInquiry.value = true
+                                        navController.navigate(MainPage.Camera.name)
+
                                     }
                                 )
                             }

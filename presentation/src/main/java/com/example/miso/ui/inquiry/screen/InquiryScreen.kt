@@ -18,11 +18,19 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomSheetValue
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,9 +50,11 @@ import com.example.miso.ui.inquiry.component.InquiryContentTitleText
 import com.example.miso.ui.inquiry.component.InquiryImageText
 import com.example.miso.ui.inquiry.component.InquiryTextField
 import com.example.miso.ui.inquiry.component.MoveGalleryButton
+import com.example.miso.ui.inquiry.component.bottomsheet.SelectPhotoPathBottomSheet
 import com.example.miso.ui.main.MainPage
 import com.example.miso.ui.sign_up.SignUpPage
 import com.example.miso.ui.util.toMultipartBody
+import com.example.miso.viewmodel.CameraViewModel
 import com.example.miso.viewmodel.EmailViewModel
 import com.example.miso.viewmodel.InquiryViewModel
 import com.example.miso.viewmodel.util.Event
@@ -58,14 +68,17 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import kotlin.time.Duration.Companion.seconds
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun InquiryScreen(
     context: Context,
     lifecycleScope: CoroutineScope,
     viewModel: InquiryViewModel,
+    cameraViewModel: CameraViewModel,
     navController: NavController,
     onBackClick: () -> Unit,
-    onInquiryClick: (filePart: MultipartBody.Part?, inquiryPart: RequestBody) -> Unit
+    onInquiryClick: (filePart: MultipartBody.Part?, inquiryPart: RequestBody) -> Unit,
+    onCameraClick: () -> Unit
 ) {
     val isKeyboardOpen by keyboardAsState()
     var isManager by remember { mutableStateOf(false) }
@@ -73,6 +86,9 @@ fun InquiryScreen(
     val snackBarVisibility = remember { mutableStateOf(false) }
     val errorText = remember { mutableStateOf("") }
     val progressState = remember { mutableStateOf(false) }
+
+    var bottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val bottomSheetScope = rememberCoroutineScope()
 
     val focusManager = LocalFocusManager.current
 
@@ -107,114 +123,131 @@ fun InquiryScreen(
 
     val inquiryRequestBody = inquiryJson.toRequestBody("application/json".toMediaType())
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .pointerInput(Unit) {
-                detectTapGestures { offset ->
-                    focusManager.clearFocus()
-                }
-            }
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, top = 48.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            MisoBackBlackButton { onBackClick() }
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, top = 48.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            InquiryTitleText()
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 16.dp, end = 16.dp),
-        ) {
-            Spacer(modifier = Modifier.fillMaxHeight(0.11f))
-            InquiryContentTitleText()
-            Spacer(modifier = Modifier.height(8.dp))
-            InquiryTextField(
-                isManager = isManager,
-                modifier = Modifier.height(35.dp),
-                setChangeText = title,
-                singleLine = true,
-                onValueChange = {
-                    title = it
-                }
-            )
-            Spacer(modifier = Modifier.fillMaxHeight(0.04f))
-            InquiryContentText()
-            Spacer(modifier = Modifier.height(8.dp))
-            InquiryTextField(
-                isManager = isManager,
-                modifier = Modifier.fillMaxHeight(0.23f),
-                setChangeText = content,
-                singleLine = false,
-                onValueChange = {
-                    content = it
-                }
-            )
-            Spacer(modifier = Modifier.fillMaxHeight(0.06f))
-            InquiryImageText()
-            Spacer(modifier = Modifier.height(8.dp))
-            MoveGalleryButton(
-                modifier = Modifier.weight(1f),
+    ModalBottomSheetLayout(
+        sheetContent = {
+            SelectPhotoPathBottomSheet(
+                bottomSheetState = bottomSheetState,
                 selectedImageUri = { uri ->
                     imageUri = uri
+                },
+                onCameraClick = {
+                    onCameraClick()
                 }
             )
-            Spacer(modifier = Modifier.height(50.dp))
-            InquiryButton {
-                if (title.isNotEmpty() && content.isNotEmpty()) {
-                    lifecycleScope.launch {
-                        inquiry(
-                            viewModel = viewModel,
-                            navController = navController,
-                            errorText = { text ->
-                                errorText.value = text
-                                snackBarVisibility.value = true
-                            },
-                            progressState = { state ->
-                                progressState.value = state
-                            }
-                        )
-                    }
-                    onInquiryClick(filePart, inquiryRequestBody)
-                }
-                else {
-                    snackBarVisibility.value = true
-                    errorText.value = "모든 항목을 입력해주세요!"
-                }
-            }
-            Spacer(modifier = Modifier.height(55.dp))
-        }
-        MisoSnackbar(
+        },
+        sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+        sheetState = bottomSheetState
+    ) {
+        Box(
             modifier = Modifier
-                .align(Alignment.TopCenter)
-                .statusBarsPadding(),
-            text = errorText.value,
-            visible = snackBarVisibility.value,
-            icon = R.drawable.ic_cancel
+                .fillMaxSize()
+                .pointerInput(Unit) {
+                    detectTapGestures { offset ->
+                        focusManager.clearFocus()
+                    }
+                }
         ) {
-            snackBarVisibility.value = false
-        }
-        if (progressState.value) {
-            MisoProgressbar(
+            Row(
                 modifier = Modifier
-                    .align(Alignment.Center)
-                    .statusBarsPadding()
-            )
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp, top = 48.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                MisoBackBlackButton { onBackClick() }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp, top = 48.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                InquiryTitleText()
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 16.dp, end = 16.dp),
+            ) {
+                Spacer(modifier = Modifier.fillMaxHeight(0.11f))
+                InquiryContentTitleText()
+                Spacer(modifier = Modifier.height(8.dp))
+                InquiryTextField(
+                    isManager = isManager,
+                    modifier = Modifier.height(35.dp),
+                    setChangeText = title,
+                    singleLine = true,
+                    onValueChange = {
+                        title = it
+                    }
+                )
+                Spacer(modifier = Modifier.fillMaxHeight(0.04f))
+                InquiryContentText()
+                Spacer(modifier = Modifier.height(8.dp))
+                InquiryTextField(
+                    isManager = isManager,
+                    modifier = Modifier.fillMaxHeight(0.23f),
+                    setChangeText = content,
+                    singleLine = false,
+                    onValueChange = {
+                        content = it
+                    }
+                )
+                Spacer(modifier = Modifier.fillMaxHeight(0.06f))
+                InquiryImageText()
+                Spacer(modifier = Modifier.height(8.dp))
+                MoveGalleryButton(
+                    modifier = Modifier.weight(1f),
+                    selectedImageUri = imageUri,
+                    onClick = { bottomSheetScope.launch { bottomSheetState.show() } }
+                )
+                Spacer(modifier = Modifier.height(50.dp))
+                InquiryButton {
+                    if (title.isNotEmpty() && content.isNotEmpty()) {
+                        lifecycleScope.launch {
+                            inquiry(
+                                viewModel = viewModel,
+                                navController = navController,
+                                errorText = { text ->
+                                    errorText.value = text
+                                    snackBarVisibility.value = true
+                                },
+                                progressState = { state ->
+                                    progressState.value = state
+                                }
+                            )
+                        }
+                        onInquiryClick(filePart, inquiryRequestBody)
+                    }
+                    else {
+                        snackBarVisibility.value = true
+                        errorText.value = "모든 항목을 입력해주세요!"
+                    }
+                }
+                Spacer(modifier = Modifier.height(55.dp))
+            }
+            MisoSnackbar(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .statusBarsPadding(),
+                text = errorText.value,
+                visible = snackBarVisibility.value,
+                icon = R.drawable.ic_cancel
+            ) {
+                snackBarVisibility.value = false
+            }
+            if (progressState.value) {
+                MisoProgressbar(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .statusBarsPadding()
+                )
+            }
         }
     }
-}
+    }
+
+
 
 suspend fun inquiry(
     viewModel: InquiryViewModel,

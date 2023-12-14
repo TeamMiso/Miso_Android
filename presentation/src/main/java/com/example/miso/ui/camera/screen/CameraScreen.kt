@@ -28,6 +28,7 @@ import com.example.miso.ui.camera.component.CameraFlashBtn
 import com.example.miso.ui.camera.component.CameraPreview
 import com.example.miso.ui.main.MainPage
 import com.example.miso.viewmodel.CameraViewModel
+import com.example.miso.viewmodel.InquiryViewModel_Factory
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.isGranted
@@ -39,7 +40,8 @@ import kotlinx.coroutines.flow.callbackFlow
 fun CameraScreen(
     context: Context,
     navController: NavController,
-    viewModel: CameraViewModel
+    viewModel: CameraViewModel,
+    isInquiry: () -> Unit
 ) {
     val flashOn = remember { mutableStateOf(false) }
     LaunchedEffect(flashOn) {
@@ -49,7 +51,12 @@ fun CameraScreen(
     CameraPreview(
         onPhotoCapturedData = viewModel::loadImgBitmap,
         onPhotoCaptured = { captured ->
-            if (captured) navController.navigate(MainPage.CameraResult.value)
+            if ( captured && !viewModel.isInquiry.value) {
+                navController.navigate(MainPage.CameraResult.value)
+            } else {
+                viewModel.isInquiry.value = false
+                isInquiry()
+            }
         },
         getFlashOn = flashOn.value
     )

@@ -41,45 +41,23 @@ import coil.compose.rememberImagePainter
 @Composable
 fun MoveGalleryButton(
     modifier: Modifier = Modifier,
-    selectedImageUri: (uri: Uri) -> Unit
+    onClick: () -> Unit,
+    selectedImageUri: Uri
 ) {
-    var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
-
-    val galleryLauncher =
-        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            if (uri != null) {
-                selectedImageUri = uri
-                selectedImageUri(uri)
-            }
-        }
-    val permissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            galleryLauncher.launch("image/*")
-        }
-    }
-    val permission =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            Manifest.permission.READ_MEDIA_IMAGES
-        } else {
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        }
-
     MisoTheme { colors, typography ->
         Box(
             modifier = modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(5.dp))
                 .background(colors.GRAY3)
-                .clickable { permissionLauncher.launch(permission) }
+                .clickable { onClick() }
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (selectedImageUri == null) {
+                if (selectedImageUri == Uri.EMPTY) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_gallery),
                         contentDescription = "Gallery Logo Icon",
@@ -109,5 +87,5 @@ fun MoveGalleryButton(
 @Composable
 @Preview(showBackground = true)
 fun MoveGalleryButtonPreView() {
-    MoveGalleryButton(selectedImageUri = {})
+    MoveGalleryButton(selectedImageUri = Uri.EMPTY, onClick = {})
 }
